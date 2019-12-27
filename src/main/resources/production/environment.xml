@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <!-- data source properties -->
+  <entry key="db.dirver">com.mysql.jdbc.Driver</entry>
+  <entry key="db.url">jdbc:mysql://localhost/smart_church?zeroDateTimeBehavior=convertToNull</entry>
+  <entry key="db.username">smartchurch</entry>
+  <entry key="db.password">com.laonsys@fkdhstltm</entry>
+
+  <!-- mail properties -->
+  <entry key="mail.host">smtp.gmail.com</entry>
+  <entry key="mail.port">587</entry>
+  <entry key="mail.username">laonsys@gmail.com</entry>
+  <entry key="mail.password">dnflskfk72</entry>
+
+  <!-- SMS properties -->
+  <entry key="sms.user">kaldosa</entry>
+  <entry key="sms.secure">d0b976de0e2b6231c142cbc302dc4075</entry>
+  <entry key="sms.send.url">http://sslsms.cafe24.com/sms_sender.php</entry>
+  <entry key="sms.sphone1">070</entry>
+  <entry key="sms.sphone2">7525</entry>
+  <entry key="sms.sphone3">5775</entry>
+  
+  <!-- KT cloud properties -->
+  <entry key="storage.token.url">https://ssproxy.ucloudbiz.olleh.com/auth/v1.0</entry>
+  <entry key="storage.user">laonsys@gmail.com</entry>
+  <entry key="storage.key">MTM0NzA0OTc0ODEzNDcwNDM0NjMyOTkw</entry>
+  <entry key="storage.container">/smartchurch</entry>
+  <entry key="storage.container.vod">/smartchurchvod</entry>
+  <entry key="storage.host">http://resources.smartchurch.co.kr/</entry>
+  <entry key="storage.host.vod">rtmp://streaming.smartchurch.co.kr/td1526vol00/_definst_/</entry>  
+  
+  <!-- web properties -->
+  <entry key="http.scheme">https://</entry>
+  <entry key="web.login">https://www.smartchurch.co.kr/auth/login/j_spring_security_check</entry>
+  <entry key="web.logout">https://www.smartchurch.co.kr/auth/login/j_spring_security_logout</entry>
+  <entry key="recaptcha.url">http://www.google.com/recaptcha/api/verify</entry>
+  <entry key="recaptcha.public">6LcUL94SAAAAAMkPOEPCyitwaXF0nGM9lty3PYmR</entry>
+  <entry key="recaptcha.private">6LcUL94SAAAAAOcCEYIb4XrqWrq9S5_gaGw5xOnV</entry>
+</properties>

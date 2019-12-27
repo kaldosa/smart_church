@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchWorshipMapper">
+    <resultMap id="worship" type="Worship">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id"/>
+        <result property="title" column="title"/>
+        <result property="dayOfWeek" column="day_of_week"/>
+        <result property="time" column="time"/>
+        <result property="place" column="place"/>
+        <result property="sort" column="sort"/>
+    </resultMap>
+
+    <!-- 예배 안내 -->
+            
+    <select id="selectList" parameterType="int" resultMap="worship">
+        SELECT
+            *
+        FROM
+            church_worship
+        WHERE
+            church_id = #{ourChurchId}
+        ORDER BY sort ASC
+    </select>
+    
+    <insert id="insert" parameterType="worship" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO church_worship (
+            church_id,
+            title,
+            day_of_week,
+            time,
+            place,
+            sort
+        )
+        VALUES (
+            #{churchId},
+            #{title},
+            #{dayOfWeek},
+            #{time},
+            #{place},
+            #{sort}
+        )
+    </insert>
+
+    <update id="update" parameterType="worship">
+        UPDATE
+            church_worship
+        SET
+            sort = #{sort}
+        WHERE
+            id = #{id}
+    </update>
+        
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_worship
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="#{envvars['mail.host']}" />
+		<property name="port" value="#{envvars['mail.port']}" />
+		<property name="username" value="#{envvars['mail.username']}" />
+		<property name="password" value="#{envvars['mail.password']}" />
+        <property name="defaultEncoding" value="UTF-8"/>
+		<property name="javaMailProperties">
+			<props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.connectiontimeout">5000</prop>
+                <prop key="mail.mime.charset">UTF-8</prop>                
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+    
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean" xmlns="http://www.springframework.org/schema/beans">
+        <property name="resourceLoaderPath" value="/WEB-INF/velocity" />
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">file</prop>
+                <prop key="file.resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop>
+                <!-- <prop key="file.resource.loader.path">/WEB-INF/velocity</prop> -->
+                <prop key="file.resource.loader.cache">false</prop>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="velocityMerger"
+        class="com.laonsys.springmvc.extensions.utils.VelocityMerger"
+        p:engine-ref="velocityEngine"
+        p:toolBoxConfigLocation="/WEB-INF/velocity/velocity-tools.xml" xmlns="http://www.springframework.org/schema/beans">
+    </bean>
+</beans>

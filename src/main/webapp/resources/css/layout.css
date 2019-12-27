@@ -1,0 +1,204 @@
+@CHARSET "UTF-8";
+
+* {margin: 0; padding: 0;}
+html {overflow-y: scroll;}
+body {font-size: 12px; background-color: #FFF;}
+body,div,p,span,a,pre,h1,h2,h3,h4,h5,h6,dl,dt,dd,ul,ol,li,form,fieldset,select,textarea,input,button,blockquote,th,td,caption { font-family: "돋음", Dotum, Baekmuk Dotum, Undotum, Apple Gothic, Latin font, sans-serif; color: #333;}
+img {border: 0;}
+dl,ul,ol,dd,li {list-style: none;}
+fieldset {border: 0 none;}
+legend {height: 0; width: 0; overflow: hidden; visibility: hidden; font-size: 0;}
+label {cursor: pointer;}
+a {text-decoration: none; cursor: pointer;}
+table { border: 0; border-spacing: 0; empty-cells: show;}
+
+body {margin: 0 auto; background-color: #4C78B9; background-size: 100% 100%;}
+
+hr.separator {display: none;}
+
+#header {height: 80px;text-align: center;}
+
+#sub-navigation {float: right;width: 20%;min-height: 300px;clear: both;}
+
+#contents {width: 940px; margin: 0 auto; *min-height: 500px;	font-size: small; letter-spacing: -1px; color: #666666;}
+.title-image {margin: 2px 0;}
+
+.contents-wrap {position: relative; width: 940px; margin: 0 auto; *min-height: 500px; background-color: #eaeaea; border-top: 3px solid #263d66; border-bottom: 1px solid #263d66;}
+.service-wrap {width: 940px;}
+#footer {clear: both; width: 940px; margin: 10px auto; height: 50px; text-align: center; color: #B0AFB3; font-size: small;}
+
+.content-top {margin-top: 30px;}
+.content-title {position: relative; margin-top: 15px;}
+.content-title h3 {margin: 10px 30px 0; border-bottom: 1px solid #ccc; padding-bottom: 8px; font-size: 12px;}
+.more {position: absolute; right: 30px; top: 3px; color: #a2a2a2; font-size: 11px;}
+.list ul.list  {font-family: Verdana, Arial, Helvetica, sans-serif; color: #666; font-size: 12px; font-style: normal; line-height: 1.7em; font-weight: normal; font-variant: normal; text-transform: none; text-decoration: none; text-indent: 5px; list-style-position: outside; list-style-type: circle; padding: 0 30px; margin: 5px 2px;}
+.list ul.list li {color: #666;}
+.list ul.list li .span1 {padding: 0 0 0 10px; font-size: 12px; color: #a2a2a2;}
+.list a, .list div {color: #666;  line-height: 20px;}
+.list li:HOVER {background-color: #ddd;}
+
+.apps {margin: 5px 0;}
+.app {background: url(../images/main/bg_store.png) no-repeat; width: 245px; height: 122px; margin-bottom: 15px;}
+.app ul {width:100%; clear: left; margin: 0; padding: 0; list-style-type: none; display: table; text-align: center; font-size: 12px;}
+.app ul li {display: table-cell; list-style: none; padding: 60px 10px 2px;}
+.apps img {margin: 0 4px;}
+
+.bibleword-wrap {background: url(../images/main/bg_bibleword.gif) no-repeat; width: 237px; height: 171px; position: relative; margin-top: 10px; word-wrap: break-word;}
+.bibleword { width: 92%; height:  120px; padding: 10px 10px; color: #666; font-size: 12px; letter-spacing: 1px; *overflow-x: hidden; overflow-y: auto;}
+.bibleabbr { position: absolute; bottom: 6px; right: 8px; color: #666;}
+
+.recent {position: relative;margin: 10px 30px;}
+.recent-list {width: 100%; padding: 0 5px;}
+.recent-empty {width: 100%; height:98px;}
+.recent_prev {position: absolute; left: -28px; top: 8px;}
+.recent_next {position: absolute; right: -28px; top: 8px;}
+.service-link {margin: 55px 0 10px;}
+
+/*공지사항*/
+.board-wrap {padding: 20px 80px 20px;}
+.board {position: relative; margin: 5px 0 10px; padding: 10px 20px; border: 1px solid #EBEBEB;}
+.board-nav {position: relative; margin: 2px 0; padding: 5px 2px; border: 1px solid #EBEBEB;}
+
+.board-subject {position: relative; margin:2px 0; padding: 5px 0; border-bottom: 1px solid #B9B9B9; line-height: 16px; }
+.board-subject h4 {color: #555; font-weight: bold; margin: 0 0 5px 5px; width: 84%}
+.board-subject span {position: absolute; top: 5px; right: 5px; font-size: 11px; color: #666;}
+.board-subject label {float: left; width: 60px; margin: 0 10px 0 6px; background-color: #EBEBEB; height: 26px;text-align: center;}
+.board-subject input[type=text] {*height: 14px; *width: 200px; padding: 2px; border: 1px solid #dcdde3; background-color: #fbfbfb; color: #798dd8; letter-spacing: 0; font-size: 11px;}
+.board-content {padding: 25px 5px; font-size: 12px; line-height: 20px; color: #666;}
+.board-extra {position: relative; min-height: 30px;}
+.board-extra .board-btn-right {position: absolute; top: 5px; right: 5px; }
+.board-extra .board-btn-left {position: absolute; top: 5px; left: 5px; }
+.board-extra .board-search {position: absolute; top: 5px; right: 5px;}
+
+.board-nav ul {width:100%; clear: left; margin: 0; padding: 0; list-style-type: none; display: table; text-align: center; font-size: 12px;}
+.board-nav ul li {display: table-cell; list-style: none; padding: 2px 10px;}
+.board-nav ul li.first {text-align: left; width: 350px;}
+.board-nav ul li.last {text-align: right; width: 350px;}
+.board-nav ul span {font-weight: bold; padding: 0 8px; color: #666;}
+.board-nav ul li a {color: #888;}
+.board-nav ul a:HOVER {text-decoration: underline;}
+
+.board-list {border-top: 2px solid #D5D7D9; border-bottom: 1px solid #EEEDF0; font-size: 12px; line-height: 16px; color: #666;}
+.board-list a {color: #666;}
+
+.board .thumbnails {padding: 10px 5px;}
+.board ul.thumbnails li {border: 1px solid #d5d7d9; padding: 10px 10px; margin-left: 13px;}
+.board .thumbnails .desc {color: #666; font-size: 11px; line-height: 15px; margin-top: 3px;}
+
+.paging {padding-top:20px; width:340px; margin:0 auto;}
+.paging ul {white-space:nowrap; text-align:center;}
+.paging li {display:inline;}
+.paging .next {margin-left:-2px;}
+.paging .prev {margin-right:5px;}
+.paging .pageNumber .nowPage {color:#395e94; padding-right:8px;}
+.paging .pageNumber a {padding-right:8px; color:#999; font-weight:bold;}
+
+/*------- 회원가입 -------*/
+.join {*width:850px; *margin:78px auto; *padding:30px 0; background-color: #FFFFFF;}
+.join h1 {border-bottom: 1px solid #d6d6d6; margin: 20px 0; padding: 0 0 5px 20px; color: #666;}
+.join-wrap {padding: 0 50px;}
+.join-wrap h3 {height:15px; margin-top:40px; margin-bottom:10px; font-size:0; line-height:0; text-indent:-3000em; overflow:hidden;}
+.join-wrap h3.agreement {width:130px; background:url(../images/main/img_join_title.png) no-repeat;}
+.join-wrap div.agreement {height:135px; border:1px solid #E6E6E6; padding:20px; color:#4C4C4C; overflow:auto; overflow-y:auto; line-height:18px; letter-spacing:-0.5px;}
+.join-wrap .agreement h4 {font-size:12px; font-weight:normal;}
+.join-wrap .agreement h5 {font-size:12px; margin:20px 0 0;}
+.join-wrap h5 {display:block; font-weight:bold;}
+.join-wrap .tit {display:block; margin:10px 0;}
+.doc_list, .doc_sub_list {padding-left:20px; line-height:18px;}
+.join-wrap .doc_list li {margin-top:0;}
+.doc_list li {margin-top:10px; list-style-type:decimal;}
+.doc_list_nostyle {padding-left:0;}
+.doc_list_nostyle li {margin-top:10px; list-style-type:none;}
+.join-wrap ol {display:block; list-style-type:decimal;}
+.doc_sub_list li {margin-top:0; list-style-type:disc;}
+.join-wrap .agreement_check {margin-top:20px; text-align:right;}
+.join-wrap h3.agreement_info {width:130px; background:url(../images/main/img_join_title.png) no-repeat 0 -30px;}
+div.agreement_info {height:135px; border:1px solid #E6E6E6; padding:20px; color:#4C4C4C; overflow:auto; overflow-y:auto; line-height:18px;}
+.doc_comment {line-height:18px; margin-bottom:10px;}
+.doc_comment_none {line-height:18px; margin:0px;}
+.doc_list .topmargin {padding-top:10px;}
+.doc_list_nostyle2 {padding-left:0;}
+.doc_list_nostyle2 li {list-style-type:none;}
+.doc_list_nostyle2 .doc_sub_list li {margin-top:0; list-style-type:disc;}
+.join-wrap h3.joinCheck {width:130px; background:url(../images/main/img_join_title.png) no-repeat 0 -60px;}
+.join-wrap div.joinCheck {height:270px; width:750px; float:left;}
+.ssn fieldset.ssn {display:block;}
+.joinCheck .fields {float:left; width:100%; padding:5px 0 20px;}
+.joinCheck .fields dt, .joinCheck .fields dd {float:left; line-height:25px; margin-bottom:5px;}
+.joinCheck .fields dt {clear:both; width:100px; padding-left:10px; background: url(../images/main/img_dot.gif) no-repeat 0 6px; color:#404040; margin-left:5px;}
+.joinCheck .fields dd {width:300px;}
+.joinCheck input.name {width:200px;}
+.joinCheck .field_desc {float:left; padding-top:10px; width:700px;}
+.joinCheck .field_desc li {float:left; line-height:18px; padding-left:5px; color:#666;}
+.join-wrap .btn_area {clear:both; padding-bottom:20px; text-align:center;}
+
+/* 로그인/비밀번호 찾기*/
+.login-wrap {position: relative; width: 440px; margin: 76px auto;}
+.login-header {position: relative; padding: 20px 240px;}
+.login-header .desc {padding: 0 0 0 40px; min-height: 35px; line-height: 18px;}
+.login-header .desc em {font-size: 10px; color: #666;}
+.login-header .desc em.error {color: #a33;}
+.login-icon-search {background: url(../images/main/icon_search.png) no-repeat left;}
+.login-icon-error {background: url(../images/main/icon_error.png) no-repeat left;}
+.login-body {position: relative; border-top: 1px solid #d6d6d6; border-bottom: 1px solid #d6d6d6; padding: 10px 160px; *font-size: x-small; *text-align: center;}
+.login-body form {margin: 0;}
+.login-body label {float: left; width: 60px; color: #666; font-weight: bold; padding-top: 4px;}
+.login-body .input_text { margin: 2px 0;}
+.login-body input[type=image] {position: absolute; top: 21px; right: 90px;}
+.login-footer {position: relative; padding: 2px 40px;}
+.login-footer p {text-align: right; margin: 2px 0;}
+span.forgot {font-size: 11px; color: #666; padding: 0 5px 0 15px; background: url(../images/main/icon_q_search.png) no-repeat left;}
+
+.form {position: relative; margin: 30px auto; width: 680px; padding: 3px 7px;}
+.form legend {border-bottom: 1px solid #ccc; color:#333; display:block; font-size:21px; height:40px; line-height:40px; margin-bottom:5px; padding: 0; width:100%; visibility:visible;}
+.form-controls {margin: 10px 0;}
+.form-controls::before, .form-controls::after {content:""; display: table; line-height: 0;}
+.form-controls::after {clear: both;}
+.form-buttons:after {clear: both;}
+.form-buttons:before, .form-buttons:after {content: ""; display: table; line-height: 0;}
+.form-buttons:before, .form-buttons:after {content: ""; display: table; line-height: 0;}
+.form-buttons {*background-color: #F5F5F5; border-top: 1px solid #ccc; margin-bottom: 20px; margin-top: 20px; padding: 19px 20px 20px; text-align: center;}
+.form-buttons button {margin: 0 5px;}
+.form-control {margin-left: 160px;}
+.form-control-file {margin: 12px 0;}
+.form-label {float: left; text-align:right; width:140px; font-size: 14px; font-weight: normal; line-height: 20px;}
+.form-label-image {float: left; text-align:right; width:140px; font-size: 14px; font-weight: normal; line-height: 50px;}
+.user-email , .form-control-text {font-size: 14px; font-weight: normal; line-height: 20px; color: #666;}
+.form-controls em {font-size:11px; color: #666;}
+.form-control ul {margin-top: 10px;}
+.form-control ul .desc {display: block; width: 100px; margin-left: auto; margin-right: auto; color:#868b93;}
+
+.bg-white {background-color: #fff;}
+.no-boarder {border: 0;}
+.ph20 {padding: 0 20px;}
+
+.break-word {word-wrap: break-word;}
+
+.form-box {background-color: #EAEAEA; border: 1px solid #DDDDDD; border-radius: 4px 4px 4px 4px; margin: 2px 0; padding: 39px 19px 14px; position: relative;}
+.form-box:after {background-color: #F5F5F5; border: 1px solid #DDDDDD; border-radius: 4px 0 4px 0; color: #9DA0A4; font-size: 12px; font-weight: bold; left: -1px; padding: 3px 7px; position: absolute; top: -1px;}
+.agree-box:after {content: "약관동의";}
+.verify-box:after {content: "인증코드확인";}
+.join-box:after {content: "회원가입";}
+.password-box:after {content: "비밀번호찾기";}
+.login-box:after {content: "로그인";}
+form.form-box {padding-bottom: 19px;}
+
+#provision, #infoProtection {padding: 10px 20px; background-color: #FFFFFF;}
+.agreement-heading {text-align: center;}
+
+/* 서비스 소개 */
+.page-title {margin: 60px 0 20px; *width: 800px; text-align: center;}
+.page-content {margin: 20px 0; *width: 800px; text-align: center;}
+.application-link {margin: 20px 0; margin-right:80px; text-align: right;}
+
+/* .faq_answer {display: none;} */
+/* error */
+.error_wrap {width:463px; margin:300px auto;}
+.error_box {padding:130px 0 150px 0;background:url(../images/church/user/login_sBg.gif) no-repeat; padding:25px 40px 28px 40px; height:190px}
+div.validate-container ul, div.error-container {padding: 5px 15px;}
+div.validate-container li, div.error-container {list-style-type: none;}
+div.validate-container .error, div.error-container .error {font-size: .9em; color: #a33;}
+form input.error {border-color: #FBC2C4;}
+form textarea.error {border-color: #FBC2C4;}
+p.error {font-size: .9em; color: #a33;}
+.help-inline.error {color: #B94A48;}

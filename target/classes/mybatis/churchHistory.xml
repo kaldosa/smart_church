@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchHistoryMapper">
+    <resultMap id="history" type="History">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id"/>
+        <result property="contents" column="contents"/>
+        <result property="date" column="date" typeHandler="DateTimeTypeHandler"/>
+        <result property="sort" column="sort"/>
+    </resultMap>
+    
+    <select id="count" parameterType="int" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_history            
+        WHERE
+            church_id = #{ourChurchId}
+    </select>
+
+    <select id="selectList" parameterType="int" resultMap="history">
+        SELECT
+            *
+        FROM
+            church_history            
+        WHERE
+            church_id = #{ourChurchId}
+        ORDER BY date DESC
+    </select>
+    
+    <insert id="insert" parameterType="history" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO church_history (
+            church_id,
+            contents,
+            date,
+            sort
+        )
+        VALUES (
+            #{churchId},
+            #{contents},
+            #{date, typeHandler=DateTimeTypeHandler},
+            #{sort}
+        )
+    </insert>
+
+    <update id="update" parameterType="history">
+        UPDATE
+            church_history
+        SET
+            sort = #{sort}
+        WHERE
+            id = #{id}
+    </update>
+        
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_history
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.VideoMapper">
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+
+    <select id="selectOne" parameterType="int" resultMap="attachment">
+        SELECT
+            *
+        FROM
+            video
+        WHERE
+            id = #{id}
+    </select>
+        
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            video
+        WHERE
+            id = #{id}
+    </delete>
+    
+    <insert id="insert" parameterType="Attachment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO video (
+            file_name,
+            real_name,
+            content_type,
+            path,
+            size
+        )
+        VALUES (
+            #{fileName},
+            #{realFileName},
+            #{contentType},
+            #{path},
+            #{fileSize}
+        )            
+    </insert>
+</mapper>

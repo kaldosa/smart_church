@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Smart church RESTful APIs</title>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript">/*<![CDATA[*/
+    $(document).ready(function() {
+        $('acronym').each(function() {
+            $(this).replaceWith($('<a />').attr({
+                    target: '_blank',
+                    href: 'https://ko.wikipedia.org/w/index.php?search=' + encodeURIComponent($(this).text())
+                })
+            .text($(this).text()));
+        });
+        
+        $('.link-btn').mouseover(function() {
+        	$(this).css("color", "#333");
+        });
+        
+        $('.link-btn').mouseout(function() {
+            $(this).css("color", "gray");
+        });
+    });
+/*]]>*/</script>
+</head>
+<body>
+<h1>Smart Church RESTful APIs</h1>
+
+<h2 class="page_title">목차</h2>
+<a style="display:scroll;position:fixed;bottom:20px;right:30px;" href="#" title=Top>
+<span class="link-btn">Top</span>
+</a>
+
+<a style="display:scroll;position:fixed;bottom:20px;left:30px;" href="index.html" title=Back>
+<span class="link-btn">Back</span>
+</a>
+
+<ul>
+<li><a href="#goodsAPIs">상품 APIs</a>
+	<ul>
+		<li><a href="#list">상품 목록</a></li>
+		<li><a href="#download">다운로드</a></li>
+	</ul>
+</li>
+</ul>
+
+<h2 id="goodsAPIs">상품 APIs</h2>
+
+<div class="apidoc">
+
+<h3 id="list">상품 목록</h3>
+<div class="api">
+<p>상품 목록을 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/goods/?criteria=${criteria}&keyword=${keyword}<br />
+<span class="pathParam"><strong>criteria : </strong> 검색기준 (pay: 유료 [keyword 없음], category: 분류 [BIBLE etc..], name: 상품명 [상품명]))</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                    <ul>
+                        <li>list : 목록
+                            <ul>
+                                <li>id : 상품 ID</li>
+                                <li>category : 분류</li>
+                                <li>name : 상품명</li>
+                                <li>price : 가격 (0 이면 무료)</li>
+                                <li>registeredDate : 등록일</li>
+                                <li>productKeys : 마켓별 제품 key
+                                    <ul>
+                                        <li>id : productkey id</li>
+                                        <li>goods : 상품 id</li>
+                                        <li>market : 마켓</li>
+                                        <li>productKey : 제품 key</li>
+                                    </ul>
+                                </li>
+                                <li>attachment : 리소스
+                                    <ul>
+                                        <li>id : 리소스 ID</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>                    
+                    </ul>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+   "code": 0,
+   "description": "OK",
+   "data":
+   {
+       "list":
+       [
+           {
+               "id": 34,
+               "category": "BIBLE",
+               "name": "개역개정",
+               "price": 1000,
+               "registeredDate": "2012/09/26",
+               "productKeys":
+               [
+                   {
+                       "id": 38,
+                       "goods": 34,
+                       "market": "TSTORE",
+                       "productKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                   },
+                   {
+                       "id": 39,
+                       "goods": 34,
+                       "market": "APPSTORE",
+                       "productKey": "cccccccccccccccccccccccccccccccccccccc"
+                   },
+                   {
+                       "id": 40,
+                       "goods": 34,
+                       "market": "PLAY",
+                       "productKey": "ddddddddddddddddddddddddddddddddddddd"
+                   }
+               ],
+               "attachment":
+               {
+                   "id": 262,
+                   "fkId": 0,
+                   "fileSize": 0
+               }
+           },
+           {
+               "id": 33,
+               "category": "BIBLE",
+               "name": "개역한글",
+               "price": 0,
+               "registeredDate": "2012/09/26",
+               "productKeys":
+               [
+               ],
+               "attachment":
+               {
+                   "id": 261,
+                   "fkId": 0,
+                   "fileSize": 0
+               }
+           }
+       ]
+   }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="download">다운로드</h3>
+<div class="api">
+<p>해당 상품을 다운로드 한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/goods/${resourceId}<br />
+<span class="pathParam"><strong>resourceId : </strong> 리소스 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td></td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+</div>
+</body>
+</html>

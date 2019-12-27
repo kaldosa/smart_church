@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchMemberMapper">
+  <resultMap id="churchMember" type="ChurchMember">
+     <id property="id" column="id" />
+    <result property="church" column="church"/>
+    <association property="member" column="member" resultMap="user" />
+  </resultMap>
+  
+  <resultMap id="user" type="User">
+    <id property="id" column="member" />
+    <result property="email" column="email" />
+    <result property="name" column="name" />
+    <result property="contact" column="contact" />
+    <result property="joinedDate" column="joined_date" />
+  </resultMap>
+
+  <select id="count" parameterType="QueryParam" resultType="int">
+    SELECT
+      COUNT(*)
+    FROM
+      church_members M
+    LEFT JOIN user U ON U.id = M.member
+    <where>
+      M.church = #{params.churchId}
+      <choose>
+        <when test="criteria == 'name'">
+          AND U.name REGEXP #{keyword}
+        </when>
+      </choose>
+    </where>
+  </select>
+
+  <select id="selectList" parameterType="QueryParam" resultMap="churchMember">
+    SELECT
+        M.church,
+        U.id as "member",
+        U.name,
+        U.email,
+        U.contact,
+        M.joined_date
+    FROM
+      church_members M
+    LEFT JOIN user U ON U.id = M.member
+    <where>
+      M.church = #{params.churchId}
+      <choose>
+        <when test="criteria == 'name'">
+          AND U.name REGEXP #{keyword}
+        </when>
+      </choose>
+    </where>
+    ORDER BY U.id DESC
+    LIMIT #{paginate.startItem}, #{paginate.itemPerPage}
+  </select>
+
+  <select id="isMember" parameterType="map" resultType="boolean">
+      SELECT if( ((select count(*) from church_members where church = #{church} and member = #{member})) > 0 , true, false);
+  </select>
+  
+  <insert id="create" parameterType="ChurchMember">
+    INSERT INTO
+    church_members (
+      church,
+      member,
+      joined_date
+    )
+    values (
+        #{church}, #{member.id}, now()
+    )
+  </insert>
+
+  <delete id="delete" parameterType="map">
+    DELETE FROM
+    church_members
+    <where>
+      church = #{church} and member = #{member}
+    </where>
+  </delete>
+</mapper>

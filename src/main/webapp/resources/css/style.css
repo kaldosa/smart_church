@@ -1,0 +1,35 @@
+legend {
+    padding: 0.5em;
+}
+
+/** Error contains style */
+/* ERROR */
+div.contains {
+    background: url("../images/commons/error.png") no-repeat scroll 15px center #FBE3E4;
+    border: 1px solid #FBC2C4;
+    border-radius: 5px 5px 5px 5px;
+    color: #8A1F11;
+    margin: 15px;
+    padding: 10px 10px 10px 50px;    
+}
+
+div.contains ul {
+    padding: 5px 15px;
+}
+
+div.contains li {
+    list-style-type: none;
+}
+
+div.contains .error {
+    font-size: .9em;
+    color: #a33;
+}
+
+form input.error {
+    border-color: #ee0000;
+}
+
+form textarea.error {
+    border-color: #ee0000;
+}

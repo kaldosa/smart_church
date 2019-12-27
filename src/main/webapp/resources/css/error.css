@@ -1,0 +1,5 @@
+@CHARSET "UTF-8";
+
+/*----------- 에러 페이지 -------------*/
+.error_wrap {width:463px; margin:300px auto;}
+.error_box {padding:130px 0 150px 0;background:url(../images/church/user/login_sBg.gif) no-repeat; padding:25px 40px 28px 40px; height:190px}

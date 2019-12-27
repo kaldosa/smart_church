@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:beans="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:p="http://www.springframework.org/schema/p" xmlns:sec="http://www.springframework.org/schema/security"
+  xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!-- Activates various annotations to be detected in bean classes -->
+  <context:annotation-config />
+
+  <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"
+    proxy-target-class="true">
+    <sec:expression-handler ref="expressionHandler" />
+  </sec:global-method-security>
+      
+    <!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
+         For example @Controller and @Service. Make sure to set the correct base-package-->
+  <context:component-scan base-package="com.laonsys.smartchurch.controller" />
+    
+    <!-- Configures the annotation-driven Spring MVC Controller programming model.
+         Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
+  <annotation-driven conversion-service="conversionService" validator="validator">
+    <argument-resolvers>
+      <beans:bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />
+      <beans:bean class="com.laonsys.springmvc.extensions.bind.support.SessionParamArgumentResolver" />
+      <beans:bean class="com.laonsys.springmvc.extensions.bind.support.LogonUserArgumentResolver" />
+      <beans:bean class="com.laonsys.springmvc.extensions.bind.support.WebQueryArgumentResolver" />
+    </argument-resolvers>
+    <message-converters register-defaults="true">
+      <beans:bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <!-- <beans:property name="objectMapper" ref="jacksonObjectMapper" /> -->
+        <beans:property name="objectMapper">
+          <beans:bean class="com.laonsys.springmvc.extensions.format.jackson.DateFormatObjectMapper" />
+        </beans:property>
+      </beans:bean>
+    </message-converters>
+  </annotation-driven>
+
+  <resources mapping="/resources/**" location="/resources/" />
+
+  <default-servlet-handler />
+
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" xmlns="http://www.springframework.org/schema/beans">
+    <property name="prefix">
+      <value>/WEB-INF/views/</value>
+    </property>
+
+    <property name="suffix">
+      <value>.jsp</value>
+    </property>
+    <property name="order" value="2" />
+  </bean>
+
+<!-- velocity 설정
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer" xmlns="http://www.springframework.org/schema/beans">
+      <property name="resourceLoaderPath" value="/WEB-INF/velocity/"/>
+      <property name="velocityProperties">
+       <props>
+        <prop key="input.encoding">UTF-8</prop>
+        <prop key="output.encoding">UTF-8</prop>
+       </props>
+      </property>
+    </bean>
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver" xmlns="http://www.springframework.org/schema/beans">
+      <property name="cache" value="true"/>
+      <property name="prefix" value=""/>
+      <property name="suffix" value=".vm"/>
+      <property name="contentType" value="text/html; charset=UTF-8" />
+      <property name="order" value="1"/>
+    </bean>
+-->
+
+
+<!--     <bean id="jacksonObjectMapper" class="com.laonsys.springmvc.extensions.format.jackson.DateFormatObjectMapper" xmlns="http://www.springframework.org/schema/beans" />
+    <bean id="jacksonSerializationConfig" class="org.codehaus.jackson.map.SerializationConfig"
+    factory-bean="jacksonObjectMapper" factory-method="getSerializationConfig" xmlns="http://www.springframework.org/schema/beans" />
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" xmlns="http://www.springframework.org/schema/beans">
+        <property name="targetObject" ref="jacksonSerializationConfig" />
+        <property name="targetMethod" value="setSerializationInclusion" />
+        <property name="arguments">
+            <list>
+                <value type="org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion">NON_DEFAULT</value>
+            </list>
+        </property>
+    </bean> -->
+
+  <beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    <beans:property name="formatters">
+      <beans:list>
+        <beans:bean class="com.laonsys.springmvc.extensions.format.support.MaskFormatAnnotationFormatterFactory" />
+        <beans:bean class="com.laonsys.springmvc.extensions.format.support.DateFormatAnnotationFormatterFactory" />
+      </beans:list>
+    </beans:property>
+  </beans:bean>
+
+  <beans:bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+    <beans:property name="paramName" value="lang" />
+  </beans:bean>
+
+  <beans:bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+    <beans:property name="interceptors">
+      <beans:ref bean="localeChangeInterceptor" />
+    </beans:property>
+  </beans:bean>
+
+  <beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <beans:property name="basename" value="classpath:i18n/messages" />
+    <beans:property name="defaultEncoding" value="UTF-8" />
+  </beans:bean>
+
+  <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    <beans:property name="validationMessageSource" ref="messageSource" />
+  </beans:bean>
+
+<!--   <beans:bean id="expressionHandler"
+    class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+    <beans:property name="permissionEvaluator" ref="permissionEvaluator" />
+  </beans:bean>
+  
+  <beans:bean id="webExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+    <beans:property name="permissionEvaluator" ref="permissionEvaluator" />
+  </beans:bean>
+  
+  <beans:bean id="permissionEvaluator" class="com.laonsys.smartchurch.utiles.SmartChurchPermissionEvaluator">
+    <beans:constructor-arg index="0">
+      <beans:map key-type="java.lang.String" value-type="com.laonsys.smartchurch.utiles.Permission">
+        <beans:entry key="isOurChurchAdmin" value-ref="ourChurchAdminPermission" />
+        <beans:entry key="isChurchMember" value-ref="churchMemberPermission" />
+        <beans:entry key="isPrayWriter" value-ref="prayPostsPermission" />
+        <beans:entry key="isOrgPostsWriter" value-ref="orgPostsPermission" />
+        <beans:entry key="isReplyUser" value-ref="replyPermission" />
+      </beans:map>
+    </beans:constructor-arg>
+  </beans:bean>
+
+  <beans:bean id="ourChurchAdminPermission" class="com.laonsys.smartchurch.utiles.OurChurchAdminPermission" />
+  <beans:bean id="churchMemberPermission" class="com.laonsys.smartchurch.utiles.ChurchMemberPermission" />
+  <beans:bean id="prayPostsPermission" class="com.laonsys.smartchurch.utiles.PrayPostsPermission" />
+  <beans:bean id="orgPostsPermission" class="com.laonsys.smartchurch.utiles.OrgPostsPermission" />
+  <beans:bean id="replyPermission" class="com.laonsys.smartchurch.utiles.ReplyPermission" /> -->
+
+  <beans:import resource="view-controller.xml" />
+</beans:beans>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchPrayMapper">
+    <resultMap id="pray" type="Pray">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id" />
+        <result property="subject" column="subject" />
+        <result property="contents" column="contents" />
+        <result property="createdDate" column="created_date" />
+        <result property="hits" column="hits" />
+        <result property="commentsCount" column="comments_count" />
+        <association property="user" column="user_id" resultMap="user"/>
+    </resultMap>
+
+    <resultMap id="user" type="User">
+        <id property="id" column="user_id"/>
+        <result property="name" column="name"/>
+        <association property="photo" column="attach_id" javaType="Attachment" resultMap="attachment" />
+    </resultMap>
+
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fkId" column="ref_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+    
+    <select id="count" parameterType="QueryParam" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_pray
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR contents REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>      
+    </select>
+    
+    <update id="updateHits" parameterType="map">
+        UPDATE
+            church_pray
+        SET
+            hits = #{hits}
+        <where>
+            id = #{id}
+        </where>    
+    </update>
+
+    <select id="selectList" parameterType="QueryParam" resultMap="pray">
+        SELECT
+            P.id,
+            P.church_id,
+            P.subject,
+            P.contents,
+            P.created_date,
+            P.hits,
+            (select count(*) from church_pray_comments where ref_id = P.id) comments_count,
+            U.id as "user_id",
+            U.name,
+            UP.id as "attach_id",
+            UR.ref_id,
+            UP.file_name,
+            UP.real_name,
+            UP.content_type,
+            UP.full_path,
+            UP.parent_path,
+            UP.size            
+        FROM
+            church_pray P
+        LEFT JOIN user U ON U.id = P.user_id
+        LEFT JOIN user_photo UR ON UR.ref_id = P.user_id
+        LEFT JOIN attachment UP ON UP.id = UR.id
+        <where>
+            P.church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR contents REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+        ORDER BY P.id DESC
+        LIMIT 
+            #{paginate.startItem}, #{paginate.itemPerPage}
+    </select>
+    
+    <select id="selectOne" parameterType="int" resultMap="pray">
+        SELECT
+            P.id,
+            P.church_id,
+            P.subject,
+            P.contents,
+            P.created_date,
+            P.hits,
+            U.id as "user_id",
+            U.name,
+            UP.id as "attach_id",
+            UR.ref_id,
+            UP.file_name,
+            UP.real_name,
+            UP.content_type,
+            UP.full_path,
+            UP.parent_path,
+            UP.size
+        FROM
+            church_pray P
+        LEFT JOIN user U ON U.id = P.user_id
+        LEFT JOIN user_photo UR ON UR.ref_id = P.user_id
+        LEFT JOIN attachment UP ON UP.id = UR.id
+        WHERE
+            P.id = #{id}
+    </select>
+           
+    <insert id="create" parameterType="pray" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO 
+            church_pray (
+            church_id,
+            subject,
+            contents,
+            created_date,
+            user_id
+        )
+        values (
+            #{churchId}, #{subject} , #{contents}, #{createdDate}, #{user.id}
+        )   
+    </insert>
+
+    <update id="update" parameterType="pray">
+        UPDATE
+            church_pray
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="contents != null">contents = #{contents},</if>
+        </trim>
+        WHERE
+            id = #{id}
+    </update>
+                
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_pray
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+</mapper>

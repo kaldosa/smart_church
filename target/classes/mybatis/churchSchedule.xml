@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchScheduleMapper">
+
+    <resultMap type="Event" id="event">
+        <id property="id" column="id" />
+        <result property="churchId" column="church_id" />
+        <result property="title" column="title" />
+        <result property="start" column="start" />
+        <result property="end" column="end" />
+        <result property="allday" column="allday" />
+        <result property="repeatable" column="repeatable" />
+        <result property="repeatFreq" column="repeat_freq" />
+        <result property="repeatCycle" column="repeat_cycle" />
+        <result property="repeatEnd" column="repeat_end" />
+        <result property="repeatEndDate" column="repeat_end_date" />
+        <result property="repeatDays" column="repeat_days" />
+        <result property="repeatDate" column="repeat_date" />
+    </resultMap>
+
+    <select id="selectEvents" parameterType="map" resultMap="event">
+        SELECT *
+        FROM church_schedule
+        <where>
+            church_id = #{id}
+            AND repeatable = 0
+            AND (start BETWEEN #{startRange} AND #{endRange} 
+            OR end BETWEEN #{startRange} AND #{endRange})
+        </where>
+    </select>
+
+    <select id="selectEndlessRepeatEvents" parameterType="map" resultMap="event">
+        SELECT *
+        FROM church_schedule
+        <where>
+            church_id = #{id}
+            AND repeatable = 1
+            AND repeat_end = 0
+            AND #{endRange} >= start
+            AND (repeat_freq IN ('DAY', 'WEEK', 'MONTH')
+                OR (repeat_freq = 'YEAR'
+                    AND MONTH(start) BETWEEN MONTH(#{startRange}) AND MONTH(#{endRange})));
+        </where>
+    </select>
+    
+    <select id="selectEndRepeatEvents" parameterType="map" resultMap="event">
+        SELECT * 
+        FROM church_schedule
+        <where>
+            church_id = #{id}
+            AND repeatable = 1
+            AND repeat_end = 1
+            AND #{endRange} >= start
+            AND repeat_end_date >= #{startRange}
+            AND (repeat_freq IN ('DAY', 'WEEK', 'MONTH')
+                OR (repeat_freq = 'YEAR'
+                    AND MONTH(start) BETWEEN MONTH(#{startRange}) AND MONTH(#{endRange})));
+        </where>
+    </select>
+    
+    <select id ="selectById" parameterType="int" resultMap="event">
+        SELECT *
+        FROM church_schedule
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <insert id="add" parameterType="Event" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO church_schedule (
+            church_id,
+            title,
+            start,
+            end,
+            allday,
+            repeatable
+        )
+        VALUES (
+            #{churchId},
+            #{title},
+            #{start},
+            #{end},
+            #{allday},
+            #{repeatable}
+        )
+    </insert>
+    
+    <update id="update" parameterType="Event">
+        UPDATE church_schedule
+        SET
+            title = #{title},
+            start = #{start},
+            end = #{end},
+            allday = #{allday},
+            repeatable = #{repeatable}
+            <if test="repeatable">
+                , repeat_freq = #{repeatFreq},
+                <choose>
+                    <when test="repeatFreq.toString() == 'DAY'">
+                        repeat_cycle = #{repeatCycle},
+                    </when>
+                    <when test="repeatFreq.toString() == 'WEEK'">
+                        repeat_days = #{repeatDays},
+                    </when>
+                    <when test="repeatFreq.toString() == 'MONTH' || repeatFreq.toString() == 'YEAR'">
+                        repeat_date = #{repeatDate},
+                    </when>
+                </choose>
+                repeat_end = #{repeatEnd}
+                <if test="repeatEnd">
+                    , repeat_end_date = #{repeatEndDate}
+                </if>
+            </if>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        DELETE FROM church_schedule
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,5 @@
+@CHARSET "UTF-8";
+
+.MultiFile-label {margin:5px 0; color:#222;}
+.MultiFile-remove {color:red; }
+.MultiFile-title {font-style: italic; color: blue;}

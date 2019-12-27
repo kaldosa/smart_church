@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <!-- main -->
+    <view-controller path="/error" view-name="/error"/>
+    <view-controller path="/terms/provision" view-name="/main/provision"/>
+    <view-controller path="/terms/infoProtection" view-name="/main/infoProtection"/>
+    <view-controller path="/updateBrowser" view-name="/updateBrowser"/>
+    <view-controller path="/introduction" view-name="/main/introduction"/>
+    <view-controller path="/guide" view-name="/main/guide"/>
+    <view-controller path="/application-service" view-name="/main/findChurch"/>
+    <view-controller path="/faq" view-name="/main/faq"/>
+    
+    <!-- church -->
+    
+    <!-- popup -->
+    <view-controller path="/popup/zipcode" view-name="/popup/zipcode"/>
+    
+    <!-- admin -->
+    <view-controller path="/admin" view-name="/admin/main"/>
+    <view-controller path="/admin/" view-name="/admin/main"/>
+</beans:beans>

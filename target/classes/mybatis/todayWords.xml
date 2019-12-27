@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.TodayWordsMapper">
+	
+	<resultMap id="todayWords" type="TodayWords">
+		<id property="id" column="id"/>
+		<result property="words" column="words"/>
+        <result property="verse" column="verse"/>
+	</resultMap>
+    
+    <select id="selectOne" parameterType="int" resultMap="todayWords">
+        SELECT
+            id,
+            words,
+            verse
+        FROM
+            today_words
+        WHERE
+            id = #{id}
+    </select>
+    
+</mapper>

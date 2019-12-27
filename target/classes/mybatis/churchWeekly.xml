@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchWeeklyMapper">
+    <resultMap id="weekly" type="Weekly">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id" />
+        <result property="path" column="path" />
+        <result property="subject" column="subject" />
+        <result property="contents" column="contents" />
+        <result property="createdDate" column="created_date" />
+        <result property="hits" column="hits" />
+        <association property="attach" column="attach_id" resultMap="attachment" />
+    </resultMap>
+
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fkId" column="ref_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+
+    <select id="count" parameterType="QueryParam" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_weekly
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR contents REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>      
+    </select>
+    
+    <update id="updateHits" parameterType="map">
+        UPDATE
+            church_weekly
+        SET
+            hits = #{hits}
+        <where>
+            id = #{id}
+        </where>    
+    </update>
+
+    <select id="selectList" parameterType="QueryParam" resultMap="weekly">
+        SELECT
+            W.id,
+            W.church_id,
+            W.path,
+            W.subject,
+            W.contents,
+            W.created_date,
+            W.hits,
+            A.id as "attach_id",
+            WR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_weekly W
+        LEFT JOIN church_weekly_attach WR ON W.id = WR.ref_id
+        LEFT JOIN attachment A ON A.id = WR.id
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR contents REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+        ORDER BY W.id DESC
+        LIMIT 
+            #{paginate.startItem}, #{paginate.itemPerPage}
+    </select>
+   
+    <select id="selectOne" parameterType="int" resultMap="weekly">
+        SELECT
+            W.id,
+            W.church_id,
+            W.path,
+            W.subject,
+            W.contents,
+            W.created_date,
+            W.hits,
+            A.id as "attach_id",
+            WR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_weekly W
+        LEFT JOIN church_weekly_attach WR ON W.id = WR.ref_id
+        LEFT JOIN attachment A ON A.id = WR.id
+        WHERE
+            W.id = #{id}
+    </select>
+
+    <insert id="create" parameterType="Weekly" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO 
+            church_weekly (
+            church_id,
+            path,
+            subject,
+            contents,
+            created_date
+        )
+        values (
+            #{churchId}, #{path}, #{subject} , #{contents}, #{createdDate}
+        )   
+    </insert>
+
+    <update id="update" parameterType="Weekly">
+        UPDATE
+            church_weekly
+        SET
+            subject = #{subject},
+            contents = #{contents}
+        <where>
+            id = #{id}
+        </where>
+    </update>
+                
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_weekly
+        <where>
+            id = #{id}
+        </where>
+    </delete> 
+</mapper>

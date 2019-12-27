@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util" xmlns:sec="http://www.springframework.org/schema/security"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+  <util:properties id="envvars" location="classpath:spring/environment.xml" />
+
+  <context:component-scan base-package="com.laonsys.springmvc.extensions" />
+  <context:component-scan base-package="com.laonsys.smartchurch.service" />
+    
+        <!-- 리소스 처리 engine bean 설정 -->
+  <bean id="resourceProcessingEngine" class="com.laonsys.springmvc.extensions.utils.ResourceProcessingEngineImpl">
+        <!-- content-type 에 따른 리소스 처리 processor Map -->
+    <property name="resourceProcessors">
+      <map>
+        <entry key="image/jpeg" value-ref="imageResizeProcessor" />
+        <entry key="image/jpg" value-ref="imageResizeProcessor" />
+        <entry key="image/pjpeg" value-ref="imageResizeProcessor" />
+        <entry key="image/gif" value-ref="imageResizeProcessor" />
+        <entry key="image/png" value-ref="imageResizeProcessor" />
+        <entry key="image/x-png" value-ref="imageResizeProcessor" />
+        <entry key="image/x-citrix-png" value-ref="imageResizeProcessor" />
+        <entry key="image/x-citrix-jpeg" value-ref="imageResizeProcessor" />
+        <entry key="image/tiff" value-ref="imageResizeProcessor" />
+        <entry key="image/bmp" value-ref="imageResizeProcessor" />
+        <entry key="video/mp4" value-ref="vodConvertProcessor" />
+      </map>
+    </property>
+
+        <!-- default processor -->
+    <property name="defaultProcessor" ref="imageResizeProcessor" />
+  </bean>
+    
+    <!-- 이미지 resizing 처리를 위한 processor bean 설정 -->
+  <bean id="imageResizeProcessor" class="com.laonsys.springmvc.extensions.utils.ImageResizeProcessor">
+        <!-- 이미지 resizing 제한 file size -->
+    <property name="limitSize" value="307200" />
+        
+        <!-- 이미지 resizing 제한 이미지 크기 -->
+    <property name="limitDimension" value="1024" />
+       
+        <!-- resize 이미지의 고퀄리티 설정 (default: false) -->
+        <!-- <property name="qualityMode" value="true" /> -->
+        
+        <!-- 리소스 처리기의 작업 디렉토리 -->
+        <!-- <property name="location" value="" /> -->
+  </bean>
+
+  <bean id="vodConvertProcessor" class="com.laonsys.springmvc.extensions.utils.VodConvertProcessor" />
+
+  <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- <property name="uploadTempDir" ref="uploadDirResource" /> -->
+  </bean>
+
+  <bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
+    <constructor-arg>
+      <value>/home/kaldosa/다운로드/temp</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+
+  <bean id="configurableMimeFileTypeMap" class="org.springframework.mail.javamail.ConfigurableMimeFileTypeMap">
+    <property name="mappingLocation" value="classpath:mime.type" />
+  </bean>
+
+<!--     <sec:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"
+    proxy-target-class="true">
+    <sec:expression-handler ref="expressionHandler" />
+  </sec:global-method-security> -->
+  <bean id="expressionHandler"
+    class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+    <property name="permissionEvaluator" ref="permissionEvaluator" />
+  </bean>
+  
+  <bean id="webExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+    <property name="permissionEvaluator" ref="permissionEvaluator" />
+  </bean>
+  
+  <bean id="permissionEvaluator" class="com.laonsys.smartchurch.utiles.SmartChurchPermissionEvaluator">
+    <constructor-arg index="0">
+      <map key-type="java.lang.String" value-type="com.laonsys.smartchurch.utiles.Permission">
+        <entry key="isOurChurchAdmin" value-ref="ourChurchAdminPermission" />
+        <entry key="isChurchMember" value-ref="churchMemberPermission" />
+        <entry key="isPrayWriter" value-ref="prayPostsPermission" />
+        <entry key="isOrgPostsWriter" value-ref="orgPostsPermission" />
+        <entry key="isAlbumAuthor" value-ref="albumPermission" />
+        <entry key="isReplyUser" value-ref="replyPermission" />
+      </map>
+    </constructor-arg>
+  </bean>
+
+  <bean id="ourChurchAdminPermission" class="com.laonsys.smartchurch.utiles.OurChurchAdminPermission" />
+  <bean id="churchMemberPermission" class="com.laonsys.smartchurch.utiles.ChurchMemberPermission" />
+  <bean id="prayPostsPermission" class="com.laonsys.smartchurch.utiles.PrayPostsPermission" />
+  <bean id="orgPostsPermission" class="com.laonsys.smartchurch.utiles.OrgPostsPermission" />
+  <bean id="albumPermission" class="com.laonsys.smartchurch.utiles.AlbumPermission" />
+  <bean id="replyPermission" class="com.laonsys.smartchurch.utiles.ReplyPermission" />
+  
+  <import resource="database.xml" />
+  <import resource="mail.xml" />
+</beans>

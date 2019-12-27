@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchSermonMapper">
+    <resultMap id="sermon" type="Sermon">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id" />
+        <result property="path" column="path" />
+        <result property="subject" column="subject" />
+        <result property="preacher" column="preacher" />
+        <result property="bible" column="bible" />
+        <result property="createdDate" column="created_date" />
+        <result property="sermonDate" column="sermon_date" typeHandler="DateTimeTypeHandler" />
+        <collection property="attachments" column="attach_id" ofType="Attachment" resultMap="attachment" />
+    </resultMap>
+
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fkId" column="ref_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+
+    <select id="count" parameterType="QueryParam" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_sermon
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'preacher'">
+                    AND preacher REGEXP #{keyword}
+                </when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="selectList" parameterType="QueryParam" resultMap="sermon">
+        SELECT
+            id,
+            church_id,
+            path,
+            subject,
+            preacher,
+            bible,
+            sermon_date,
+            created_date
+        FROM
+            church_sermon
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'preacher'">
+                    AND preacher REGEXP #{keyword}
+                </when>
+            </choose>
+        </where>
+        ORDER BY id DESC
+        LIMIT 
+            #{paginate.startItem}, #{paginate.itemPerPage}
+    </select>
+       
+    <select id="selectOne" parameterType="int" resultMap="sermon">
+        SELECT
+            S.id,
+            S.church_id,
+            S.path,
+            S.subject,
+            S.preacher,
+            S.bible,
+            S.sermon_date,
+            S.created_date,
+            A.id as "attach_id",
+            R.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_sermon S
+        LEFT JOIN church_sermon_attach R ON S.id = R.ref_id
+        LEFT JOIN attachment A ON R.id = A.id
+        WHERE
+            S.id = #{id}
+    </select>
+
+    <select id="lastOne" parameterType="int" resultMap="sermon">
+        SELECT
+            S.id,
+            S.church_id,
+            S.path,
+            S.subject,
+            S.preacher,
+            S.bible,
+            S.sermon_date,
+            S.created_date,
+            A.id as "attach_id",
+            R.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_sermon S
+        LEFT JOIN church_sermon_attach R ON S.id = R.ref_id
+        LEFT JOIN attachment A ON R.id = A.id
+        WHERE
+            S.church_id = #{id}
+        ORDER BY S.id DESC
+        LIMIT 1
+    </select>
+
+    <insert id="create" parameterType="Sermon" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO 
+            church_sermon (
+            church_id,
+            path,
+            subject,
+            preacher,
+            bible,
+            sermon_date,
+            created_date
+        )
+        values (
+            #{churchId}, #{path}, #{subject} , #{preacher}, #{bible}, #{sermonDate, typeHandler=DateTimeTypeHandler}, #{createdDate}
+        )   
+    </insert>
+
+    <update id="update" parameterType="Sermon">
+        UPDATE
+            church_sermon
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="preacher != null">preacher = #{preacher},</if>
+            <if test="bible != null">bible = #{bible},</if>
+            <if test="sermonDate != null">sermon_date = #{sermonDate, typeHandler=DateTimeTypeHandler},</if>
+        </trim>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+                
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_sermon
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+</mapper>

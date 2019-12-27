@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.NoticeMapper">
+
+	<resultMap id="attachment" type="Attachment">
+		<id property="id" column="attach_id"/>
+		<result property="fkId" column="notice_id"/>
+		<result property="fileName" column="file_name"/>
+		<result property="realFileName" column="real_file_name"/>
+		<result property="contentType" column="content_type"/>
+		<result property="path" column="full_path"/>
+        <result property="fileSize" column="file_size"/>
+	</resultMap>
+
+	<resultMap id="noticeMap" type="Notice">
+		<id property="id" column="id"/>
+		<result property="subject" column="subject"/>
+		<result property="content" column="content"/>
+		<result property="noticeType" column="notice_type"/>
+		<result property="createdDate" column="written_date"/>
+		<result property="hits" column="hits"/>
+		<collection property="attachments" ofType="Attachment" resultMap="attachment" />
+	</resultMap>
+
+    <select id="count" parameterType="QueryParam" resultType="int">
+        SELECT 
+            COUNT(*)
+        FROM
+            notice
+        <where>
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR content REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>            
+    </select>
+		
+	<select id="selectAttachById" parameterType="int" resultMap="attachment">
+		SELECT 
+			*
+		FROM 
+			notice_attachment
+		<where>
+			id = #{id}
+		</where>
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultMap="noticeMap">
+		SELECT 
+			N.id,
+			N.subject,
+			N.content,
+			N.notice_type,
+			N.written_date,
+			N.hits
+		FROM 
+			notice N
+		<where>
+			N.id = #{id}
+		</where>
+	</select>
+
+    <select id="selectOneByQueryParam" parameterType="QueryParam" resultMap="noticeMap">
+        SELECT 
+            N.id,
+            N.subject,
+            N.content,
+            N.notice_type,
+            N.written_date,
+            N.hits
+        FROM 
+            notice N
+        WHERE
+        <choose>
+            <when test="params.pager != null and params.pager == 'next'">
+                N.id > #{params.id}
+                ORDER BY N.id ASC LIMIT 1
+            </when>
+            <when test="params.pager != null and params.pager == 'prev'">
+                #{params.id} > N.id
+                ORDER BY N.id DESC LIMIT 1            
+            </when>
+            <otherwise>
+                N.id = #{params.id}
+            </otherwise>
+        </choose>
+    </select>
+        	
+	<select id="selectAll" parameterType="QueryParam" resultType="Notice">
+		SELECT 
+			id,
+			subject,
+			content,
+			notice_type as "noticeType",
+			written_date as "createdDate",
+			hits			
+		FROM 
+			notice
+		ORDER BY id DESC
+		LIMIT 
+			#{paginate.startItem}, #{paginate.itemPerPage}
+	</select>
+	
+    <select id="selectList" parameterType="QueryParam" resultType="Notice">
+        SELECT 
+            id,
+            subject,
+            content,
+            notice_type as "noticeType",
+            written_date as "createdDate",
+            hits            
+        FROM 
+            notice
+        <where>
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR content REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+        ORDER BY id DESC
+        LIMIT 
+            #{paginate.startItem}, #{paginate.itemPerPage}
+    </select>
+    
+	<select id="listNoticeWithAttach" parameterType="map" resultMap="noticeMap">
+		SELECT
+			N.id,
+			N.subject,
+			N.content,
+			N.notice_type,
+			N.written_date,
+			N.hits
+		FROM 
+			notice N
+		ORDER BY N.id DESC
+		LIMIT 
+			#{index}, #{offset}
+	</select>
+
+	<insert id="create" parameterType="Notice" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO notice (
+			subject,
+			content,
+			notice_type,
+			written_date,
+			hits
+		)
+		VALUES (
+			#{subject},
+			#{content},
+			#{noticeType},
+			#{createdDate},
+			#{hits}
+		)
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM
+			notice
+		<where>
+			id = #{id}
+		</where>
+	</delete>
+		
+	<update id="update" parameterType="Notice">
+		UPDATE
+			notice
+		SET
+			subject = #{subject},
+			content = #{content}
+		<where>
+			id = #{id}
+		</where>
+	</update>
+    
+    <update id="updateHits" parameterType="Notice">
+        UPDATE
+            notice
+        SET
+            hits = #{hits}
+        <where>
+            id = #{id}
+        </where>    
+    </update>
+</mapper>

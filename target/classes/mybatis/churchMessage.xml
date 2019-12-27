@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchMessageMapper">
+    <resultMap id="message" type="Message">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id" />
+        <result property="subject" column="subject" />
+        <result property="subTitle" column="sub_title" />
+        <result property="contents" column="contents" />
+        <result property="createdDate" column="created_date" />
+    </resultMap>
+        
+    <select id="count" parameterType="QueryParam" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_message
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR contents REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+    </select>
+    
+    <update id="updateHits" parameterType="map">
+        UPDATE
+            church_message
+        SET
+            hits = #{hits}
+        <where>
+            id = #{id}
+        </where>    
+    </update>
+
+    <select id="selectList" parameterType="QueryParam" resultMap="message">
+        SELECT
+            *
+        FROM
+            church_message
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR contents REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+        ORDER BY id DESC
+        LIMIT 
+            #{paginate.startItem}, #{paginate.itemPerPage}
+    </select>
+    
+    <select id="selectOne" parameterType="int" resultMap="message">
+        SELECT
+            *
+        FROM
+            church_message
+        WHERE
+            id = #{id}
+    </select>
+
+    <insert id="create" parameterType="Message" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO 
+            church_message (
+            church_id,
+            subject,
+            sub_title,
+            contents,
+            created_date
+        )
+        values (
+            #{churchId}, #{subject} , #{subTitle}, #{contents}, #{createdDate}
+        )   
+    </insert>
+
+    <update id="update" parameterType="Message">
+        UPDATE
+            church_message
+        SET
+            subject = #{subject},
+            sub_title = #{subTitle},
+            contents = #{contents}
+        <where>
+            id = #{id}
+        </where>
+    </update>
+                
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_message
+        <where>
+            id = #{id}
+        </where>
+    </delete> 
+</mapper>

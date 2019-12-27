@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Smart church RESTful APIs</title>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript">/*<![CDATA[*/
+    $(document).ready(function() {
+        $('acronym').each(function() {
+            $(this).replaceWith($('<a />').attr({
+                    target: '_blank',
+                    href: 'http://ko.wikipedia.org/w/index.php?search=' + encodeURIComponent($(this).text())
+                })
+            .text($(this).text()));
+        });
+        
+        $('.link-btn').mouseover(function() {
+        	$(this).css("color", "#333");
+        });
+        
+        $('.link-btn').mouseout(function() {
+            $(this).css("color", "gray");
+        });
+    });
+/*]]>*/</script>
+</head>
+<body>
+<h1>Smart Church RESTful APIs</h1>
+
+<h2 class="page_title">응답코드</h2>
+<a style="display:scroll;position:fixed;bottom:20px;right:30px;" href="#" title=Top>
+<span class="link-btn">Top</span>
+</a>
+
+<a style="display:scroll;position:fixed;bottom:20px;left:30px;" href="index.html" title=Back>
+<span class="link-btn">Back</span>
+</a>
+
+<div class="status-code">
+<table class="status-code-table">
+<thead>
+<tr>
+<th class="code">code</th>
+<th class="code-name">code name</th>
+<th class="reason">reason</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>0</td><td>OK</td><td></td></tr>
+<tr><td>100</td><td>DATA_BINDING_ERROR</td><td>입력 데이터가 유효하지 않을 경우 발생</td></tr>
+<tr><td>200</td><td>JOIN_INVALID_USER</td><td>이미 가입승인이 되었거나 입력한 정보와 일치하는 사용자가 없을 경우</td></tr>
+<tr><td>201</td><td>JOIN_EXPIRED_MAIL</td><td>인증 메일의 유효기간이 만료되었을 경우</td></tr>
+<tr><td>202</td><td>USER_NOT_FOUND</td><td>입력한 정보와 일치하는 사용자가 없을 경우</td></tr>
+<tr><td>300</td><td>NO_CONTENTS</td><td>컨텐츠가 없음.</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</body>
+</html>

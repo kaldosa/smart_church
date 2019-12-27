@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<white-url>
+    <domain name="http://www.youtube.com" desc="youtube">
+        <pattern>http://www.youtube.com/embed/*</pattern>
+        <pattern>http://www.youtube-nocookie.com/embed/*</pattern>
+        <pattern>https://www.youtube.com/embed/*</pattern>
+        <pattern>https://www.youtube-nocookie.com/embed/*</pattern>
+        <pattern>http://www.youtube.com/v/*</pattern>
+        <pattern>http://www.youtube-nocookie.com/v/*</pattern>
+        <pattern>https://www.youtube.com/v/*</pattern>
+        <pattern>https://www.youtube-nocookie.com/v/*</pattern>
+    </domain>
+    <domain name="http://www.daum.net" desc="다음">
+        <pattern>http://videofarm.daum.net/controller/video/viewer/*</pattern>
+        <pattern>http://videofarm.daum.net/controller/player/vodPlayer.swf*</pattern>
+    </domain>
+    <domain name="http://www.nate.com" desc="네이트">
+        <pattern>http://v.nate.com/v.sk/movie/*</pattern>
+    </domain>
+    <domain name="http://www.pandora.com" desc="판도라TV">
+        <pattern>http://flvr.pandora.tv/flv2pan/flvmovie.dll/*</pattern>
+    </domain>
+    <domain name="http://www.mgoon.com" desc="엠군">
+        <pattern>http://play.mgoon.com/Video/*</pattern>
+    </domain>
+    <domain name="http://www.afreeca.com" desc="아프리카">
+        <pattern>http://afbbs.afreeca.com:8080/player.swf*</pattern>
+    </domain>
+</white-url>

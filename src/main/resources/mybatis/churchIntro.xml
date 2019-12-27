@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchIntroMapper">
+    
+    <resultMap id="intro" type="Intro">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id"/>
+        <result property="path" column="path"/>
+        <result property="slogan" column="slogan"/>
+        <result property="intro" column="intro"/>
+        <association property="introImage" column="attach_id" resultMap="attachment" />
+    </resultMap>
+
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+
+    <select id="selectOne" parameterType="int" resultMap="intro">
+        SELECT
+            I.id,
+            I.path,
+            I.church_id,
+            I.slogan,
+            I.intro,
+            A.id as "attach_id",
+            IR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_intro I
+        LEFT JOIN church_intro_attach IR ON I.id = IR.ref_id
+        LEFT JOIN attachment A ON A.id = IR.id
+        WHERE
+            I.church_id = #{churchId}
+    </select>
+    
+    <insert id="insert" parameterType="intro" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO church_intro (
+                church_id,
+                path,
+                slogan,
+                intro
+            )
+            VALUES (
+                #{churchId},
+                #{path},
+                #{slogan},
+                #{intro}
+            )
+    </insert>
+        
+    <update id="update" parameterType="intro">
+        UPDATE
+            church_intro
+        SET
+            slogan = #{slogan},
+            intro = #{intro}
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
+    <delete id="delete" parameterType="string">
+        DELETE FROM
+            church_intro
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

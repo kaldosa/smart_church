@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/decorators">
+  <decorator name="none">
+    <pattern>/resources/**</pattern>
+    <pattern>/popup/**</pattern>
+    <pattern>/ajax/**</pattern>
+    <pattern>/updateBrowser</pattern>
+    <pattern>/application-service/find*</pattern>
+    <pattern>/test/j</pattern>
+  </decorator>
+
+  <decorator name="church-denied" page="church-denied-layout.jsp">
+    <pattern>/church/denied</pattern>
+    <pattern>/church/**/join-member</pattern>
+    <pattern>/church/**/access-denied</pattern>
+  </decorator>
+
+  <decorator name="church-layout" page="church-layout.jsp">
+    <pattern>/church/*</pattern>
+  </decorator>
+
+  <decorator name="joinUser" page="auth-layout.jsp">
+    <pattern>/findUser/*</pattern>
+    <pattern>/join*</pattern>
+    <pattern>/auth/*</pattern>
+  </decorator>
+
+  <decorator name="main" page="main-layout.jsp">
+    <pattern>/*</pattern>
+  </decorator>
+
+  <decorator name="header" page="empty.jsp" />
+  <decorator name="footer" page="empty.jsp" />
+  <decorator name="null" />
+</decorators>

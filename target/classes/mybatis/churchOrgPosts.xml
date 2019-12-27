@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchOrgPostsMapper">
+    <resultMap id="orgPosts" type="OrgPosts">
+        <id property="id" column="id"/>
+        <result property="orgId" column="org_id" />
+        <result property="path" column="path" />
+        <result property="subject" column="subject" />
+        <result property="contents" column="contents" />
+        <result property="createdDate" column="created_date" />
+        <result property="hits" column="hits" />
+        <result property="commentsCount" column="comments_count" />
+        <association property="attachment" column="attach_id" javaType="Attachment" resultMap="attachment" />
+        <association property="user" column="author_id" javaType="User" resultMap="user" />
+        <collection property="comments" ofType="BaseComments" resultMap="comment" />
+    </resultMap>
+
+    <resultMap id="comment" type="BaseComments">
+        <id property="id" column="comment_id"/>
+        <result property="postingsId" column="postings_id" />
+        <result property="comments" column="comments" />
+        <result property="createdDate" column="comment_created_date" />
+        <association property="user" column="comments_user_id" javaType="User" resultMap="comments_user" />
+    </resultMap>
+
+    <resultMap id="user" type="User">
+        <id property="id" column="author_id"/>
+        <result property="name" column="author_name"/>
+        <association property="photo" column="author_photo_id" javaType="Attachment" resultMap="author_photo" />
+    </resultMap>
+
+    <resultMap id="comments_user" type="User">
+        <id property="id" column="comments_user_id"/>
+        <result property="name" column="comments_user_name"/>
+        <association property="photo" column="comment_user_photo_id" javaType="Attachment" resultMap="comment_user_photo" />
+    </resultMap>
+    
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fkId" column="attach_ref_id"/>
+        <result property="fileName" column="attach_file_name"/>
+        <result property="realFileName" column="attach_real_name"/>
+        <result property="contentType" column="attach_content_type"/>
+        <result property="path" column="attach_full_path"/>
+        <result property="parentPath" column="attach_parent_path"/>
+        <result property="fileSize" column="attach_size"/>
+    </resultMap>
+    
+    <resultMap id="author_photo" type="Attachment">
+        <id property="id" column="author_photo_id"/>
+        <result property="fkId" column="author_photo_ref_id"/>
+        <result property="fileName" column="author_photo_file_name"/>
+        <result property="realFileName" column="author_photo_real_name"/>
+        <result property="contentType" column="author_photo_content_type"/>
+        <result property="path" column="author_photo_full_path"/>
+        <result property="parentPath" column="author_photo_parent_path"/>
+        <result property="fileSize" column="author_photo_size"/>
+    </resultMap>
+
+    <resultMap id="comment_user_photo" type="Attachment">
+        <id property="id" column="comment_user_photo_id"/>
+        <result property="fkId" column="comment_user_photo_ref_id"/>
+        <result property="fileName" column="comment_user_photo_file_name"/>
+        <result property="realFileName" column="comment_user_photo_real_name"/>
+        <result property="contentType" column="comment_user_photo_content_type"/>
+        <result property="path" column="comment_user_photo_full_path"/>
+        <result property="parentPath" column="comment_user_photo_parent_path"/>
+        <result property="fileSize" column="comment_user_photo_size"/>
+    </resultMap>
+                
+    <select id="count" parameterType="QueryParam" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_org_posts
+        <where>
+            org_id = #{params.orgId}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (subject REGEXP #{keyword} OR contents REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+    </select>
+    
+    <update id="updateHits" parameterType="map">
+        UPDATE
+            church_org_posts
+        SET
+            hits = #{hits}
+        <where>
+            id = #{id}
+        </where>    
+    </update>
+
+    <select id="selectList" parameterType="QueryParam" resultMap="orgPosts">
+        SELECT
+            P.id,
+            P.org_id,
+            P.path,
+            P.subject,
+            P.contents,
+            P.created_date,
+            P.hits,
+            (select count(*) from church_org_posts_comments where ref_id = P.id) comments_count,
+            ATT.id as "attach_id",
+            ATT_REF.ref_id as "attach_ref_id",
+            ATT.file_name as "attach_file_name",
+            ATT.real_name as "attach_real_name",
+            ATT.content_type as "attach_content_type",
+            ATT.full_path as "attach_full_path",
+            ATT.parent_path as "attach_parent_path",
+            ATT.size as "attach_size",
+            AUTHOR.id as "author_id",
+            AUTHOR.name as "author_name",
+            AUTHOR_PHOTO.id as "author_photo_id",
+            AUTHOR_PHOTO_REF.ref_id as "author_photo_ref_id",
+            AUTHOR_PHOTO.file_name as "author_photo_file_name",
+            AUTHOR_PHOTO.real_name as "author_photo_real_name",
+            AUTHOR_PHOTO.content_type as "author_photo_content_type",
+            AUTHOR_PHOTO.full_path as "author_photo_full_path",
+            AUTHOR_PHOTO.parent_path as "author_photo_parent_path",
+            AUTHOR_PHOTO.size as "author_photo_size"
+        FROM
+            church_org_posts P
+        LEFT JOIN church_org_posts_attach ATT_REF ON ATT_REF.ref_id = P.id
+        LEFT JOIN attachment ATT ON ATT.id = ATT_REF.id
+        LEFT JOIN user AUTHOR ON AUTHOR.id = P.user_id
+        LEFT JOIN user_photo AUTHOR_PHOTO_REF ON AUTHOR_PHOTO_REF.ref_id = AUTHOR.id
+        LEFT JOIN attachment AUTHOR_PHOTO ON AUTHOR_PHOTO.id = AUTHOR_PHOTO_REF.id
+        <where>
+            P.org_id = #{params.orgId}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND P.subject REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (P.subject REGEXP #{keyword} OR P.contents REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+        ORDER BY P.id DESC
+        LIMIT 
+            #{paginate.startItem}, #{paginate.itemPerPage}
+    </select>
+    
+    <select id="selectPostsWithComments" parameterType="int" resultType="int">
+        SELECT DISTINCT
+            C.ref_id
+        FROM
+            church_org_posts_comments C
+        LEFT JOIN church_org_posts P ON P.id = C.ref_id
+        WHERE
+            P.org_id = #{orgId}
+    </select>
+    
+    <select id="selectOne" parameterType="int" resultMap="orgPosts">
+        SELECT
+            P.id,
+            P.org_id,
+            P.path,
+            P.subject,
+            P.contents,
+            P.created_date,
+            P.hits,
+            ATT.id as "attach_id",
+            ATT_REF.ref_id as "attach_ref_id",
+            ATT.file_name as "attach_file_name",
+            ATT.real_name as "attach_real_name",
+            ATT.content_type as "attach_content_type",
+            ATT.full_path as "attach_full_path",
+            ATT.parent_path as "attach_parent_path",
+            ATT.size as "attach_size",
+            AUTHOR.id as "author_id",
+            AUTHOR.name as "author_name",
+            AUTHOR_PHOTO.id as "author_photo_id",
+            AUTHOR_PHOTO_REF.ref_id as "author_photo_ref_id",
+            AUTHOR_PHOTO.file_name as "author_photo_file_name",
+            AUTHOR_PHOTO.real_name as "author_photo_real_name",
+            AUTHOR_PHOTO.content_type as "author_photo_content_type",
+            AUTHOR_PHOTO.full_path as "author_photo_full_path",
+            AUTHOR_PHOTO.parent_path as "author_photo_parent_path",
+            AUTHOR_PHOTO.size as "author_photo_size",
+            C.id as "comment_id",
+            R.ref_id as "postings_id",
+            C.comments,
+            C.created_date as "comment_created_date",
+            U2.id as "comments_user_id",
+            U2.name as "comments_user_name",
+            UP.id as "comment_user_photo_id",
+            UA.ref_id as "comment_user_photo_ref_id",
+            UP.file_name as "comment_user_photo_file_name",
+            UP.real_name as "comment_user_photo_real_name",
+            UP.content_type as "comment_user_photo_content_type",
+            UP.full_path as "comment_user_photo_full_path",
+            UP.parent_path as "comment_user_photo_parent_path",
+            UP.size as "comment_user_photo_size"
+        FROM
+            church_org_posts P
+        LEFT JOIN church_org_posts_attach ATT_REF ON ATT_REF.ref_id = P.id
+        LEFT JOIN attachment ATT ON ATT.id = ATT_REF.id
+        LEFT JOIN user AUTHOR ON AUTHOR.id = P.user_id
+        LEFT JOIN user_photo AUTHOR_PHOTO_REF ON AUTHOR_PHOTO_REF.ref_id = AUTHOR.id
+        LEFT JOIN attachment AUTHOR_PHOTO ON AUTHOR_PHOTO.id = AUTHOR_PHOTO_REF.id
+        LEFT JOIN church_org_posts_comments R ON P.id = R.ref_id
+        LEFT JOIN church_comments C ON R.id = C.id
+        LEFT JOIN user U2 ON U2.id = C.user_id
+        LEFT JOIN user_photo UA ON UA.ref_id = U2.id
+        LEFT JOIN attachment UP ON UP.id = UA.id
+        WHERE
+            P.id = #{id}
+        ORDER BY C.id DESC;
+    </select>
+           
+    <insert id="create" parameterType="OrgPosts" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO 
+            church_org_posts (
+            org_id,
+            path,
+            subject,
+            contents,
+            created_date,
+            user_id
+        )
+        values (
+            #{orgId}, #{path}, #{subject} , #{contents}, #{createdDate}, #{user.id}
+        )   
+    </insert>
+
+    <update id="update" parameterType="OrgPosts">
+        UPDATE
+            church_org_posts
+        SET
+            subject = #{subject},
+            contents = #{contents}
+        <where>
+            id = #{id}
+        </where>
+    </update>
+                
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_org_posts
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+    
+    <delete id="deleteAll" parameterType="int">
+        DELETE FROM
+            church_org_posts
+        WHERE
+            org_id = #{orgId}
+    </delete>
+</mapper>

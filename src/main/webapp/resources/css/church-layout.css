@@ -1,0 +1,483 @@
+@CHARSET "UTF-8";
+
+* {margin: 0; padding: 0;}
+html {overflow-y: scroll;}
+body {font-size: 12px; background-color: #FFF;}
+body,div,p,span,a,pre,h1,h2,h3,h4,h5,h6,dl,dt,dd,ul,ol,li,form,fieldset,select,textarea,input,button,blockquote,th,td,caption {font-family: Dotum, 'Malgun Gothic', '돋움', '맑은 고딕', AppleGothic, Sans-serif; color: #333;}
+img {border: 0;}
+dl,ul,ol,dd,li {list-style: none;}
+fieldset {border: 0 none;}
+legend {height: 0; width: 0; overflow: hidden; visibility: hidden; font-size: 0;}
+button {cursor: pointer; border: 0 none;}
+select {height: 21px; line-height: 19px;}
+label {cursor: pointer;}
+a {text-decoration: none; cursor: pointer;}
+table { border: 0; border-spacing: 0; empty-cells: show;}
+img,button,input,select { vertical-align: middle;}
+
+/* layout */
+#bodyWrap {width: 100%;}
+#container {position:relative; width:950px; margin:0 auto;}
+
+/*-------- sub container --------*/
+#content {position:relative; float:left; width:950px;    *height:100%;    display:inline;}
+#content > h2 {width:876px; background-color:#00a2e5; font-size:1.4em; color:#fff; padding:17px 0 15px 24px;}
+#content .intro {float:left; width:900px; height:100%; background: url(../images/church/common/content_subBg.gif) repeat-y;}
+
+/*----------- commons   -------------*/
+.input_text { height: 14px; padding: 3px; border:1px solid #ccc; background-color: #fbfbfb; color: #798dd8; letter-spacing: 0; }
+.input_select {height:20px; border:1px solid #dcdde3; background-color:#fbfbfb; color:#666; letter-spacing:0; }
+.input_textarea {background-color:#fbfbfb; border:1px solid #dbdbdb; padding:5px; resize:none;}
+.input_file {border: 1px solid #ccc; background-color: #fbfbfb; color: #798dd8; vertical-align: middle; letter-spacing: 0;}
+
+/* file input 박스 커스터마이징 */
+.file_input_textbox {float: left}
+.file_input_div {position: relative; float:left; width: 62px; height: 20px; overflow: hidden; *margin: 3px 0;}
+.file_input_hidden {font-size: 23px; position: absolute; right: 0px; top: 0px; opacity: 0; filter: alpha(opacity=0); -ms-filter: "alpha(opacity=0)"; -khtml-opacity: 0; -moz-opacity: 0; }
+.file_input_button {position: absolute; top: 0px; width: 62px; height: 20px; vertical-align: baseline;}
+
+
+/*-------- main 페이지 --------*/
+
+#container .banner {position:relative; float:left; width:660px; margin-left:8px;}
+#container .adBanner {height:335px;}
+#container .mainBanner {position:relative; float:left; display:inline; width:218px; height:157px; border-left:solid 1px #e0e0e0; margin: 5px 1px 0 0;}
+#container .mainBanner h2 {}
+#container .mainBanner h3 {font-size:14px; font-weight:bold; color:#0089c2; letter-spacing:-0.1em; padding:14px 0 0 10px;}
+#container .mainBanner h3 a {color:#0089c2;}
+#container .mainBanner .more {position:absolute; float:right; top:79px; right:8px; }
+#container .mainBanner  ul {padding:9px 0 0 12px;}
+#container .mainBanner li {font-size:11px; color:#888;}
+#container .mainBanner li a {font-size:11px; color:#888; display:block;}
+#container .mainBanner li a:hover {text-decoration: underline;}
+
+/*-------- 오른쪽 배너 --------*/
+/* 로그인*/
+#rightBanner {position:relative; float:right; width:248px; height: 510px; border-right:solid 1px #e0e0e0; border-left:solid 1px #e0e0e0; background-color:#ececec;}
+
+#rightBanner h3 {font-size:14px; font-weight: bold; color:#0089c2; letter-spacing:-0.1em; margin-bottom:8px;}
+#rightBanner .navBox {width:210px; marin:0 auto; padding:24px 20px 10px 20px; min-height: 100px;}
+.navBox .input_text {margin-bottom: 5px;}
+.navBox input[type=checkbox] {vertical-align: middle;}
+.navBox  label {margin-left: 5px; letter-spacing:-1px; vertical-align: middle;}
+.navBox input[type=image] {vertical-align:top}
+.forgot {margin: 5px 0;}
+
+.lastvod {float:right; padding-right: 20px;}
+.vod-desc { float:right; line-height:20px; width: 125px;}
+
+#list-org {position:relative; margin: 10px 5px 0;}
+#list-org .pre {left:-20px; position:absolute; top:60px;}
+#list-org .next {right:-20px; position:absolute; top:60px;} 
+
+.empty_content {width:100%; padding:15px 0 15px;}
+.empty_content h4 {color:#888; }
+
+.profile-wrap {margin: 22px 2px;}
+.profile {position: relative;margin:0 auto; border: 1px solid #ddd; background-color: #fff;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075); -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);}
+.profile img {float: left; padding: 5px 5px;}
+.profile-info {padding: 0 0 0 50px; height: 60px;}
+.profile-info .user-name {margin: 5px 0 18px 5px;}
+.profile .logout {position: absolute; top: 35px; right: 5px;}
+
+.profile2 {position: relative; width: 165px; margin:0 auto; border: 1px solid #ddd; background-color: #fff;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075); -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075); text-align: center;}
+.profile2 p {margin: 5px 0;}
+.profile2 .logout-form {margin: 5px 0;}
+
+/*------- sub right menu ------*/
+.con_right {float:right; width:175px;}
+.con_right .rnb {margin:52px 12px 0 12px;}
+.con_right .rnb li {display:block; border-bottom: 1px solid #dcdcdc; padding:7px 0 6px 20px; background: url(../images/church/common/icon_arrow2.gif) no-repeat 7px 10px;}
+.con_right .rnb li a {color:#737373; }
+.con_right .rnb .bold {background: url(../images/church/common/icon_arrow1.gif) no-repeat 7px 10px; font-weight:bold;}
+.con_right .rnb .bold a {color:#444;}
+.con_right .btn_admin {width:100%; text-align:center; padding:50px 0;}
+
+/*----------------------------------------------------------------------------*/
+/*--------------------------------- 교회안내 ---------------------------------*/
+/*----------------------------------------------------------------------------*/
+
+.church_content {position:relative; float:left; width:686px; padding:50px 0 0 14px;}
+
+/* 인사말 */
+
+.txt {padding:20px 10px 20px 5px; font-size: 14px;}
+.txt p {line-height:18px; padding-bottom:20px;}
+.intro_image {margin:20px 0;}
+.btn_admin {float:right; padding:50px 10px 40px 0;}
+.slogan {margin: 5px 0; font-size: large; color: #00A2E5;}
+
+/* 연혁 */
+.bg {background: url(../images/church/info/history_yBg.gif) repeat-y; overflow:hidden; width:670px; margin:0 0 40px 0;}
+.bg dl {position:relative; clear:both; display:block;}
+.bg .year {clear:both; display:block; float:left;}
+.bg .year span {padding: 5px 5px; font-size: 20px; font-weight: bold; color: #33A1DB;}
+.bg .year img {margin-left: 8px; vertical-align: middle;}
+.bg .text {float:left; margin-left: 30px;}
+.bg .his1 {width:550px;}
+.bg .his1 dd {border-bottom: 1px solid #ececec;line-height:18px; padding:8px 0 4px 0;}
+.bg .last {clear:both; display:block;}
+
+/* 예배안내 */
+h3.worship_title {font-size:14px; font-weight: bold;color:#00a2e5; padding:10px 0 30px 0; text-align:center;}
+.infoBox {border-top:2px solid #cdd4dc; border-left:1px solid #cdd4dc; margin: 0 0 30px 10px; width:660px;}
+.infoBox th {border-right: 1px solid #cdd4dc; border-bottom: 1px solid #cdd4dc; font-weight:bold; background-color:#f6f9fb; text-align: center; padding:6px 0 5px 0;}
+.infoBox td {border-right: 1px solid #cdd4dc; border-bottom: 1px solid #cdd4dc; text-align: center; padding:6px 0 5px 0;}
+
+/* 섬기는분들 */
+
+/* 오시는길 */
+.addr {float:left; padding-left:5px; margin-top: 5px;}
+.addr ul {float:left; width:600px;}
+.addr li {line-height:25px;}
+.addr li span.tit {width:80px; float:left; }
+.addr li p.traffic {margin:0 20px 0 80px; word-wrap: break-word;}
+
+div.map_info {margin:50px 0 0 20px;}
+#map_canvas {width: 680px;height: 350px; margin: 10px 0}
+
+/*----------------------------------------------------------------------------*/
+/*--------------------------------- 교회소식 ---------------------------------*/
+/*----------------------------------------------------------------------------*/
+/* h3.tit  {font-size:14px; font-weight:bold; color:#00a2e5; padding:0px 0 30px 5px;} */
+
+/* 새소식 게시판 */
+.listWrap {position:relative; width:680px; margin: 40px 0;}
+.listWrap .listTit {width:680px; *background-color:#f5f5f5; border-top: 1px solid #00a2e5; border-bottom: 1px solid #dcdcdc;}
+
+.thumbnails-wrap {position:relative; padding: 0 20px;}
+
+/*------- 페이지 링크 --------*/
+.page_link {*clear:both; text-align:center; font-family:tahoma;font-size:11px; height:34px; padding:25px 0 15px 0;}
+.page_link p {padding-top:6px;}
+.page_link a {padding:0 5px; font-size: 11px; font-weight: bold; color:#a1a1a1;}
+.page_link strong {font-weight:bold; color:#eb4d00; padding:0 5px;}
+.page_link .front,
+.page_link .prev,
+.page_link .next,
+.page_link .end {padding:0 2px 0 3px;}
+.page_link img {vertical-align:middle;}
+.page_area {padding:0 24px 0 20px;}
+.page_area p.btn {float:right; padding:15px 0 0;}
+
+/*------- 검색 --------*/
+#news_search_box {*clear:both; background-color:#f5f5f5; border-top:1px solid #ddd; border-bottom:1px solid #ddd; padding:11px 22px 11px 0; height:22px; text-align:center;}
+#news_search_box .selectbox {width:100px; vertical-align:top;}
+#news_search_box .selectbox select {width:100px; color:#666; font-size:12px;}
+#news_search_box .inputbox {padding-top:7px; margin-left:3px;}
+#news_search_box .inputbox input {width:195px; height:19px; padding:0 0 0 5px; border:1px solid #ddd; background-color:#fff;}
+#news_search_box .search_btn {padding-top:5px; margin-left:3px;}
+#news_search_box .search_btn img {vertical-align:top;}
+
+/*------- 게시판 쓰기 --------*/
+#writeWrap {position:relative; width:660px; margin-left:10px}
+#writeWrap .writeCon {*float:left; width:660px; border-top:2px solid #cdd4dc; border-right:1px solid #cdd4dc; border-bottom:1px solid #cdd4dc; border-left:1px solid #cdd4dc;}
+.writeCon dl {*float:left;overflow:hidden; border-bottom:1px solid #cdd4dc; background:url(../images/church/admin/row_bg.gif) repeat-y; padding:7px 0 6px 0;}
+.writeCon dt {float:left; width:90px; padding:4px 0 0 17px; font-weight:bold; vertical-align:middle; color:#32313f;}
+.writeCon dt.tit {float:left; width:90px; padding:8px 0 0 17px; font-weight:bold; vertical-align:middle; color:#32313f;}
+.writeCon dd {float:left; width:543px; padding:0 0 0 10px;}
+.writeCon dd .input_textarea {min-height: 100px; width: 500px;}
+.writeCon .end {border-bottom:none;}
+.writeCon .ex {float: left; line-height:14px; font-size:11px; color:#868b93; margin-top:5px}
+.writeCon .ex2 {line-height:14px; font-size:11px; color:#868b93; margin:5px 0 10px 0;}
+.writeCon .btnArea {float:right; margin:0px 12px 0 0;}
+.writeCon input.checkbox {height:14px; width:14px; margin:0 3px 0 0; border:none; vertical-align:middle}
+.writeCon label.check {margin:0 10px 0 0;}
+.writeCon span.icon {vertical-align:middle; margin:0 5px;}
+
+.writeCon .control-file {float:left; margin-top: 10px;}
+.writeCon .convert-btn-wrap {margin: 30px 25px 0 0; text-align: right;}
+
+#MultiFile-list {float: left; padding: 5px; border: 1px solid #DBDBDB;}
+#MultiFile-list .desc {display: block; width: 100px; margin-left: auto; margin-right: auto; color:#868b93;}
+
+.writeCon_list {float:left; width:660px; border-top:1px solid #cecece; border-bottom:1px solid #cecece; margin:30px 0 30px 0;}
+.writeCon_list dl {overflow:hidden; color:#666; border-bottom:1px solid #e7e7e7; }
+.writeCon_list dt {float:left; width:90px; padding:8px 0 7px 15px; text-align:left; background-attachment: fixed; background: url(../images/church/news/line2.gif) no-repeat right; font-weight:bold;}
+.writeCon_list dd {float:left; width:515px; padding:8px 0 7px 20px;}
+.writeCon_list dd a {text-decoration:none; color:#666;}
+.writeCon_list dd a:hover {text-decoration:underline; color:#00a2e5;}
+.writeCon_list .end {border-bottom:none;}
+
+.writeCon_list_btn {*float:right; padding:20px;}
+
+.list_btn_cen {clear:both; width:110px; margin:0 auto; padding:30px 0 0 0; text-align: center;}
+.list_btn_cen2 {clear:both; width:190px; margin:0 auto; padding:30px 0 0 0; text-align: center;}
+.list_btn_cen3 {*clear:both; padding:30px 0 0 0; text-align: center;}
+.list_btn_cen2 .space {margin:0 0 0 10px;}
+
+.writeCon_list_btn .space {margin:0 9px;}
+#writeWrap .writeCon div.contents {clear:both;float:left;width:630px; padding:20px 0 40px 0;}
+
+/* 새가족 소개 */
+.reg-info {float: right; margin:0 10px 0;}
+
+/* 팝업 */
+#popup {position:absolute; width:659px; height:447px; left:55px; top:85px; background:url(../images/church/news/family_popupBg.png) no-repeat; z-index:101}
+#popup p {color:#454545; line-height:20px; margin:70px 28px 0 50px;}
+#popup .em {color:#008fca; font-weight:bold;}
+#popup .info_phone {width:230px; float:right; margin:41px 30px 0 0;}
+#popup .info_phone li {height:30px;}
+
+/* 교회일정 */
+#calendar_content {position:relative; float:left; width:670px; padding:50px 0 0 14px;}
+
+/* 설교 보기 */
+.videoplayer {display:block; width: 570px; height: 320px; overflow: none; margin: 5% auto;}
+
+/* 한줄 댓글 */
+.comment-wrap {position: relative; width: 680px; padding: 60px 0 60px 0;}
+.comment-box {position:relative; border:solid 1px #dadada; padding:17px;}
+.comment-box h5 {color:#787878; font-size:11px; padding:5px;}
+.comment-box .input_textarea {width: 550px; height:50px;}
+.comment-box .btn_ok {float: right;}
+.comment-list {position:relative; padding:40px 0 10px 0;}
+.comment-list .item {padding:20px; border-bottom:solid 1px #e8e8e8; min-height: 75px;}
+.comment-list .item .user_photo {position: absolute; width:70px; height: 70px; margin: 0 0; padding: 0 0;}
+.comment-list .item .comment {margin-left: 76px;}
+.comment-list .item .nick {margin-bottom: 8px;}
+.comment-list .item .content {line-height: 17px; padding: 0 20px 0 0;}
+.comment-list .item .content .comment-del {background: url(../images/commons/btn_rep_del.gif) no-repeat scroll 0 1px transparent; display: inline-block; height: 14px; overflow: hidden; text-indent: -9999em; vertical-align: middle; width: 14px;}
+
+.border_none {border: 0; }
+div.msg_contents {border: 0; padding: 25px 35px;}
+
+/* view box */
+.boardbox {width:640px; border:1px solid #00a2e5; padding:24px 19px 30px 19px;}
+.header_wrap {position: relative; width:100%; height: 30px;}
+.header_wrap .title {position: absolute; font-size:16px; font-weight:bold; color:#3b3b3b; padding:0 0 5px 0; width: 90%}
+.header_wrap .title-width-author {width: 80%}
+.header_wrap .msg_title {color:#008fca; letter-spacing:-0.5px; padding: 0 77px 0 0;}
+.header_wrap .date {position: absolute; right: 5px; font-size:11px; color:#555; padding:5px 0 0 0;}
+.header_wrap .author {position: absolute; right: 80px; font-size:11px; color:#555; padding:5px 0 0 0;}
+.body_wrap {*width:100%; padding:15px 0 0 0; border-top-width:1px; border-top-style:dashed; border-top-color:#b8b8b8; margin: 10px 0;}
+.body_wrap .sub_title {color:#333; font-size:16px; font-weight:bold; padding: 10px 0; letter-spacing:-1px;}
+.body_wrap .image_contents_wrap, .body_wrap .text_contents_wrap {padding: 20px 0;}
+.body_wrap .text_contents {*line-height:17px; *color:#444; word-break:break-all; line-height:18px; color:#787878; overflow: hidden;}
+.body_wrap .image_contents {margin-left: auto; margin-right: auto; display: block; *max-width: 100%;}
+.sermon_desc li {padding: 5px 0; color: #7F7F7F;}
+.sermon_downlaod {margin-top: 38px;}
+.sermon_downlaod li {padding:3px 0 3px 70px;}
+.body_wrap.no_border {border: 0}
+
+.file_list li {line-height: 28px;}
+.file_list li:hover {background-color: #ECECEC;}
+.attach_list_box {text-align: right; height: 17px; padding: 5px 20px;}
+.attach_file {padding: 0 0 0 25px; background: url(../images/church/common/icon_file3.gif) no-repeat 0 center; color: #AFAFAF; font-style: italic;}
+.attach_remove {color: red; margin-left: 10px;}
+
+.action_btn_area {position: relative; height: 25px; margin: 20px 10px;}
+.action_btn_area .list_btn {float: left; margin: 0 3px;}
+.action_btn_area .edit_btn {float: right; margin: 0 3px;}
+.action_btn_area .new_btn {float: right; margin: 0 3px;}
+.action_btn_area .del_btn {float: right; margin: 0 3px;}
+
+/* 빈 여백 넣기*/
+.pd30 {float:left; padding:30px} 
+.pd20 {float:left; padding:20px}
+.pd10 {float:left; padding:10px}
+
+/*------- 관리자 -------*/
+#titleWrap {width:680px; height:42px; background:url(../images/church/admin/title_bg.gif) no-repeat; margin-bottom: 30px;}
+#titleWrap h3 {float:left; width:300px; font-size: 24px;}
+#titleWrap .home {float:right; font-size:11px; color:#aaa; letter-spacing:-0.02em; padding:18px 2px 0 0;}
+#titleWrap .home span {color:#77adc3;}
+
+.input_w15 {width: 15px;}
+.input_w35 {width: 35px;}
+.input_w55 {width: 55px;}
+.input_w60 {width: 60px;}
+.input_w65 {width: 65px;}
+.input_w85 {width: 85px;}
+.input_w100 {width: 100px;}
+.input_w150 {width: 150px;}
+.input_w175 {width: 175px;}
+.input_w200 {width: 200px;}
+.input_w300 {width: 300px;}
+.input_w350 {width: 350px;}
+.input_w400 {width: 400px;}
+.input_w450 {width: 450px;}
+.input_w500 {width: 523px;}
+.input_h80 {height: 80px;}
+
+/*================= table 형 폼 =====================*/
+.admin_form {*width: 660px; margin: 30px 0; border:1px solid #cdd4dc;}
+.admin_form:before,.admin_form:after {display: table; content: "";}
+.admin_form:after {clear: both;}
+.admin_form .admin_form_input {float: left; height: 36px; font-weight:normal;}
+.admin_form .admin_form_textarea {float: left; width: 100%; height: 70px; font-weight:normal; border-top:1px solid #cdd4dc;}
+
+.admin_form .form_wrap {float: left; width: 100%; border-bottom:1px solid #cdd4dc;}
+.admin_form .end {border-bottom: 0;}
+
+.admin_form .admin_form_label {float:left; background-color:#f4f4fb; width: 50px; padding: 10px 8px; }
+.admin_form .input_text, .admin_form .input_select {margin: 6px 5px;}
+.admin_form .input_textarea {margin: 6px 5px; height: 45px; width: 500px;}
+.admin_form .admin_form_btn {width: 52px; height: 24px;}
+.admin_form .label_intro {padding: 27px 8px;}
+.admin_form .textarea_btn {margin: 0 0 50px 5px;}
+.admin_form .file_input_div {margin: 5px 5px;}
+
+/*================= 드래그앤 드랍 정렬 박스 =====================*/
+.result_list {border:1px solid #cdd4dc; width: 660px; height: 410px; overflow:auto; overflow-x:hidden; overflow-y:auto;}
+.sortable ul {list-style-type: none; padding: 10px 0;}
+.sortable li {float: left; margin:2px 14px; border:1px solid #cdd4dc; background-color: #F9F9F9;}
+.sortable .item {float: left; padding: 5px 0; }
+.sortable .delete_btn {padding: 5px 5px;}
+
+.sortable .date {float: left; width: 75px; margin: 5px 5px; }
+.sortable .conts {float:left; width: 445px;margin: 5px 5px; padding-left: 5px; border-left:1px solid #cdd4dc; border-right:1px solid #cdd4dc;}
+.sortable .worship_title {float: left; width: 150px; margin: 5px 5px; border-right:1px solid #cdd4dc;}
+.sortable .worship_date {float: left; width: 150px; margin: 5px 5px; padding-left: 5px; border-right:1px solid #cdd4dc;}
+.sortable .worship_place {float: left; width: 200px;margin: 5px 5px; padding-left: 5px; border-right:1px solid #cdd4dc;}
+
+.serve_table {border-top:2px solid #cdd4dc; border-left:1px solid #cdd4dc; width:620px; margin: 8px 5px; table-layout:fixed; word-wrap:break-word;}
+.serve_table th {width:45px; background-color:#f4f4fb; border-bottom:1px solid #cdd4dc; text-align:left; padding-left:12px; font-weight:normal;}
+.serve_table td {padding:7px 0 6px 9px; border-right:1px solid #cdd4dc; border-bottom:1px solid #cdd4dc;}
+.serve_table td.none {width: 450px; border-right:none;}
+.serve_table th, td {display:table-cell;}
+
+.del-item {cursor: pointer;}
+#delete-org-form {display: inline; width: 52px; height: 24px;}
+
+.mapBox_admin {float:left; border-top:1px solid #cdd4dc; border-left:1px solid #cdd4dc; width:660px;}
+.mapBox_admin th {width:90px; background-color:#f6f9fb; border-bottom:1px solid #cdd4dc; text-align:left; padding-left:16px;}
+.mapBox_admin td {padding:7px 0 7px 9px; border-right:1px solid #cdd4dc; border-bottom:1px solid #cdd4dc;}
+.mapBox_admin th, td {display:table-cell;}
+.mapBox_admin td p {margin: 5px 0;}
+.button_zip {vertical-align:middle; text-align:right}
+.bar {display:inline-block; padding:3px 0 0; line-height:20px;}
+.mapBox_admin td.phoneNumber {vertical-align: middle;}
+.phoneNumber .text_default {width:46px;}
+.mapBox_admin .input_textarea {height: 60px;}
+
+#admin-action {position: relative; left: 575px; width: 100px; margin: 5px 12px 5px;}
+
+/* Icons */
+.icons {background-position: 0% 50%; background-repeat: no-repeat; padding-left: 20px; padding-top: 2px; padding-bottom: 3px;}
+
+.icons-add { background-image: url(../images/commons/icon-add.png); }
+.icons-edit { background-image: url(../images/commons/icon-edit.png); }
+.icons-del { background-image: url(../images/commons/icon-delete.png); }
+
+.login-form-wrap {margin:30px auto; width: 463px;}
+.login-form {*width: 463px; background:url(../images/church/user/login_sBg.gif) no-repeat; height:191px; padding:25px 40px;}
+.login-form-title {width: 383px; border-bottom: 1px solid #cfcfcf;}
+.login-form p {line-height: 24px;}
+.welcome {font-size:13px; color:#00a2e5; letter-spacing:-0.5px;}
+.err {font-size:11px; color:#969494; line-height: 16px; letter-spacing:-0.5px;}
+.login-form em {color:#fc4100;}
+.login-form table {margin: 20px auto 5px;}
+.login-form table th {font-weight:normal; color:#686868; width:56px; text-align:left; padding:8px 0 8px 0;}
+.login-form .checkbox {height:14px; width:14px; margin:0 3px 0; border:none;}
+#loginBtn {margin: 0 3px 0; width:61px; height:22px; background:url(../images/church/main/btn_login.gif) no-repeat; border:0 none;}
+#findOk {margin: 0 3px 0; width:60px; height:22px; background:url(../images/church/user/btn_ok.gif) no-repeat;}
+.login-form .join-link, .login-form .find-link {margin: 0 2px;}
+.btnArea {margin: 10px auto; width: 200px;}
+.join-link {float:left; display:block; width:62px; height:21px; background:url(../images/church/user/btn_join.gif) no-repeat; border:0 none; text-indent:-9999px; outline: none; select-dummy: expression(this.hideFocus=true);}
+.find-link {float: right; display:block; width:122px; height:21px; background:url(../images/church/user/btn_join.gif) no-repeat 0 -35px; border:0 none; text-indent:-9999px; outline: none; select-dummy: expression(this.hideFocus=true);}
+
+/*------- 회원가입 -------*/
+.join {width:820px; margin:0 auto; padding:30px 0;}
+.join h5 {height:15px; margin-top:40px; margin-bottom:10px; font-size:0; line-height:0; text-indent:-3000em; overflow:hidden;}
+.join h5.agreement {width:130px; background:url(../images/church/user/user_tit2.gif) no-repeat;}
+.join div.agreement {height:135px; border:1px solid #E6E6E6; padding:20px; color:#4C4C4C; overflow:auto; overflow-y:auto; line-height:18px;}
+.join div {display:block;}
+.join .agreement {line-height:18px;}
+.join .agreement h6 {font-size:12px; margin-bottom:0;}
+.join h6 {display:block; -webkit-margin-before:2.33em; -webkit-margin-after:2.33em; -webkit-margin-start:0px; -webkit-margin-end:0px; font-weight:bold;}
+.join .tit {display:block; margin:10px 0;}
+.doc_list, .doc_sub_list {padding-left:20px; line-height:18px;}
+.join .doc_list li {margin-top:0;}
+.doc_list li {margin-top:10px; list-style-type:decimal;}
+.doc_list_nostyle {padding-left:0;}
+.doc_list_nostyle li {margin-top:10px; list-style-type:none;}
+.join ol {display:block; list-style-type:decimal; -webkit-margin-before:1em; -webkit-margin-after:1em; -webkit-margin-start:0px; -webkit-margin-end:0px; -webkit-padding-start:40px;}
+.doc_sub_list li {margin-top:0; list-style-type:disc;}
+.join .agreement_check {margin-top:20px; text-align:center;}
+.join h5.agreement_info {width:130px; background:url(../images/church/user/user_tit2.gif) no-repeat 0 -35px;}
+div.agreement_info {height:135px; border:1px solid #E6E6E6; padding:20px; color:#4C4C4C; overflow:auto; overflow-y:auto; line-height:18px;}
+.doc_comment {line-height:18px; margin-bottom:10px;}
+.doc_comment_none {line-height:18px; margin:0px;}
+.agreement_info .doc_list_nostyle {padding-left:0;}
+.agreement_info .doc_list_nostyle li {margin-top:10px; list-style-type:none;}
+.agreement_info .doc_sub_list li {margin-top:0; list-style-type:disc;}
+.agreement_info .doc_list .topmargin {margin-top:10px;}
+.agreement_info .doc_list_nostyle2 {padding-left:0;}
+.agreement_info .doc_list_nostyle2 li {list-style-type:none;}
+.agreement_info .doc_list_nostyle2 .doc_sub_list li {margin-top:0; list-style-type:disc;}
+.join h5.joinCheck {width:130px; background:url(../images/church/user/user_tit2.gif) no-repeat 0 -68px;}
+.join div.joinCheck {height:240px; width:760px; background:url(../images/church/user/joinCheck_bg.gif) no-repeat; padding:20px 30px; float:left;}
+.ssn fieldset.ssn {display:block;}
+.join div.joinCheck .fields {float:left; width:100%; padding-bottom:20px;}
+.joinCheck .fields dt, .joinCheck .fields dd {float:left; line-height:25px; margin-bottom:5px;}
+.joinCheck .fields dt {clear:both; width:100px; padding-left:10px; background:url(../images/church/user/img_dot.gif) no-repeat 0 6px; font-weight:bold; color:#404040;}
+.joinCheck .fields dd {width:600px;}
+.joinCheck input.name {width:200px;}
+.joinCheck .field_desc {float:left; padding-top:20px; width:700px;}
+.field_desc li {float:left; line-height:18px; padding-left:5px; color:#666;}
+.join .btn_area {clear:both; padding-bottom:20px; text-align:center;}
+
+/*====================== 내정보 수정 (교회 정보 수정) =======================*/
+.myInfo {position: relative; margin: 30px auto; width: 680px; background-color:#F5F5F5; border: 1px solid #ddd; padding: 3px 7px;}
+.myInfo legend {border-bottom: 1px solid #e5e5e5; color:#333; display:block; font-size:21px; height:40px; line-height:40px; margin-bottom:20px; padding: 0; width:100%; visibility:visible;}
+.form-controls {margin: 20px 0;}
+.form-controls::before, .form-controls::after {content:""; display: table; line-height: 0;}
+.form-controls::after {clear: both;}
+.form-buttons:after {clear: both;}
+.form-buttons:before, .form-buttons:after {content: ""; display: table; line-height: 0;}
+.form-buttons:before, .form-buttons:after {content: ""; display: table; line-height: 0;}
+.form-buttons {background-color: #F5F5F5; border-top: 1px solid #E5E5E5; margin-bottom: 20px; margin-top: 20px; padding: 19px 20px 20px; text-align: center;}
+.form-buttons button {margin: 0 5px;}
+.form-control {margin-left: 160px;}
+.form-control-file {margin: 12px 0;}
+.form-label {float: left; text-align:right; width:140px; font-size: 14px; font-weight: normal; line-height: 20px;}
+.form-label-image {float: left; text-align:right; width:140px; font-size: 14px; font-weight: normal; line-height: 50px;}
+.user-email , .form-control-text {font-size: 14px; font-weight: normal; line-height: 20px; color: #666;}
+.form-controls em {font-size:11px; color: #666;}
+.form-control ul {margin-top: 10px;}
+.form-control ul .desc {display: block; width: 100px; margin-left: auto; margin-right: auto; color:#868b93;}
+
+/* 주소찾기 */
+.layerPopup {position:absolute; margin:0; padding:0;}
+.layerPopup.billFindZip {width:400px;}
+.layerPopup h1 {padding:13px 0 0 17px; width:383px; height:25px; font-size:12px; font-weight:bold; letter-spacing:-1px; background:url(../images/church/admin/findZip_titBg.gif) repeat-x; display:block;}
+.layerPopup .content {padding:45px 5px 0 5px;}
+.layerPopup.billArsA p {padding:17px 0; color:#666; line-height:17px; text-align:center;}
+.layerPopup.billArsA .point {font-weight:bold; color:#00a2e5;}
+.layerPopup.billFindZip p.infotext {margin:0; padding:7px 5px 7px 17px; color:#999; text-align:left;}
+.layerPopup.billFindZip .inputAdd {text-align:center;}
+.layerPopup.billFindZip .inputAdd input.text {height:14px; padding:3px 3px 3px 5px; width:320px; vertical-align:top; border:1px solid #ccc;}
+.layerPopup.billArsA .btnArea {text-align:center; padding:30px 0 20px 0;}
+.layerPopup .btnClose {position:absolute; right:12px; top:14px; height:13px; width:13px; text-align:right;}
+.layerPopup .content .dNone {display:none;}
+.layerPopup.billFindZip .selectZip {padding:11px 0 19px 0; text-align:center;}
+.layerPopup.billFindZip .selectZip select {width:330px;}
+
+.layerPopup .result_zipcode {height: 133px; overflow: auto; margin: 0 15px; padding: 9px 0; border: 1px solid #d7dcf0;}
+.layerPopup .result_zipcode a {display: block; height: 21px; line-height: 21px; padding-left: 9px; letter-spacing: -1px; overflow: hidden;}
+.layerPopup .result_zipcode a:hover {background-color: #e6eaf6; text-decoration: none;}
+
+/*----------- 에러 페이지 -------------*/
+.error_wrap {width:463px; margin:100px auto;}
+.error_box {padding:130px 0 150px 0;background:url(../images/church/user/login_sBg.gif) no-repeat; padding:25px 40px 28px 40px; height:190px}
+
+.waiting {padding: 5px 20px;}
+.waiting h3 {color: #ACACAC;}
+.waiting img {margin-right: 10px;}
+
+/* ERROR */
+/* div.validate-container {background: url("../images/commons/error.png") no-repeat scroll 15px center #FBE3E4; border: 1px solid #FBC2C4;  border-radius: 5px 5px 5px 5px; color: #8A1F11; *margin: 15px; padding: 10px 10px 10px 50px;} */
+div.validate-container ul, div.error-container {padding: 5px 15px;}
+div.validate-container li, div.error-container {list-style-type: none;}
+div.validate-container .error, div.error-container .error {font-size: .9em; color: #a33;}
+form input.error {border-color: #FBC2C4;}
+form textarea.error {border-color: #FBC2C4;}
+/*---------------------------------------------*/
+
+.empty-contents {margin: 10px; padding: 30px; text-align: center; height: 100px;}
+.empty-contents h1 {color: #BFBFBF;}
+.nocontents-unit{padding:60px;margin-bottom:30px;background-color:#eeeeee;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;}.hero-unit h1{margin-bottom:0;font-size:60px;line-height:1;color:inherit;letter-spacing:-1px;}
+.nocontents-unit p{font-size:18px;font-weight:200;line-height:30px;color:#aaaaaa; text-align: center; margin: 20px 0;}
+
+.break-word {word-wrap: break-word;}

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ReplyMapper">
+    <resultMap id="comment" type="BaseComments">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church" />
+        <result property="postingsId" column="ref_id" />
+        <result property="comments" column="comments" />
+        <result property="createdDate" column="comment_created_date" />
+        <association property="user" column="comments_user" javaType="User" resultMap="user" />
+    </resultMap>
+
+    <resultMap id="user" type="User">
+        <id property="id" column="comments_user_id"/>
+        <result property="email" column="comments_user_email"/>
+        <result property="name" column="comments_user_name"/>
+        <association property="photo" column="user_photo" javaType="Attachment" resultMap="attachment" />
+    </resultMap>
+
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fkId" column="ref_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+    
+    <select id="selectOne" parameterType="map" resultMap="comment">
+        SELECT
+            REPLY.id,
+            <if test="refTable != null">REF.ref_id as "ref_id",</if>
+            REPLY.comments,
+            REPLY.created_date as "comment_created_date",
+            REPLY.user_id as "comments_user",
+            USER.id as "comments_user_id",
+            USER.email as "comments_user_email",
+            USER.name as "comments_user_name",
+            ATTCH.id as "attach_id",
+            USER_PHOTO.ref_id,
+            ATTCH.file_name,
+            ATTCH.real_name,
+            ATTCH.content_type,
+            ATTCH.full_path,
+            ATTCH.parent_path,
+            ATTCH.size
+        FROM
+            church_comments REPLY
+        <if test="refTable != null">LEFT JOIN ${refTable} REF ON REF.id = REPLY.id</if>
+        LEFT JOIN user USER ON USER.id = REPLY.user_id
+        LEFT JOIN user_photo USER_PHOTO ON USER_PHOTO.ref_id = REPLY.user_id
+        LEFT JOIN attachment ATTCH ON ATTCH.id = USER_PHOTO.id
+        WHERE
+            REPLY.id = #{id}
+    </select>
+
+    <select id="selectList" parameterType="map" resultMap="comment">
+        SELECT
+            REPLY.id,
+            REF.ref_id as "ref_id",
+            REPLY.comments,
+            REPLY.created_date as "comment_created_date",
+            REPLY.user_id as "comments_user",
+            USER.id as "comments_user_id",
+            USER.email as "comments_user_email",
+            USER.name as "comments_user_name",
+            ATTCH.id as "attach_id",
+            USER_PHOTO.ref_id,
+            ATTCH.file_name,
+            ATTCH.real_name,
+            ATTCH.content_type,
+            ATTCH.full_path,
+            ATTCH.parent_path,
+            ATTCH.size
+        FROM
+            ${refTable} REF                        
+        LEFT JOIN church_comments REPLY ON REPLY.id = REF.id
+        LEFT JOIN user USER ON USER.id = REPLY.user_id
+        LEFT JOIN user_photo USER_PHOTO ON USER_PHOTO.ref_id = REPLY.user_id
+        LEFT JOIN attachment ATTCH ON ATTCH.id = USER_PHOTO.id
+        WHERE
+            REF.ref_id = #{refId}
+        ORDER BY REPLY.id DESC;
+    </select>
+        
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_comments
+        WHERE
+            id = #{id}
+    </delete>
+    
+    <delete id="deleteAll" parameterType="map">
+        DELETE FROM
+            church_comments
+        WHERE
+            id
+        IN (
+            SELECT 
+                id 
+            FROM
+                ${refTable}
+            WHERE
+                ref_id = #{refId}
+        )
+    </delete>
+    
+    <delete id="deleteAllByChurchId" parameterType="int">
+        DELETE FROM
+            church_comments
+        WHERE
+            church = #{id}
+    </delete>
+        
+    <insert id="insert" parameterType="BaseComments" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO church_comments (
+            church,
+            comments,
+            created_date,
+            user_id
+        )
+        VALUES (
+            #{churchId},
+            #{comments},
+            #{createdDate},
+            #{user.id}
+        )
+    </insert>
+
+    <update id="update" parameterType="BaseComments">
+        UPDATE
+            church_comments
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="comments != null">comments = #{comments},</if>
+        </trim>
+        WHERE
+            id = #{id}
+    </update>
+    
+    <insert id="insertRefTable" parameterType="map">
+        INSERT INTO ${refTable} (
+            id,
+            ref_id
+        )
+        VALUES (
+            #{id},
+            #{refId}
+        )
+    </insert>
+    
+    <delete id="deleteRefTable" parameterType="map">
+        DELETE FROM
+            ${refTable}
+        WHERE
+            id = #{id}
+    </delete>
+    
+    <delete id="deleteRefAll" parameterType="map">
+        DELETE FROM
+            ${refTable}
+        WHERE
+            ref_id = #{refId}
+    </delete>
+</mapper>

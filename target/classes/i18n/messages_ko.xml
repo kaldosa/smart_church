@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>i18n message</comment>
+    <entry key="label.business.title">Smart Church - 스마트 시대를 살아가는 크리스찬을 위한 서비스</entry>
+    <entry key="NotEmpty.subject">제목을 입력해주세요.</entry>
+    <entry key="Size.subject">제목은 {1} 이상 입력할 수 없습니다.</entry>
+    <entry key="NotEmpty.contents">내용을 입력해주세요.</entry>
+    <entry key="Size.contents">내용은 {1} 이상 입력할 수 없습니다.</entry>
+    <entry key="Size.sermon.preacher">설교자명은 {1} 이상 입력할 수 없습니다.</entry>
+    <entry key="NotNull.sermonDate">설교날짜를 입력해주세요. (yyyy.mm.dd 형식)</entry>
+    <entry key="NotEmpty.sermon.vod.required">설교영상을 첨부해 주세요.</entry>
+    <entry key="Invalid.sermon.flv">flv 만 허용됩니다.</entry>
+    <entry key="Invalid.sermon.mp4">mp4 만 허용됩니다.</entry>
+    <entry key="Invalid.sermon.note">text,doc 만 허용됩니다.</entry>
+    <entry key="Size.sermon.vod.limit">70Mb 이상 첨부할수 없습니다.</entry>
+    <entry key="Size.sermon.note.limit">3Mb 이상 첨부할수 없습니다.</entry>
+    <entry key="NotEmpty.churchOrg.name">기관명을 입력하세요.</entry>
+    <entry key="NotEmpty.churchOrg.intro">소개글을 입력하세요.</entry>
+    <entry key="NotEmpty.churchOrg.manager">담당자명을 입력하세요.</entry>
+    <entry key="Size.churchOrg.name">기관명은 {1} 이상 입력할 수 없습니다.</entry>
+    <entry key="Size.churchOrg.intro">소개글은 {1} 이상 입력할 수 없습니다.</entry>
+    <entry key="Size.churchOrg.manager">담당자명은 {1} 이상 입력할 수 없습니다.</entry>
+    <entry key="Invalid.album.img">JPEG, GIF, PNG 만 허용됩니다.</entry>
+    <entry key="required.file">첨부파일이 없습니다.</entry>
+    <entry key="invalid.file.mediatype"> 은 허용되지 않는 미디어타입입니다.</entry>
+    <entry key="invalid.file.size"> 은 제한 사이즈 {limit} byte를 초과하였습니다.</entry>
+    <entry key="Size.album.img.limit">앨범 사진은 {1} MB 이상은 첨부할 수 없습니다.</entry>
+    <entry key="NotEmpty.album.img.required">앨범 사진을 첨부해 주세요.</entry>
+    <entry key="Size.churchIntro.slogan">교회 표어는 {1} 이내로 입력해주세요.</entry>
+    <entry key="NotAllowed.sermon.video">허용되지 않는 미디어타입 또는 파일크기입니다.</entry>
+    <entry key="com.laonsys.validation.constraint.Kor.message">담당부장명은 {1} 이상 입력할 수 없습니다.</entry>
+    <entry key="com.laonsys.validation.constraint.Password.message">비밀번호는 영문, 숫자, 특수문자(.!@#$_-)를 4~32 자를 입력하세요.</entry>
+    <entry key="com.laonsys.validation.constraint.Phone.message">연락처가 올바르지 않습니다. (####-####-####)</entry>
+    <entry key="com.laonsys.validation.constraint.ValidEmail.message">사용중인 이메일입니다.</entry>
+    <entry key="commons.validation.constraint.NotEmpty.message">해당 필드는 반드시 입력해야 합니다.</entry>
+    <entry key="commons.validation.constraint.Length.message">{min}자 이상 {max}자 이하로 입력해 주세요.</entry>
+    <entry key="commons.validation.constraint.Email.message">이메일 주소가 올바른 형식이 아닙니다.</entry>
+</properties>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.UserMapper">
+
+  <resultMap id="authority" type="Authority">
+    <result property="userId" column="user_id" javaType="int" />
+    <result property="role" column="role" javaType="String" />
+  </resultMap>
+
+  <resultMap id="user" type="User">
+    <id property="id" column="id" />
+    <result property="email" column="email" />
+    <result property="name" column="name" />
+    <result property="password" column="password" />
+    <result property="contact" column="contact" />
+    <result property="joinedDate" column="joined_date" />
+    <result property="withdrawnDate" column="withdrawn_date" />
+    <result property="enabled" column="enabled" />
+    <association property="photo" column="photo" resultMap="attachment" />
+    <collection property="authorities" ofType="Authority" resultMap="authority" />
+  </resultMap>
+
+  <resultMap id="attachment" type="Attachment">
+    <id property="id" column="attach_id" />
+    <result property="fkId" column="ref_id" />
+    <result property="fileName" column="file_name" />
+    <result property="realFileName" column="real_name" />
+    <result property="contentType" column="content_type" />
+    <result property="path" column="full_path" />
+    <result property="parentPath" column="parent_path" />
+    <result property="fileSize" column="size" />
+  </resultMap>
+
+  <select id="findById" parameterType="int" resultMap="user">
+    SELECT
+      USER.id,
+      USER.email,
+      USER.name,
+      USER.password,
+      USER.contact,
+      USER.joined_date,
+      USER.withdrawn_date,
+      USER.enabled,
+      ATT.id as "attach_id",
+      ATT.file_name,
+      ATT.real_name,
+      ATT.content_type,
+      ATT.full_path,
+      ATT.parent_path,
+      ATT.size,
+      AUTH.user_id as "user_id",
+      AUTH.role
+    FROM
+      user USER
+    LEFT JOIN user_photo UPH ON UPH.ref_id = USER.id
+    LEFT JOIN attachment ATT ON ATT.id = UPH.id
+    LEFT JOIN authorities AUTH ON AUTH.user_id = USER.id
+    <where>
+      USER.id = #{id}
+    </where>
+  </select>
+
+  <select id="findByEmail" parameterType="map" resultMap="user">
+    SELECT
+      USER.id,
+      USER.email,
+      USER.name,
+      USER.password,
+      USER.contact,
+      USER.joined_date,
+      USER.withdrawn_date,
+      USER.enabled,
+      ATT.id as "attach_id",
+      ATT.file_name,
+      ATT.real_name,
+      ATT.content_type,
+      ATT.full_path,
+      ATT.parent_path,
+      ATT.size,
+      AUTH.user_id as "user_id",
+      AUTH.role
+    FROM
+      user USER
+    LEFT JOIN user_photo UPH ON UPH.ref_id = USER.id
+    LEFT JOIN attachment ATT ON ATT.id = UPH.id
+    LEFT JOIN authorities AUTH ON AUTH.user_id = USER.id
+    <where>
+      USER.email = #{email}
+      <if test="password != null">AND USER.password = #{password}</if>
+      <if test="name != null">AND USER.name = #{name}</if>
+    </where>
+  </select>
+
+  <select id="selectUser" parameterType="User" resultMap="user">
+    <if test="id != 0 or email != null">
+      SELECT
+        USER.id,
+        USER.email,
+        USER.name,
+        USER.password,
+        USER.contact,
+        USER.joined_date,
+        USER.withdrawn_date,
+        USER.enabled,
+        ATT.id as "attach_id",
+        ATT.file_name,
+        ATT.real_name,
+        ATT.content_type,
+        ATT.full_path,
+        ATT.parent_path,
+        ATT.size,
+        AUTH.user_id as "user_id",
+        AUTH.role
+      FROM
+        user USER
+      LEFT JOIN user_photo UPH ON UPH.ref_id = USER.id
+      LEFT JOIN attachment ATT ON ATT.id = UPH.id
+      LEFT JOIN authorities AUTH ON AUTH.user_id = USER.id
+      <where>
+        <choose>
+          <when test="id != 0">USER.id = #{id}</when>
+          <when test="email != null">
+            USER.email = #{email}
+            <if test="password != null">AND USER.password = #{password}</if>
+            <if test="name != null">AND USER.name = #{name}</if>
+          </when>
+        </choose>
+      </where>
+    </if>
+  </select>
+
+  <select id="totalCount" resultType="int">
+    SELECT COUNT(*) FROM user
+  </select>
+
+  <select id="count" parameterType="QueryParam" resultType="int">
+    SELECT
+      COUNT(*)
+    FROM
+      user
+    <where>
+      <choose>
+        <when test="criteria == 'name'">
+          AND name REGEXP #{keyword}
+        </when>
+        <when test="criteria == 'email'">
+          AND email = #{keyword}
+        </when>
+      </choose>
+    </where>
+  </select>
+
+  <select id="list" parameterType="QueryParam" resultMap="user">
+    SELECT
+      USER.id,
+      USER.email,
+      USER.name,
+      USER.password,
+      USER.contact,
+      USER.joined_date,
+      USER.withdrawn_date,
+      USER.enabled,
+      (select user_id from authorities where user_id = USER.id and (role = 'ROLE_ADMIN' or role = 'ROLE_CHURCHADMIN')) as
+      "user_id",
+        (select role from authorities where user_id = USER.id and (role = 'ROLE_ADMIN' or role = 'ROLE_CHURCHADMIN')) as "role"
+<!--             (select user_id from authorities where user_id = USER.id and (role = 'ROLE_ADMIN' or role regexp BINARY 'ROLE_[[:lower:]]+$')) as "user_id",
+            (select role from authorities where user_id = USER.id and (role = 'ROLE_ADMIN' or role regexp BINARY 'ROLE_[[:lower:]]+$')) as "role" -->
+    FROM
+      user USER
+    <where>
+      <choose>
+        <when test="criteria == 'name'">
+          AND name REGEXP #{keyword}
+        </when>
+        <when test="criteria == 'email'">
+          AND email = #{keyword}
+        </when>
+      </choose>
+    </where>
+    ORDER BY USER.id DESC
+    LIMIT #{paginate.startItem}, #{paginate.itemPerPage}
+  </select>
+
+  <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO user (
+        email, name, password, contact, joined_date, enabled
+    )
+    values (
+        #{email} , #{name}, #{password}, #{contact}, #{joinedDate}, #{enabled}
+    )
+  </insert>
+
+  <update id="update" parameterType="user">
+    UPDATE
+        user
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="name != null">name = #{name},</if>
+      <if test="password != null">password = #{password},</if>
+      <if test="contact != null">contact = #{contact},</if>
+      <if test="enabled != false">enabled = #{enabled},</if>
+    </trim>
+    WHERE
+        id = #{id}
+  </update>
+
+  <insert id="addAuthority" parameterType="Authority">
+    INSERT INTO
+      authorities (user_id, role)
+    VALUES (
+      #{userId}, #{role}
+    )
+  </insert>
+
+  <delete id="delAuthority" parameterType="Authority">
+    DELETE FROM
+      authorities
+    WHERE
+      user_id = #{userId} AND role = #{role}
+  </delete>
+
+  <insert id="addAuthorities" parameterType="map">
+    INSERT INTO authorities (user_id, role)
+    VALUES
+    <foreach collection="authorities" item="authority" open="(" separator="),(" close=")">
+      #{authority.userId}, #{authority.role}
+    </foreach>
+  </insert>
+
+  <delete id="deleteUserById" parameterType="int">
+    DELETE FROM user
+    <where>
+      id = #{id}
+    </where>
+  </delete>
+
+  <delete id="deleteUserByEmail" parameterType="string">
+    DELETE FROM user
+    <where>
+      email = #{user}
+    </where>
+  </delete>
+</mapper>

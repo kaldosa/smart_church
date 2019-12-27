@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchMetaMapper">
+	
+	<resultMap id="churchMeta" type="ChurchMeta">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+        <result property="pastor" column="pastor"/>
+		<result property="contact" column="contact"/>
+		<result property="address" column="address"/>
+        <result property="traffic" column="traffic"/>
+        <result property="serviceId" column="service_id"/>
+        <result property="serviceStatus" column="service_status"/>
+	</resultMap>
+    
+	<select id="count" parameterType="QueryParam" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+            church C
+        <where>
+            <choose>
+            <when test="criteria == 'name'">C.name REGEXP #{keyword}</when>
+            <when test="criteria == 'pastor'">C.pastor REGEXP #{keyword}</when>
+            <when test="criteria == 'address'">C.address REGEXP #{keyword}</when>
+            </choose>
+        </where>
+	</select>
+        
+    <select id="selectList" parameterType="QueryParam" resultMap="churchMeta">
+        SELECT
+            C.id,
+            C.name,
+            C.pastor,
+            C.contact,
+            C.address,
+            C.traffic,
+            A.id as "service_id",
+            A.status as "service_status"
+        FROM
+            church C
+        LEFT JOIN church_service A ON A.church = C.id
+        <where>
+            <choose>
+            <when test="criteria == 'name'">C.name REGEXP #{keyword}</when>
+            <when test="criteria == 'pastor'">C.pastor REGEXP #{keyword}</when>
+            <when test="criteria == 'address'">C.address REGEXP #{keyword}</when>
+            </choose>
+        </where>
+        ORDER BY C.id DESC
+        LIMIT
+            #{paginate.startItem}, #{paginate.itemPerPage}
+    </select>
+    
+    <select id="selectOne" parameterType="int" resultMap="churchMeta">
+        SELECT
+            C.id,
+            C.name,
+            C.pastor,
+            C.contact,
+            C.address,
+            C.traffic
+        FROM
+            church C
+        WHERE
+            C.id = #{id}
+    </select>
+
+    <select id="isExist" parameterType="ChurchMeta" resultType="boolean">
+        SELECT if( ((select count(*) from church where name = #{name} and address = #{address})) > 0 , true, false);
+    </select>
+    
+    <insert id="insert" parameterType="ChurchMeta" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO 
+            church (
+            name,
+            pastor,
+            contact,
+            address,
+            traffic
+        )
+        values (
+            #{name},
+            #{pastor}, 
+            #{contact}, 
+            #{address},
+            #{traffic}
+        )
+    </insert>
+    
+    <update id="update" parameterType="ChurchMeta">
+        UPDATE
+            church
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="pastor != null">pastor = #{pastor},</if>
+            <if test="contact != null">contact = #{contact},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="traffic != null">traffic = #{traffic},</if>
+        </trim>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church
+        <where>
+            id = #{id}
+        </where>
+    </delete>    
+</mapper>

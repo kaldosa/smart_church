@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ContactUsMapper">
+  <resultMap id="contactUs" type="ContactUs">
+    <id property="id" column="id" />
+    <result property="subject" column="subject" />
+    <result property="contents" column="content" />
+    <result property="isAnswer" column="whether_answer" />
+    <result property="createdDate" column="created_date" />
+    <association property="user" column="author_id" resultMap="author" />
+    <association property="reply" column="reply_id" resultMap="contactReply" />
+  </resultMap>
+
+  <resultMap id="contactReply" type="ContactReply">
+    <id property="id" column="reply_id" />
+    <result property="contactUs" column="contact_id" />
+    <result property="subject" column="reply_subject" />
+    <result property="contents" column="reply_content" />
+    <result property="createdDate" column="reply_created_date" />
+  </resultMap>
+  
+  <resultMap id="author" type="User">
+    <id property="id" column="author_id" />
+    <result property="name" column="name" />
+    <result property="email" column="email" />
+  </resultMap>
+
+  <select id="count" parameterType="QueryParam" resultType="int">
+    SELECT
+      COUNT(*)
+    FROM
+      contact_us CUS
+    LEFT JOIN user AUTHOR ON AUTHOR.id = CUS.author
+    <where>
+      <choose>
+        <when test="criteria == 'subject'">
+          AND CUS.subject REGEXP #{keyword}
+        </when>
+        <when test="criteria == 'name'">
+          AND AUTHOR.name = #{keyword}
+        </when>
+        <when test="criteria == 'email'">
+          AND AUTHOR.email = #{keyword}
+        </when>
+      </choose>
+    </where>
+  </select>
+
+  <select id="selectList" parameterType="QueryParam" resultMap="contactUs">
+    SELECT
+      CUS.id,
+      CUS.subject,
+      CUS.content,
+      CUS.whether_answer,
+      CUS.created_date,
+      AUTHOR.id as "author_id",
+      AUTHOR.name,
+      AUTHOR.email
+    FROM
+      contact_us CUS
+    LEFT JOIN user AUTHOR ON AUTHOR.id = CUS.author
+    <where>
+      <choose>
+        <when test="criteria == 'subject'">
+          AND CUS.subject REGEXP #{keyword}
+        </when>
+        <when test="criteria == 'name'">
+          AND AUTHOR.name = #{keyword}
+        </when>
+        <when test="criteria == 'email'">
+          AND AUTHOR.email = #{keyword}
+        </when>
+      </choose>
+    </where>
+    ORDER BY CUS.id DESC
+    LIMIT
+    #{paginate.startItem}, #{paginate.itemPerPage}
+  </select>
+
+  <select id="selectOne" parameterType="int" resultMap="contactUs">
+    SELECT
+      CUS.id,
+      CUS.subject,
+      CUS.content,
+      CUS.whether_answer,
+      CUS.created_date,
+      AUTHOR.id as "author_id",
+      AUTHOR.name,
+      AUTHOR.email,
+      CR.id as "reply_id",
+      CR.contact_id as "contact_id",
+      CR.subject as "reply_subject",
+      CR.content as "reply_content",
+      CR.created_date "reply_created_date"
+    FROM
+      contact_us CUS
+    LEFT JOIN user AUTHOR ON AUTHOR.id = CUS.author
+    LEFT JOIN contact_reply CR ON CR.contact_id = CUS.id
+    WHERE
+      CUS.id = #{id}
+  </select>
+
+  <insert id="create" parameterType="ContactUs" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO
+    contact_us (
+      subject,
+      content,
+      author,
+      created_date
+    )
+    values (
+      #{subject} , #{contents}, #{user.id}, #{createdDate}
+    )
+  </insert>
+
+  <update id="update" parameterType="ContactUs">
+    UPDATE
+      contact_us
+    SET
+      whether_answer = #{isAnswer}
+    <where>
+      id = #{id}
+    </where>
+  </update>
+
+  <delete id="delete" parameterType="int">
+    DELETE FROM
+      contact_us
+    <where>
+      id = #{id}
+    </where>
+  </delete>
+</mapper>

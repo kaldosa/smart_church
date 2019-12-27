@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchOrgMapper">
+    <resultMap id="org" type="ChurchOrg">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id" />
+        <result property="path" column="path" />
+        <result property="name" column="name" />
+        <result property="intro" column="intro" />
+        <result property="manager" column="manager" />
+        <result property="sort" column="sort" />
+        <result property="createdDate" column="created_date" />
+        <association property="attachment" column="attach_id" resultMap="attachment" />
+    </resultMap>
+
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fkId" column="ref_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+        
+    <select id="count" parameterType="QueryParam" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_org
+        WHERE
+            church_id = #{params.churchId}
+    </select>
+
+    <select id="selectAll" parameterType="QueryParam" resultMap="org">
+        SELECT
+            O.id,
+            O.church_id,
+            O.path,
+            O.name,
+            O.intro,
+            O.manager,
+            O.sort,
+            O.created_date,
+            A.id as "attach_id",
+            AR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_org O
+        LEFT JOIN church_org_attach AR ON AR.ref_id = O.id
+        LEFT JOIN attachment A ON A.id = AR.id
+        WHERE
+            O.church_id = #{params.churchId}
+        ORDER BY O.sort ASC
+    </select>
+
+    <select id="selectOne" parameterType="int" resultMap="org">
+        SELECT
+            O.id,
+            O.church_id,
+            O.path,
+            O.name,
+            O.intro,
+            O.manager,
+            O.sort,
+            O.created_date,
+            A.id as "attach_id",
+            AR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_org O
+        LEFT JOIN church_org_attach AR ON AR.ref_id = O.id
+        LEFT JOIN attachment A ON A.id = AR.id
+        WHERE
+            O.id = #{id}
+    </select>
+            
+    <insert id="create" parameterType="ChurchOrg" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO 
+            church_org (
+            church_id,
+            path,
+            name,
+            intro,
+            manager,
+            sort,
+            created_date
+        )
+        values (
+            #{churchId}, #{path}, #{name}, #{intro}, #{manager}, #{sort}, #{createdDate}
+        )   
+    </insert>
+
+    <update id="update" parameterType="ChurchOrg">
+        UPDATE
+            church_org
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="intro != null">intro = #{intro},</if>
+            <if test="manager != null">manager = #{manager},</if>
+            <if test="sort != null">sort = #{sort},</if>
+        </trim>
+        WHERE
+            id = #{id}
+    </update>
+                
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_org
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+</mapper>

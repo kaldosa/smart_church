@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <typeAliases>
+    <typeAlias alias="DateTime" type="org.joda.time.DateTime" />
+    <typeAlias alias="DateTimeTypeHandler" type="com.laonsys.springmvc.extensions.mybatis.handlers.DateTimeTypeHandler" />
+    
+    <typeAlias alias="Attachment" type="com.laonsys.springmvc.extensions.model.Attachment" />
+    <typeAlias alias="QueryParam" type="com.laonsys.springmvc.extensions.model.QueryParam" />
+
+    <typeAlias alias="User" type="com.laonsys.smartchurch.domain.User" />
+    <typeAlias alias="Authority" type="com.laonsys.smartchurch.domain.Authority" />
+    <typeAlias alias="Notice" type="com.laonsys.smartchurch.domain.Notice" />
+    <typeAlias alias="NoticeType" type="com.laonsys.smartchurch.domain.NoticeType" />
+    <typeAlias alias="Zipcode" type="com.laonsys.smartchurch.domain.Zipcode" />
+    <typeAlias alias="Posts" type="com.laonsys.smartchurch.domain.Posts" />
+    <typeAlias alias="BaseComments" type="com.laonsys.smartchurch.domain.BaseComments" />
+    <typeAlias alias="Comments" type="com.laonsys.smartchurch.domain.Comments" />
+    <typeAlias alias="ContactUs" type="com.laonsys.smartchurch.domain.ContactUs" />
+    <typeAlias alias="ContactReply" type="com.laonsys.smartchurch.domain.ContactReply" />
+    <typeAlias alias="TodayWords" type="com.laonsys.smartchurch.domain.TodayWords" />
+    <typeAlias alias="VerifyEmail" type="com.laonsys.smartchurch.domain.VerifyEmail" />
+    
+    <typeAlias alias="ChurchMeta" type="com.laonsys.smartchurch.domain.church.ChurchMeta" />
+    <typeAlias alias="OurChurch" type="com.laonsys.smartchurch.domain.church.OurChurch" />
+    <typeAlias alias="Intro" type="com.laonsys.smartchurch.domain.church.ChurchIntro" />
+    <typeAlias alias="History" type="com.laonsys.smartchurch.domain.church.History" />
+    <typeAlias alias="Worship" type="com.laonsys.smartchurch.domain.church.Worship" />
+    <typeAlias alias="Server" type="com.laonsys.smartchurch.domain.church.Server" />
+    <typeAlias alias="ChurchNews" type="com.laonsys.smartchurch.domain.church.ChurchNews" />
+    <typeAlias alias="Weekly" type="com.laonsys.smartchurch.domain.church.Weekly" />
+    <typeAlias alias="Pray" type="com.laonsys.smartchurch.domain.church.Pray" />
+    <typeAlias alias="Family" type="com.laonsys.smartchurch.domain.church.Family" />
+    <typeAlias alias="Album" type="com.laonsys.smartchurch.domain.church.Album" />
+    <typeAlias alias="Sermon" type="com.laonsys.smartchurch.domain.church.Sermon" />
+    <typeAlias alias="Message" type="com.laonsys.smartchurch.domain.church.Message" />
+    <typeAlias alias="ChurchOrg" type="com.laonsys.smartchurch.domain.church.ChurchOrg" />
+    <typeAlias alias="OrgPosts" type="com.laonsys.smartchurch.domain.church.OrgPosts" />
+    <typeAlias alias="Event" type="com.laonsys.smartchurch.domain.church.Event" />
+    <typeAlias alias="ChurchMember" type="com.laonsys.smartchurch.domain.church.ChurchMember" />    
+  </typeAliases>
+
+  <typeHandlers>
+    <typeHandler javaType="DateTime" jdbcType="DATE" handler="DateTimeTypeHandler" />
+  </typeHandlers>
+
+  <mappers>
+    <mapper resource="mybatis/user.xml" />
+    <mapper resource="mybatis/notice.xml" />
+    <mapper resource="mybatis/zipcode.xml" />
+    <mapper resource="mybatis/posts.xml" />
+    <mapper resource="mybatis/attachment.xml" />
+    <mapper resource="mybatis/reply.xml" />
+    <mapper resource="mybatis/contactUs.xml" />
+
+    <mapper resource="mybatis/churchService.xml" />
+    <mapper resource="mybatis/churchMeta.xml" />
+    <mapper resource="mybatis/churchIntro.xml" />
+    <mapper resource="mybatis/churchHistory.xml" />
+    <mapper resource="mybatis/churchServer.xml" />
+    <mapper resource="mybatis/churchWorship.xml" />
+    <mapper resource="mybatis/churchNews.xml" />
+    <mapper resource="mybatis/churchWeekly.xml" />
+    <mapper resource="mybatis/churchPray.xml" />
+    <mapper resource="mybatis/churchFamily.xml" />
+    <mapper resource="mybatis/churchAlbum.xml" />
+    <mapper resource="mybatis/churchSermon.xml" />
+    <mapper resource="mybatis/churchMessage.xml" />
+    <mapper resource="mybatis/churchOrg.xml" />
+    <mapper resource="mybatis/churchOrgPosts.xml" />
+    <mapper resource="mybatis/churchSchedule.xml" />
+    <mapper resource="mybatis/video.xml" />
+    <mapper resource="mybatis/verifyEmail.xml" />
+    <mapper resource="mybatis/todayWords.xml" />
+    <mapper resource="mybatis/churchMember.xml" />
+  </mappers>
+</configuration>

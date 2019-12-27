@@ -1,0 +1,1309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Smart church RESTful APIs</title>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript">/*<![CDATA[*/
+    $(document).ready(function() {
+        $('acronym').each(function() {
+            $(this).replaceWith($('<a />').attr({
+                    target: '_blank',
+                    href: 'https://ko.wikipedia.org/w/index.php?search=' + encodeURIComponent($(this).text())
+                })
+            .text($(this).text()));
+        });
+        
+        $('.link-btn').mouseover(function() {
+        	$(this).css("color", "#333");
+        });
+        
+        $('.link-btn').mouseout(function() {
+            $(this).css("color", "gray");
+        });
+    });
+/*]]>*/</script>
+</head>
+<body>
+<h1>Smart Church RESTful APIs</h1>
+
+<h2 class="page_title">목차</h2>
+<a style="display:scroll;position:fixed;bottom:20px;right:30px;" href="#" title=Top>
+<span class="link-btn">Top</span>
+</a>
+
+<a style="display:scroll;position:fixed;bottom:20px;left:30px;" href="index.html" title=Back>
+<span class="link-btn">Back</span>
+</a>
+
+<ul>
+<li><a href="#userAPIs">사용자 APIs</a>
+    <ul>
+        <li>non-oauth APIs
+            <ul>
+                <li><a href="#checkMail">인증코드 발송</a></li>
+                <li><a href="#verifyCode">인증코드 검증</a></li>
+                <li><a href="#joinUser">가입 신청</a></li>
+                <li><a href="#findPw">임시 비밀번호 요청</a></li>            
+            </ul>
+        </li>
+        <li>oauth APIs
+            <ul>
+                <li><a href="#getuid">사용자 uid</a></li>
+                <li><a href="#modify">내정보 수정</a></li>
+                <li><a href="#uploadMeditate">묵상노트 업로드</a></li>
+                <li><a href="#uploadPrayer">기도노트 업로드</a></li>
+                <li><a href="#listBibleView">성경읽기 묵상,기도노트 목록</a></li>
+                <li>묵상노트
+                    <ul>
+                        <li><a href="#listMeditate">묵상노트 목록</a></li>
+                        <li><a href="#viewMeditate">묵상노트 보기</a></li>
+                        <li><a href="#newMeditate">묵상노트 작성</a></li>
+                        <li><a href="#updateMeditate">묵상노트 수정</a></li>
+                        <li><a href="#deleteMeditate">묵상노트 삭제</a></li>
+                        <li><a href="#deleteMeditates">묵상노트 삭제 (여러개)</a></li>
+                    </ul>
+                </li>
+                <li>기도노트
+                    <ul>
+                        <li><a href="#listPrayer">기도노트 목록</a></li>
+                        <li><a href="#viewPrayer">기도노트 보기</a></li>
+                        <li><a href="#newPrayer">기도노트 작성</a></li>
+                        <li><a href="#updatePrayer">기도노트 수정</a></li>
+                        <li><a href="#deletePrayer">기도노트 삭제</a></li>
+                        <li><a href="#deletePrayers">묵상노트 삭제 (여러개)</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</li>
+</ul>
+
+<h2 id="userAPIs">사용자 APIs</h2>
+
+<div class="apidoc">
+
+<h3 id="checkMail">인증코드 발송</h3>
+<div class="api">
+<p>회원가입을 위해 사용할 이메일이 사용가능하지 확인을 위한 인증코드를 메일로 발송한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/usersupport/chekMail</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>email : 이메일주소</li>
+            </ul>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 상태 코드</li>
+                <li>reason : 상태 코드 설명</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 100,
+  "reason": "입력 정보가 잘못되었습니다."
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="verifyCode">인증코드 검증</h3>
+<div class="api">
+<p>이메일 유효성 검증을 위해 발송한 인증코드를 검증한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/usersupport/verifyCode</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>email : 이메일주소</li>
+                <li>code : 인증코드</li>
+            </ul>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 상태 코드</li>
+                <li>reason : 상태 코드 설명</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 100,
+  "reason": "입력 정보가 잘못되었습니다."
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="joinUser">가입 신청</h3>
+<div class="api">
+<p>사용자 가입 신청을 한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/usersupport/join</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>email : 이메일주소</li>
+                <li>password : 비밀번호</li>
+                <li>name : 이름</li>
+                <li>mobilePhone : 전화번호</li>
+                <li>payed : 기존 유료 앱 사용자유무 (true/false)</li>
+            </ul>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 상태 코드</li>
+                <li>reason : 상태 코드 설명</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 100,
+  "reason": "입력 정보가 잘못되었습니다."
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="findPw">임시 비밀번호 요청</h3>
+<div class="api">
+<p>비밀번호를 잊었을 때, 임시 비밀번호를 이메일로 발송한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/usersupport/find/password</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>email : 이메일</li>
+                <li>name : 이름</li>
+            </ul>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 상태 코드</li>
+                <li>reason : 상태 코드 설명</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 204,
+  "reason": "입력하신 정보와 일치하는 사용자가 없습니다. \n정확한 정보로 확인 후 다시 입력 부탁드립니다."
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="getuid">사용자 uid 요청</h3>
+<div class="api">
+<p>사용자의 uid를 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/getuid</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>email : email주소</li>
+            </ul>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 상태 코드</li>
+                <li>reason : 상태 코드 설명</li>
+                <li>data : 요청 관련 데이터
+                    <ul>
+                        <li>uid : 사용자 id</li>
+                        <li>email : 사용자 email</li>
+                        <li>name : 사용자 이름</li>
+                        <li>mobilePhone : 사용자 전화번호</li>
+                        <li>enable : 사용자 활성화 유무</li>
+                        <li>payed : 유료 앱사용자 유무</li>
+                        <li>photo : 사용자 프로필 사진
+                            <ul>
+                                <li>id : 이미지 id</li>
+                                <li>realFileName : 파일명</li>
+                                <li>parentPath : 경로</li>
+                                <li>fileSize : 파일 사이즈</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>            
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="modify">내정보 수정</h3>
+<div class="api">
+<p>사용자 정보를 수정한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/{uid}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>PUT</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>email : 이메일주소 (필수)</li>
+                <li>password : 비밀번호</li>
+                <li>name : 이름</li>
+                <li>mobilePhone : 전화번호</li>
+                <li>upload : 사용자 프로필 사진</li>
+            </ul>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 상태 코드</li>
+                <li>reason : 상태 코드 설명</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="uploadMeditate">묵상노트 업로드</h3>
+<div class="api">
+<p>앱 사용자의 묵상노트를 서버에 업로드한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/{uid}/uploadMeditate<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 id</span>
+</p>
+
+<h4>요청 헤드(Request Header)</h4>
+<p>Content-Type: application/json;charset=utf-8</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>version : 성경 버전</li>
+                <li>book : 성경책 인덱스</li>
+                <li>chapter : 장 인덱스</li>
+                <li>startVerse : 절 시작 인덱스</li>
+                <li>endVerse : 절 끝 인덱스</li>
+                <li>subject : 제목</li>
+                <li>verses : 성경 구절</li>
+                <li>content : 내용</li>
+                <li>determine : 결심한 내용</li>
+                <li>writtenDate : 작성일 (yyyy.MM.dd hh:mm 양식)</li>
+                <li>author : 사용자 id</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>요청 예제</th>
+        <td>
+<pre>
+[
+    {
+        "version": 1,
+        "book":1,
+        "chapter":0,
+        "startVerse":1,
+        "endVerse":2,
+        "subject":"test0",
+        "content":"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+        "verses":"창23:2~4\n2 사라가 가나안 땅 헤브론 곧 기럇아르바에서 죽으매 아브라함이 들어가서 사라를 위하여 슬퍼하며 애통하다가\n3 그 시신 앞에서 일어나 나가서 헷 족속에게 말하여 이르되\n4 나는 당신들 중에 나그네요 거류하는 자이니 당신들 중에서 내게 매장할 소유지를 주어 내가 나의 죽은 자를 내 앞에서 내어다가 장사하게 하시오\n\n창23:6\n6 내 주여 들으소서 당신은 우리 가운데 있는 하나님이 세우신 지도자이시니 우리 묘실 중에서 좋은 것을 택하여 당신의 죽은 자를 장사하소서 우리 중에서 자기 묘실에 당신의 죽은 자 장사함을 금할 자가 없으리이다\n\n",
+        "determine":"determine",
+        "author": 3,
+        "writtenDate":"2012.9.27"
+    },
+    {
+        "version": 1,
+        "book":1,
+        "chapter":0,
+        "startVerse":1,
+        "endVerse":2,
+        "subject":"test0",
+        "content":"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+        "verses":"창23:2~4\n2 사라가 가나안 땅 헤브론 곧 기럇아르바에서 죽으매 아브라함이 들어가서 사라를 위하여 슬퍼하며 애통하다가\n3 그 시신 앞에서 일어나 나가서 헷 족속에게 말하여 이르되\n4 나는 당신들 중에 나그네요 거류하는 자이니 당신들 중에서 내게 매장할 소유지를 주어 내가 나의 죽은 자를 내 앞에서 내어다가 장사하게 하시오\n\n창23:6\n6 내 주여 들으소서 당신은 우리 가운데 있는 하나님이 세우신 지도자이시니 우리 묘실 중에서 좋은 것을 택하여 당신의 죽은 자를 장사하소서 우리 중에서 자기 묘실에 당신의 죽은 자 장사함을 금할 자가 없으리이다\n\n",
+        "determine":"determine",
+        "author": 3,        
+        "writtenDate":"2012.9.27"
+    }
+]
+</pre>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 상태 코드</li>
+                <li>reason : 상태 코드 설명</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="uploadPrayer">기도노트 업로드</h3>
+<div class="api">
+<p>앱 사용자의 기도노트를 서버에 업로드한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/{uid}/uploadPrayer<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 id</span>
+</p>
+
+<h4>요청 헤드(Request Header)</h4>
+<p>Content-Type: application/json;charset=utf-8</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>version : 성경 버전</li>
+                <li>book : 성경책 인덱스</li>
+                <li>chapter : 장 인덱스</li>
+                <li>verse : 절 인덱스</li>
+                <li>subject : 제목</li>
+                <li>content : 내용</li>
+                <li>praise : 기도응답에 대한 소감</li>
+                <li>writtenDate : 작성일 (yyyy.MM.dd 양식)</li>
+                <li>responseDate : 기도 응답 받은 날 (yyyy.MM.dd hh:mm 양식)</li>
+                <li>author : 사용자 id</li>
+            </ul>        
+        </td>
+    </tr>
+    <tr>
+        <th>요청 예제</th>
+        <td>
+<pre>
+[
+    {
+        "version": 1,
+        "book":1,
+        "chapter":0,
+        "verse":1,
+        "subject":"test0",
+        "content":"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+        "praise":"determine",
+        "author": 3,
+        "writtenDate":"2012.9.27",
+        "responseDate":"2012.9.27"
+    }
+]
+</pre>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 상태 코드</li>
+                <li>reason : 상태 코드 설명</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listBibleView">성경읽기 묵상,기도노트 목록</h3>
+<div class="api">
+<p>성경읽기에서 해당 챕터에 대한 묵상,기도노트 목록을 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/bible?version=${version}&amp;book=${book}&amp;chapter=${chapter}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br/>
+<span class="pathParam"><strong>version : </strong> 성경 버전 (성경읽기에서만 사용되는 요청 파라미터)</span>
+<span class="pathParam"><strong>book : </strong> 성경책 인덱스 (성경읽기에서만 사용되는 요청 파라미터)</span>
+<span class="pathParam"><strong>chapter : </strong> 챕터(장) 인덱스 (성경읽기에서만 사용되는 요청 파라미터)</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                <ul>
+                    <li>plist : 기도노트 목록
+                        <ul>
+                            <li>id : 기도노트 ID</li>                        
+                            <li>version : 성경 버전</li>
+                            <li>book : 성경책 인덱스</li>
+                            <li>chapter : 장 인덱스</li>
+                            <li>verse : 절 인덱스</li>
+                            <li>subject : 제목</li>
+                            <li>content : 내용</li>
+                            <li>praise : 기도응답에 대한 소감</li>
+                            <li>writtenDate : 작성일 (yyyy.MM.dd 양식)</li>
+                            <li>responseDate : 기도 응답 받은 날 (yyyy.MM.dd 양식)</li>
+                            <li>author : 사용자 id</li>
+                        </ul>
+                    </li>
+                    <li>mlist : 묵상노트 목록
+                        <ul>
+                            <li>id : 묵상노트 ID</li>
+                            <li>version : 성경 버전</li>
+                            <li>book : 성경책 인덱스</li>
+                            <li>chapter : 장 인덱스</li>
+                            <li>startVerse : 절 시작 인덱스</li>
+                            <li>endVerse : 절 끝 인덱스</li>
+                            <li>subject : 제목</li>
+                            <li>verses : 성경구절</li>
+                            <li>content : 내용</li>
+                            <li>determine : 결심한 내용</li>
+                            <li>writtenDate : 작성일 (yyyy.MM.dd hh:mm 양식)</li>
+                            <li>author : 사용자 id</li>
+                        </ul>
+                    </li>
+                  </ul>                                
+              </li>
+            </ul>   
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "plist": [],
+    "mlist": [
+      {
+        "id": 25,
+        "version": 1,
+        "book": 1,
+        "chapter": 1,
+        "subject": "24",
+        "content": "ㅈㄴ튜ㅓ",
+        "writtenDate": "2012.10.22 12:00",
+        "startVerse": 3,
+        "endVerse": 0,
+        "determine": "",
+        "verses": "창1:3\n3 하나님이 이르시되 빛이 있으라 하시니 빛이 있었고\n\n창1:5\n5 하나님이 빛을 낮이라 부르시고 어둠을 밤이라 부르시니라 저녁이 되고 아침이 되니 이는 첫째 날이니라\n\n창1:7\n7 하나님이 궁창을 만드사 궁창 아래의 물과 궁창 위의 물로 나뉘게 하시니 그대로 되니라\n\n"
+      },
+      {
+        "id": 24,
+        "version": 1,
+        "book": 1,
+        "chapter": 1,
+        "subject": "23",
+        "content": "ㅈㄴ튜ㅓ",
+        "writtenDate": "2012.10.22 12:00",
+        "startVerse": 3,
+        "endVerse": 0,
+        "determine": "",
+        "verses": "창1:3\n3 하나님이 이르시되 빛이 있으라 하시니 빛이 있었고\n\n창1:5\n5 하나님이 빛을 낮이라 부르시고 어둠을 밤이라 부르시니라 저녁이 되고 아침이 되니 이는 첫째 날이니라\n\n창1:7\n7 하나님이 궁창을 만드사 궁창 아래의 물과 궁창 위의 물로 나뉘게 하시니 그대로 되니라\n\n"
+      },
+      {
+        "id": 23,
+        "version": 1,
+        "book": 1,
+        "chapter": 1,
+        "subject": "22",
+        "content": "ㅈㄴ튜ㅓ",
+        "writtenDate": "2012.10.22 12:00",
+        "startVerse": 3,
+        "endVerse": 0,
+        "determine": "",
+        "verses": "창1:3\n3 하나님이 이르시되 빛이 있으라 하시니 빛이 있었고\n\n창1:5\n5 하나님이 빛을 낮이라 부르시고 어둠을 밤이라 부르시니라 저녁이 되고 아침이 되니 이는 첫째 날이니라\n\n창1:7\n7 하나님이 궁창을 만드사 궁창 아래의 물과 궁창 위의 물로 나뉘게 하시니 그대로 되니라\n\n"
+      }
+  ]
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listMeditate">묵상노트 목록</h3>
+<div class="api">
+<p>사용자의 묵상노트 목록을 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/meditate?page=${page}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 묵상노트 목록
+                        <ul>
+                            <li>id : 묵상노트 ID</li>
+                            <li>version : 성경 버전</li>
+                            <li>book : 성경책 인덱스</li>
+                            <li>chapter : 장 인덱스</li>
+                            <li>startVerse : 절 시작 인덱스</li>
+                            <li>endVerse : 절 끝 인덱스</li>
+                            <li>subject : 제목</li>
+                            <li>verses : 성경구절</li>
+                            <li>content : 내용</li>
+                            <li>determine : 결심한 내용</li>
+                            <li>writtenDate : 작성일 (yyyy.MM.dd hh:mm 양식)</li>
+                            <li>author : 사용자 id</li>
+                        </ul>
+                    </li>
+                    <li>paginate : 페이징 정보
+                        <ul>
+                            <li>totalItem : 전체 아템 수</li>
+                            <li>totalPage : 전체 페이지 수</li>
+                            <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                            <li>page : 현재 페이지</li>
+                        </ul>
+                    </li> 
+                  </ul>                                
+              </li>
+            </ul>   
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="viewMeditate">묵상노트 뷰</h3>
+<div class="api">
+<p>특정 묵상노트를 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/meditate/${mid}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br/>
+<span class="pathParam"><strong>mid : </strong> 묵상노트 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                <ul>
+                    <li>meditate : 묵상노트
+                        <ul>
+                            <li>id : 묵상노트 ID</li>
+                            <li>version : 성경 버전</li>
+                            <li>book : 성경책 인덱스</li>
+                            <li>chapter : 장 인덱스</li>
+                            <li>startVerse : 절 시작 인덱스</li>
+                            <li>endVerse : 절 끝 인덱스</li>
+                            <li>subject : 제목</li>
+                            <li>verses : 성경구절</li>
+                            <li>content : 내용</li>
+                            <li>determine : 결심한 내용</li>
+                            <li>writtenDate : 작성일 (yyyy.MM.dd hh:mm 양식)</li>
+                            <li>author : 사용자 id</li>
+                        </ul>
+                    </li>
+                  </ul>                                
+              </li>
+            </ul>   
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+
+
+<h3 id="createPray">묵상노트 작성</h3>
+<div class="api">
+<p>묵상노트를 작성한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/meditate/new<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>version : 성경 버전</li>
+                <li>book : 성경책 인덱스</li>
+                <li>chapter : 장 인덱스</li>
+                <li>startVerse : 절 시작 인덱스</li>
+                <li>endVerse : 절 끝 인덱스</li>
+                <li>subject : 제목</li>
+                <li>verses : 성경 구절</li>
+                <li>content : 내용</li>
+                <li>determine : 결심한 내용</li>
+                <li>writtenDate : 작성일 (yyyy.MM.dd hh:mm 양식)</li>
+                <li>author : 사용자 id</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="updateMeditate">묵상노트 수정</h3>
+<div class="api">
+<p>묵상노트를 수정한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/meditate/${mid}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br />
+<span class="pathParam"><strong>mid : </strong> 묵상노트 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>PUT</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>id : 묵상노트 id</li>
+                <li>version : 성경 버전</li>
+                <li>book : 성경책 인덱스</li>
+                <li>chapter : 장 인덱스</li>
+                <li>startVerse : 절 시작 인덱스</li>
+                <li>endVerse : 절 끝 인덱스</li>
+                <li>subject : 제목</li>
+                <li>verses: 성경구절</li>
+                <li>content : 내용</li>
+                <li>determine : 결심한 내용</li>
+                <li>author : 사용자 id</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deleteMeditate">묵상노트 삭제</h3>
+<div class="api">
+<p>묵상노트를 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/meditate/${mid}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br />
+<span class="pathParam"><strong>mid : </strong> 묵상노트 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>DELETE</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deletesMeditate">묵상노트 삭제 (여러개)</h3>
+<div class="api">
+<p>묵상노트를 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/meditate/delete<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br />
+<span class="pathParam"><strong>mid : </strong> 묵상노트 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>deleteId : 노트 ID</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>요청 예제</th>
+        <td>deleteId=1&amp;deleteId=2&amp;deleteId=3</td>
+    </tr>    
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listPrayer">기도노트 목록</h3>
+<div class="api">
+<p>사용자의 기도노트 목록을 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/prayer?page=${page}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 기도노트 목록
+                        <ul>
+                            <li>id : 기도노트 ID</li>                        
+                            <li>version : 성경 버전</li>
+                            <li>book : 성경책 인덱스</li>
+                            <li>chapter : 장 인덱스</li>
+                            <li>verse : 절 인덱스</li>
+                            <li>subject : 제목</li>
+                            <li>content : 내용</li>
+                            <li>praise : 기도응답에 대한 소감</li>
+                            <li>writtenDate : 작성일 (yyyy.MM.dd 양식)</li>
+                            <li>responseDate : 기도 응답 받은 날 (yyyy.MM.dd 양식)</li>
+                            <li>author : 사용자 id</li>
+                        </ul>
+                    </li>
+                    <li>paginate : 페이징 정보
+                        <ul>
+                            <li>totalItem : 전체 아템 수</li>
+                            <li>totalPage : 전체 페이지 수</li>
+                            <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                            <li>page : 현재 페이지</li>
+                        </ul>
+                    </li> 
+                  </ul>                                
+              </li>
+            </ul>   
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+
+<h3 id="viewPrayer">기도노트 뷰</h3>
+<div class="api">
+<p>특정 기도노트를 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/prayer/${pid}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br/>
+<span class="pathParam"><strong>pid : </strong> 기도노트 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                <ul>
+                    <li>prayer : 기도노트
+                        <ul>
+                            <li>id : 기도노트 ID</li>                        
+                            <li>version : 성경 버전</li>
+                            <li>book : 성경책 인덱스</li>
+                            <li>chapter : 장 인덱스</li>
+                            <li>verse : 절 인덱스</li>
+                            <li>subject : 제목</li>
+                            <li>content : 내용</li>
+                            <li>praise : 기도응답에 대한 소감</li>
+                            <li>writtenDate : 작성일 (yyyy.MM.dd 양식)</li>
+                            <li>responseDate : 기도 응답 받은 날 (yyyy.MM.dd 양식)</li>
+                            <li>author : 사용자 id</li>
+                        </ul>
+                    </li>
+                  </ul>                                
+              </li>
+            </ul>   
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="newPrayer">기도노트 작성</h3>
+<div class="api">
+<p>기도노트를 작성한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/prayer/new<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>version : 성경 버전</li>
+                <li>book : 성경책 인덱스</li>
+                <li>chapter : 장 인덱스</li>
+                <li>verse : 절 인덱스</li>
+                <li>subject : 제목</li>
+                <li>content : 내용</li>
+                <li>writtenDate : 작성일 (yyyy.MM.dd 양식)</li>
+                <li>author : 사용자 id</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="updatePrayer">기도노트 수정</h3>
+<div class="api">
+<p>기도노트를 수정한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/prayer/${pid}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br />
+<span class="pathParam"><strong>pid : </strong> 기도노트 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>PUT</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>id : 묵상노트 id</li>
+                <li>version : 성경 버전</li>
+                <li>book : 성경책 인덱스</li>
+                <li>chapter : 장 인덱스</li>
+                <li>verse : 절 인덱스</li>
+                <li>subject : 제목</li>
+                <li>content : 내용</li>
+                <li>praise : 기도응답에 대한 소감</li>
+                <li>responseDate : 기도 응답 받은 날 (yyyy.MM.dd 양식)</li>
+                <li>author : 사용자 id</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deletePrayer">기도노트 삭제</h3>
+<div class="api">
+<p>기도노트를 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/prayer/${pid}<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span><br />
+<span class="pathParam"><strong>pid : </strong> 묵상노트 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>DELETE</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deletesPrayer">기도노트 삭제 (여러개)</h3>
+<div class="api">
+<p>기도노트를 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/user/${uid}/prayer/delete<br />
+<span class="pathParam"><strong>uid : </strong> 사용자 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+            <ul>
+                <li>deleteId : 노트 ID</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>요청 예제</th>
+        <td>deleteId=1&amp;deleteId=2&amp;deleteId=3</td>
+    </tr>    
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+</div>
+</body>
+</html>

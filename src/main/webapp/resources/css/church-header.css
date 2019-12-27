@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+
+.header {width: 100%; border-bottom: 3px solid #00a2e5; background-color: #fff;}
+#headerWrap {position: relative; height: 80px; width: 950px; margin: 0 auto;}
+#headerWrap h1 {position: absolute; float: left; top: 20px;}
+
+/*gnb */
+.gnb {float: right; padding: 37px 5px 0 0;}
+.gnb li {float: left; width: 105px; padding-top: 4px;}
+.gnb li a {display: block; font-size: 1.2em; font-weight: bold; color: #292929; letter-spacing: -0.1em;}
+.gnb li a:hover {color: #008fca;}
+.gnb p {float: right;}
+
+#menuContainer {position:relative; width:950px; margin:0 auto;}
+
+/*------- sub menu -------*/
+#subMenu1 {position:absolute; width:630px; height:20px; background:url(../images/church/common/gnb_bg.gif) no-repeat 0 0; top:-7px; right:50px; z-index:100; padding:13px 0 0 20px; color:#b5b5b5;}
+#subMenu2 {position:absolute; width:630px; height:20px; background:url(../images/church/common/gnb_bg.gif) no-repeat 0 -33px; top:-7px; right:50px; z-index:100; padding:13px 0 0 20px; color:#b5b5b5;}
+#subMenu3 {position:absolute; width:430px; height:20px; background:url(../images/church/common/gnb_bg.gif) no-repeat 0 -66px; top:-7px; right:50px; z-index:100; padding:13px 0 0 220px; color:#b5b5b5;}
+#subMenu4 {position:absolute; width:630px; height:20px; background:url(../images/church/common/gnb_bg.gif) no-repeat 0 -99px; top:-7px; right:50px; z-index:100; padding:13px 0 0 20px; color:#b5b5b5;}
+
+#subMenu1 a {color:#b5b5b5; padding:0 6px 0 6px;}
+#subMenu1 a:hover {color:#fff;}
+#subMenu2 a {color:#b5b5b5; padding:0 6px 0 6px;}
+#subMenu2 a:hover {color:#fff;}
+#subMenu3 a {color:#b5b5b5; padding:0 6px 0 6px;}
+#subMenu3 a:hover {color:#fff;}
+#subMenu4 a {color:#b5b5b5; padding:0 6px 0 6px;}
+#subMenu4 a:hover {color:#fff;}

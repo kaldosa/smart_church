@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.AttachmentMapper">
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fkId" column="ref_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+
+    <select id="selectOne" parameterType="int" resultMap="attachment">
+        SELECT
+            *
+        FROM
+            attachment
+        WHERE
+            id = #{id}
+    </select>
+
+    <select id="selectList" parameterType="map" resultMap="attachment">
+        SELECT
+            *
+        FROM
+            ${refTable} REF
+        LEFT JOIN attachment A ON REF.id = A.id
+        WHERE
+            REF.ref_id = #{refId}
+        <if test="page > 0">
+            ORDER BY REF.id DESC
+            LIMIT #{page} , #{rowCount}
+        </if>
+    </select>
+        
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            attachment
+        WHERE
+            id = #{id}
+    </delete>
+
+    <delete id="deleteAll" parameterType="map">
+        DELETE FROM
+            attachment
+        WHERE
+            id
+        IN (
+            SELECT 
+                id 
+            FROM
+                ${refTable}
+            WHERE
+                ref_id = #{refId}
+        )
+    </delete>
+    
+    <select id="selectAllByParentPath" resultMap="attachment">
+        SELECT
+            *
+        FROM
+            attachment
+        WHERE
+            parent_path = #{parentPath}
+    </select>
+    
+    <delete id="deleteAllByParentPath" parameterType="string">
+        DELETE FROM
+            attachment
+        WHERE
+            parent_path = #{parentPath}
+    </delete>
+    
+    <insert id="insert" parameterType="Attachment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO attachment (
+            file_name,
+            real_name,
+            content_type,
+            full_path,
+            parent_path,
+            size,
+            save_date
+        )
+        VALUES (
+            #{fileName},
+            #{realFileName},
+            #{contentType},
+            #{path},
+            #{parentPath},
+            #{fileSize},
+            now()
+        )            
+    </insert>
+    
+    <insert id="insertList" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO attachment (
+            file_name,
+            real_name,
+            content_type,
+            full_path,
+            parent_path,
+            size,
+            save_date
+        )
+        VALUES
+        <foreach collection="attachments" item="attachment" open="(" separator="),(" close=")">
+            #{attachment.fkId},
+            #{attachment.fileName},
+            #{attachment.realFileName},
+            #{attachment.contentType},
+            #{attachment.path},
+            #{attachment.parentPath},
+            #{attachment.fileSize},
+            now()
+        </foreach>
+    </insert>
+        
+    <select id="totalAttachSize" parameterType="map" resultType="long">
+        SELECT SUM(size) FROM attachment
+        <where>
+            parent_path = #{path}
+            <if test="type == true">AND content_type REGEXP '^video'</if>
+        </where>
+    </select>
+    
+    <insert id="insertRefTable" parameterType="map">
+        INSERT INTO ${refTable} (
+            id,
+            ref_id
+        )
+        VALUES (
+            #{id},
+            #{refId}
+        )
+    </insert>
+    
+    <delete id="deleteRefTable" parameterType="map">
+        DELETE FROM
+            ${refTable}
+        WHERE
+            id = #{id}
+    </delete>
+    
+    <delete id="deleteRefAll" parameterType="map">
+        DELETE FROM
+            ${refTable}
+        WHERE
+            ref_id = #{refId}
+    </delete>
+</mapper>

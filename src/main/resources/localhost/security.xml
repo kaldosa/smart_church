@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:sec="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+  xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<!-- security authentication event logger listener -->
+  <bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
+
+	<!-- <sec:global-method-security secured-annotations="enabled" proxy-target-class="true" /> -->
+
+  <http pattern="/resources/**" security="none" xmlns="http://www.springframework.org/schema/security" />
+  <http pattern="/popup/**" security="none" xmlns="http://www.springframework.org/schema/security" />
+  <http pattern="/upload/**" security="none" xmlns="http://www.springframework.org/schema/security" />
+  <http pattern="/retriveResource/**" security="none" xmlns="http://www.springframework.org/schema/security" />
+  <http pattern="/errors/**" security="none" xmlns="http://www.springframework.org/schema/security" />
+  <http pattern="/updateBrowser" security="none" xmlns="http://www.springframework.org/schema/security" />
+  <http pattern="/favicon.ico" security="none" xmlns="http://www.springframework.org/schema/security" />
+
+  <http pattern="/oauth/token" disable-url-rewriting="true" create-session="stateless" authentication-manager-ref="clientAuthenticationManager"
+    entry-point-ref="oauthAuthenticationEntryPoint" xmlns="http://www.springframework.org/schema/security">
+    <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+    <anonymous enabled="false" />
+    <http-basic entry-point-ref="oauthAuthenticationEntryPoint" />
+        <!-- include this only if you need to authenticate clients via request parameters -->
+    <custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER" />
+    <access-denied-handler ref="oauthAccessDeniedHandler" />
+  </http>
+
+  <http pattern="/apis/(church|user)/.*" request-matcher="regex" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint"
+    use-expressions="true" xmlns="http://www.springframework.org/schema/security">
+    <anonymous enabled="false" />
+    <intercept-url pattern="/apis/church/([^/].*?)/.*"
+      access="#oauth2.clientHasRole('ROLE_CLIENT') and (hasRole('ROLE_USER') or #oauth2.isClient()) and #oauth2.hasScope('read') and #oauth2.hasScope('write')" />
+    <intercept-url pattern="/apis/user/([^/].*?)/.*"
+      access="#oauth2.clientHasRole('ROLE_CLIENT') and (hasRole('ROLE_USER') or #oauth2.isClient()) and #oauth2.hasScope('read') and #oauth2.hasScope('write')" />
+
+    <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+    <access-denied-handler ref="oauthAccessDeniedHandler" />
+    <expression-handler ref="oauthWebExpressionHandler" />
+  </http>
+
+  <http pattern="/church/**/admin/**" use-expressions="true" xmlns="http://www.springframework.org/schema/security">
+    <access-denied-handler error-page="/church/denied" />
+    <form-login login-page="/auth/login?error=true" authentication-failure-handler-ref="loginFailureHandler"
+      login-processing-url="/auth/login/j_spring_security_check" authentication-success-handler-ref="churchLoginSuccessHandler" />
+    <logout logout-url="/auth/login/j_spring_security_logout" success-handler-ref="churchLogoutSuccessHandler" />
+    <sec:remember-me use-secure-cookie="true" user-service-ref="userService" />
+    <sec:custom-filter position="FIRST" ref="httpsCookieFilter" />
+    <sec:expression-handler ref="webExpressionHandler" />
+  </http>
+
+  <http pattern="/church/**" use-expressions="true" xmlns="http://www.springframework.org/schema/security">
+    <access-denied-handler ref="churchAccessDeniedHandler" />
+    <form-login login-page="/auth/login?error=true" authentication-failure-handler-ref="loginFailureHandler"
+      login-processing-url="/auth/login/j_spring_security_check" authentication-success-handler-ref="churchLoginSuccessHandler" />
+    <logout logout-url="/auth/login/j_spring_security_logout" success-handler-ref="churchLogoutSuccessHandler" />
+    <sec:remember-me use-secure-cookie="true" user-service-ref="userService" />
+    <sec:custom-filter position="FIRST" ref="httpsCookieFilter" />
+    <sec:expression-handler ref="webExpressionHandler" />
+  </http>
+
+  <http use-expressions="true" disable-url-rewriting="true" xmlns="http://www.springframework.org/schema/security">
+    <access-denied-handler error-page="/auth/denied" />
+    <intercept-url pattern="/" access="permitAll" />
+    <intercept-url pattern="/oauth/**" access="ROLE_USER" />
+    <intercept-url pattern="/ajax/**" access="permitAll" />
+    <intercept-url pattern="/test/**" access="permitAll" />
+    <intercept-url pattern="/apis/usersupport/**" access="permitAll" />
+    <intercept-url pattern="/join/**" access="permitAll" />
+    <intercept-url pattern="/findUser/**" access="permitAll" />
+    <intercept-url pattern="/auth/**" access="permitAll" />
+    <intercept-url pattern="/notices/**" access="permitAll" />
+    <intercept-url pattern="/listChurch*" access="permitAll" />
+    <intercept-url pattern="/introduction" access="permitAll" />
+    <intercept-url pattern="/guide" access="permitAll" />
+    <intercept-url pattern="/faq" access="permitAll" />
+    <intercept-url pattern="/terms/**" access="permitAll" />
+    <intercept-url pattern="/application-service/**" access="permitAll" />
+    <intercept-url pattern="/application-service/register" access="hasAnyRole('ROLE_USER')" />
+    <intercept-url pattern="/application-service/signup" access="hasAnyRole('ROLE_USER')" />
+    <intercept-url pattern="/contactUs" access="hasAnyRole('ROLE_USER')" />
+    <intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ADMIN')" />
+    <intercept-url pattern="/**" access="denyAll" requires-channel="any" />
+    <form-login login-page="/auth/login?error=true" authentication-failure-handler-ref="loginFailureHandler"
+      login-processing-url="/auth/login/j_spring_security_check" authentication-success-handler-ref="churchLoginSuccessHandler" />
+    <logout logout-url="/auth/login/j_spring_security_logout" success-handler-ref="churchLogoutSuccessHandler" />
+    <sec:remember-me use-secure-cookie="true" user-service-ref="userService" />
+    <sec:custom-filter position="FIRST" ref="httpsCookieFilter" />
+  </http>
+
+  <authentication-manager alias="authenticationManager" xmlns="http://www.springframework.org/schema/security">
+    <authentication-provider user-service-ref="userService">
+      <password-encoder hash="sha-256">
+        <salt-source user-property="email" />
+      </password-encoder>
+    </authentication-provider>
+  </authentication-manager>
+
+  <bean id="httpsCookieFilter" class="com.laonsys.springmvc.extensions.security.filter.HttpsCookieFilter" />
+
+  <bean id="loginFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+    <property name="defaultFailureUrl" value="/auth/login?error=true" />
+    <property name="exceptionMappings">
+      <map>
+        <entry key="org.springframework.security.authentication.DisabledException" value="/joinUser/notEnable" />
+      </map>
+    </property>
+  </bean>
+    
+    <!-- 우리교회 로그인/로그아웃 후 교회 URL 을 유지하기 위한 조치 -->
+  <bean id="churchAccessDeniedHandler" class="com.laonsys.smartchurch.utiles.ChurchAccessDeniedHandler" />
+  <bean id="churchLoginSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+    <property name="targetUrlParameter" value="spring-security-redirect" />
+  </bean>
+
+  <bean id="churchLogoutSuccessHandler" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+    <property name="targetUrlParameter" value="spring-security-redirect" />
+  </bean>
+    
+    <!-- OAuth 2.0 -->
+  <bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+    <property name="realmName" value="smartchurch" />
+  </bean>
+
+  <bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+
+  <bean id="clientCredentialsTokenEndpointFilter" class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+    <property name="authenticationManager" ref="clientAuthenticationManager" />
+  </bean>
+
+  <authentication-manager id="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+    <authentication-provider user-service-ref="clientDetailsUserService" />
+  </authentication-manager>
+
+  <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+    <constructor-arg>
+      <list>
+        <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
+        <bean class="org.springframework.security.access.vote.RoleVoter" />
+        <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+    <constructor-arg ref="clientDetails" />
+  </bean>
+
+  <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
+
+  <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+    <property name="tokenStore" ref="tokenStore" />
+    <property name="supportRefreshToken" value="true" />
+    <property name="clientDetailsService" ref="clientDetails" />
+  </bean>
+
+  <bean id="userApprovalHandler" class="com.laonsys.smartchurch.service.UserApprovalHandler">
+    <property name="autoApproveClients">
+      <set>
+        <value>my-less-trusted-autoapprove-client</value>
+      </set>
+    </property>
+    <property name="tokenServices" ref="tokenServices" />
+  </bean>
+
+  <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
+    user-approval-handler-ref="userApprovalHandler">
+    <oauth:password />
+  </oauth:authorization-server>
+
+  <oauth:resource-server id="resourceServerFilter" resource-id="smartchurch" token-services-ref="tokenServices" />
+
+  <oauth:client-details-service id="clientDetails">
+    <oauth:client client-id="smartchurch" resource-ids="smartchurch" authorized-grant-types="password"
+      authorities="ROLE_CLIENT" scope="read,write" secret="laonsys@smartchurch" />
+  </oauth:client-details-service>
+
+  <oauth:expression-handler id="oauthExpressionHandler" />
+  <oauth:web-expression-handler id="oauthWebExpressionHandler" />
+
+</beans>

@@ -1,0 +1,3578 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Smart church RESTful APIs</title>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript">/*<![CDATA[*/
+    $(document).ready(function() {
+        $('acronym').each(function() {
+            $(this).replaceWith($('<a />').attr({
+                    target: '_blank',
+                    href: 'https://ko.wikipedia.org/w/index.php?search=' + encodeURIComponent($(this).text())
+                })
+            .text($(this).text()));
+        });
+        
+        $('.link-btn').mouseover(function() {
+        	$(this).css("color", "#333");
+        });
+        
+        $('.link-btn').mouseout(function() {
+            $(this).css("color", "gray");
+        });
+    });
+/*]]>*/</script>
+</head>
+<body>
+<h1>Smart Church RESTful APIs</h1>
+
+<h2 class="page_title">목차</h2>
+<a style="display:scroll;position:fixed;bottom:20px;right:30px;" href="#" title=Top>
+<span class="link-btn">Top</span>
+</a>
+
+<a style="display:scroll;position:fixed;bottom:20px;left:30px;" href="index.html" title=Back>
+<span class="link-btn">Back</span>
+</a>
+<ul>
+<li><a href="#churchAPIs">우리교회 APIs</a>
+    <ul>
+      <li><a href="#listChurch">교회 검색</a></li>
+      <li><a href="#listService">우리교회 서비스 검색</a></li>
+      <li><a href="#church">특정 교회정보</a>
+        <ul>
+        
+      <li><a href="#intro">인사말</a></li>
+      <li><a href="#history">연혁</a></li>
+      <li><a href="#worship">예배 안내</a></li>
+      <li><a href="#server">섬기는 분들</a></li>
+      <li><a href="#church">오시는 길</a></li>
+      <li>교회 새소식
+        <ul>
+         <li><a href="#listNews">교회 새소식 목록</a></li>
+         <li><a href="#viewNews">교회 새소식 보기</a></li>
+<!--      <li><a href="#listVersion">교회 새소식 작성</a></li>
+         <li><a href="#listVersion">교회 새소식 수정</a></li>
+         <li><a href="#listVersion">교회 새소식 삭제</a></li> -->
+        </ul>
+      </li>
+      <li>교회 주보
+        <ul>
+         <li><a href="#listWeekly">교회 주보 목록</a></li>
+         <li><a href="#viewWeekly">교회 주보 보기</a></li>
+<!--         <li><a href="#listVersion">교회 주보 작성</a></li>
+         <li><a href="#listVersion">교회 주보 수정</a></li>
+         <li><a href="#listVersion">교회 주보 삭제</a></li> -->
+        </ul>
+      </li>
+      <li>교회 일정
+        <ul>
+         <li><a href="#listEvent">교회 일정</a></li>
+        </ul>
+      </li>      
+      <li>교회 새가족
+        <ul>
+         <li><a href="#listFamily">새가족 목록</a></li>
+         <li><a href="#viewFamily">새가족 보기</a></li>
+        </ul>
+      </li>
+      <li>중보기도
+        <ul>
+         <li><a href="#listPray">중보기도 목록</a></li>
+         <li><a href="#viewPray">중보기도 보기</a></li>
+         <li><a href="#createPray">중보기도 작성</a></li>
+         <li><a href="#editPray">중보기도 수정</a></li>
+         <li><a href="#deletePray">중보기도 삭제</a></li>
+         <li><a href="#createPrayComment">중보기도 댓글 작성</a></li>
+         <li><a href="#deletePrayComment">중보기도 댓글 삭제</a></li>
+        </ul>
+      </li>
+      <li>설교
+        <ul>
+         <li><a href="#listSermon">설교 목록</a></li>
+         <li><a href="#viewSermon">설교 보기</a></li>
+        </ul>
+      </li>
+      <li>1분 메세지
+        <ul>
+         <li><a href="#listMessage">1분 메세지 목록</a></li>
+         <li><a href="#viewMessage">1분 메세지 보기</a></li>
+        </ul>
+      </li>
+      <li>교회 앨범
+        <ul>
+         <li><a href="#listAlbum">교회앨범 목록</a></li>
+         <li><a href="#viewAlbum">교회앨범 보기</a></li>
+         <li><a href="#createAlbumComment">교회앨범 댓글 작성</a></li>
+         <li><a href="#deleteAlbumComment">교회앨범 댓글 삭제</a></li>
+        </ul>
+      </li>
+      <li>교회기관
+        <ul>
+         <li><a href="#listOrg">교회기관 목록</a></li>
+         <li><a href="#listOrgPosts">교회기관 게시물 목록</a></li>
+         <li><a href="#viewOrgPosts">교회기관 게시물 보기</a></li>
+         <li><a href="#createOrgPosts">교회기관 게시물 작성</a></li>
+         <li><a href="#editOrgPosts">교회기관 게시물 수정</a></li>
+         <li><a href="#deleteOrgPosts">교회기관 게시물 삭제</a></li>
+         <li><a href="#createOrgPostsComment">교회기관 게시물 댓글 작성</a></li>
+         <li><a href="#deleteOrgPostsComment">교회기관 게시물 댓글 삭제</a></li>
+        </ul>
+      </li>
+        </ul>
+      </li>
+    </ul>
+</li>
+</ul>
+
+<h2 id="churchAPIs">우리교회 APIs</h2>
+<div class="apidoc">
+
+<h3 id="listChurch">교회 검색</h3>
+<div class="api">
+<p>사용자의 교회 설정을 위한 교회 검색 API</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/?page=${page}&amp;criteria=name&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 (name : 교회이름 , pastor : 담임목사, address : 교회주소)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 교회 목록
+                        <ul>
+                            <li>id : 교회 ID</li>
+                            <li>name : 교회 이름</li>
+                            <li>pastor : 담임 목사</li>
+                            <li>address : 주소</li>
+                            <li>contact : 전화번호</li>
+                            <li>serviceId : 우리교회 서비스 Id (ID 값이 0 이면 우리교회 서비스중이 아닌 교회)</li>
+                            <li>serviceStatus (option) : 우리교회 서비스 상태 (WAITING(서비스 승인 대기), SERVICE(서비스중), STOP(서비스 중지)) <br/>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>paginate : 페이징 정보
+                        <ul>
+                            <li>totalItem : 전체 아템 수</li>
+                            <li>totalPage : 전체 페이지 수</li>
+                            <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                            <li>page : 현재 페이지</li>
+                        </ul>
+                    </li> 
+                  </ul>                                
+              </li>
+            </ul>   
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+   "code": 0,
+   "description": "OK",
+   "data":
+   {
+       "list":
+       [
+           {
+               "id": 36652,
+               "name": "혜광교회",
+               "pastor": "장원봉 목사",
+               "address": "704-910 대구시 달서구 두류3동 612-11  ",
+               "contact": "053-628-0890",
+               "serviceId": 1,
+               "serviceStatus": "SERVICE"
+           },
+           {
+               "id": 32543,
+               "name": "혜광교회",
+               "pastor": "이병우 목사",
+               "address": "612-030 부산시 해운대구 좌동 경남선계A 117-1602  ",
+               "contact": "051-757-9460",
+               "serviceId": 0
+           },
+           {
+               "id": 32477,
+               "name": "혜광교회",
+               "pastor": "안창덕 목사",
+               "address": "611-089 부산시 연제구 연산9동 458-9  ",
+               "contact": "051-756-1401",
+               "serviceId": 0
+           },
+           {
+               "id": 32382,
+               "name": "혜광교회",
+               "pastor": "조수동 목사",
+               "address": "609-430 부산시 금정구 회동동 167-7  ",
+               "contact": "051-525-2202",
+               "serviceId": 0
+           },
+           {
+               "id": 29491,
+               "name": "혜광교회",
+               "pastor": "오완태 목사",
+               "address": "560-290 전라북도 전주시 완산구 삼천동 1가 752-1  ",
+               "contact": "063-221-3507",
+               "serviceId": 0
+           },
+           {
+               "id": 21979,
+               "name": "혜광교회",
+               "pastor": "문가호 목사",
+               "address": "451-800 경기도 평택시 팽성읍 근내리 58-12  ",
+               "contact": "031-691-6288",
+               "serviceId": 0
+           },
+           {
+               "id": 21788,
+               "name": "혜광교회",
+               "pastor": "남광현 목사",
+               "address": "449-900 경기도 용인시 기흥읍 신갈리 405-6  ",
+               "contact": "031-383-4258",
+               "serviceId": 0
+           },
+           {
+               "id": 19810,
+               "name": "혜광교회",
+               "pastor": "안종민 목사",
+               "address": "431-081 경기도 안양시 동안구 호계1동 995-5 호성빌딩  ",
+               "contact": "031-456-5046",
+               "serviceId": 0
+           },
+           {
+               "id": 17914,
+               "name": "혜광교회",
+               "pastor": "조성원 목사",
+               "address": "422-232 경기도 부천시 소사구 소사본2동 63-12  ",
+               "contact": "032-346-2443",
+               "serviceId": 0
+           },
+           {
+               "id": 14491,
+               "name": "혜광교회",
+               "pastor": "전동륜 목사",
+               "address": "405-223 인천시 남동구 구월3동 1108-12  ",
+               "contact": "032-421-1941",
+               "serviceId": 0
+           }
+       ],
+       "paginate":
+       {
+           "itemPerPage": 10,
+           "pagePerBlock": 10,
+           "totalItem": 13,
+           "totalPage": 2,
+           "page": 1,
+           "startPage": 1,
+           "endPage": 2
+       }
+   }
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listService">우리교회 서비스 검색</h3>
+<div class="api">
+<p>우리교회 서비스중인 교회 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service?page=${page}&amp;criteria=name&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 (이름)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어 (교회명)</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 교회 목록
+                        <ul>
+                            <li>id : 우리교회 서비스 ID</li>
+                            <li>path : 우리교회 root path</li>
+                            <li>status : 우리교회 서비스 상태 (SERVICE, STOP)</li>
+                            <li>createdDate : 우리교회 서비스 신청일</li>
+                            <li>modifiedDate : 우리교회 서비스 승인날짜</li>
+                            <li>enabled (현재는 사용안함) : true </li>
+                            <li>churchMeta : 교회 기본 정보
+                                <ul>
+                                    <li>church : 교회 ID</li>
+                                    <li>name : 교회 이름</li>
+                                    <li>pastor : 담임 목사</li>
+                                    <li>contact : 전화번호</li>
+                                    <li>address : 교회주소</li>
+                                </ul>
+                            </li>
+                            <li>applicant : 우리교회 서비스 신청인 (관리자)
+                                <ul>
+                                    <li>uid : user id</li>                                
+                                    <li>email: email</li>
+                                    <li>name: user name</li>
+                                </ul>
+                            </li>
+                            <li>logo : 로고 이미지
+                                <ul>
+                                <li>id : 이미지 id</li>
+                                <li>realFileName : 파일명</li>
+                                <li>parentPath : 경로</li>
+                                <li>fileSize : 파일 사이즈</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>paginate : 페이징 정보
+                        <ul>
+                            <li>totalItem : 전체 아템 수</li>
+                            <li>totalPage : 전체 페이지 수</li>
+                            <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                            <li>page : 현재 페이지</li>
+                        </ul>
+                    </li> 
+                  </ul>                                
+              </li>
+            </ul>   
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+   "code": 0,
+   "description": "OK",
+   "data":
+   {
+       "list":
+       [
+           {
+               "id": 1,
+               "createdDate": "2012.11.23",
+               "modifiedDate": "2012.11.23",
+               "churchMeta":
+               {
+                   "id": 36652,
+                   "name": "혜광교회",
+                   "pastor": "장원봉 목사",
+                   "address": "704-910 대구시 달서구 두류3동 612-11  ",
+                   "contact": "053-628-0890",
+                   "serviceId": 0
+               },
+               "applicant":
+               {
+                   "uid": 26,
+                   "email": "kkkk@kkkk.com",
+                   "name": "장원봉",
+                   "contact": null,
+                   "enable": false,
+                   "payed": false,
+                   "photo": null
+               },
+               "path": "eaf418d3257234a7",
+               "enabled": true,
+               "status": "SERVICE",
+               "logo":
+               {
+                   "id": 758,
+                   "fkId": 0,
+                   "fileName": "logo.gif",
+                   "realFileName": "eaf418d3257234a7/logo.gif",
+                   "contentType": "image/gif",
+                   "path": "http://resources.smartchurch.co.kr/eaf418d3257234a7/logo.gif",
+                   "parentPath": "eaf418d3257234a7",
+                   "fileSize": 3394
+               }
+           }
+       ],
+       "paginate":
+       {
+           "itemPerPage": 10,
+           "pagePerBlock": 10,
+           "totalItem": 1,
+           "totalPage": 1,
+           "page": 1,
+           "startPage": 1,
+           "endPage": 1
+       }
+   }
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="church">특정 교회 정보</h3>
+<div class="api">
+<p>특정 교회의 정보를 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+            <ul>
+                <li>code : 응답코드</li>
+                <li>description : 응답코드에 대한 설명</li>
+                <li>data : 요청 관련 데이터
+                <ul>
+                    <li>church : 교회정보
+                        <ul>
+                            <li>id : 우리교회 서비스 ID</li>
+                            <li>path : 우리교회 root path</li>
+                            <li>status : 우리교회 서비스 상태 (SERVICE, STOP)</li>
+                            <li>createdDate : 우리교회 서비스 신청일</li>
+                            <li>modifiedDate : 우리교회 서비스 승인날짜</li>
+                            <li>enabled (현재는 사용안함) : true </li>
+                            <li>churchMeta : 교회 기본 정보
+                                <ul>
+                                    <li>church : 교회 ID</li>
+                                    <li>name : 교회 이름</li>
+                                    <li>pastor : 담임 목사</li>
+                                    <li>contact : 전화번호</li>
+                                    <li>address : 교회주소</li>
+                                </ul>
+                            </li>
+                            <li>applicant : 우리교회 서비스 신청인 (관리자)
+                                <ul>
+                                    <li>uid : user id</li>                                
+                                    <li>email: email</li>
+                                    <li>name: user name</li>
+                                </ul>
+                            </li>
+                            <li>logo : 로고 이미지
+                                <ul>
+                                <li>id : 이미지 id</li>
+                                <li>realFileName : 파일명</li>
+                                <li>parentPath : 경로</li>
+                                <li>fileSize : 파일 사이즈</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                  </ul>                                
+              </li>
+            </ul>   
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+   "code": 0,
+   "description": "OK",
+   "data":
+   {
+       "church":
+       {
+           "id": 1,
+           "createdDate": "2012.11.23",
+           "modifiedDate": "2012.11.23",
+           "churchMeta":
+           {
+               "id": 36652,
+               "name": "혜광교회",
+               "pastor": "장원봉 목사",
+               "address": "704-910 대구시 달서구 두류3동 612-11  ",
+               "contact": "053-628-0890",
+               "serviceId": 0
+           },
+           "applicant":
+           {
+               "uid": 26,
+               "email": "kkkk@kkkk.com",
+               "name": "장원봉",
+               "contact": null,
+               "enable": false,
+               "payed": false,
+               "photo": null
+           },
+           "path": "eaf418d3257234a7",
+           "enabled": true,
+           "status": "SERVICE",
+           "logo":
+           {
+               "id": 758,
+               "fkId": 0,
+               "fileName": "logo.gif",
+               "realFileName": "eaf418d3257234a7/logo.gif",
+               "contentType": "image/gif",
+               "path": "http://resources.smartchurch.co.kr/eaf418d3257234a7/logo.gif",
+               "parentPath": "eaf418d3257234a7",
+               "fileSize": 3394
+           }
+       }
+   }
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="intro">인사말</h3>
+<div class="api">
+<p>교회 인사말을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/intro<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                  <li>intro : 교회 인사말
+                      <ul>
+                          <li>id : 교회 인사말 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>
+                          <li>slogan : 교회 표어</li>
+                          <li>intro : 인사말</li>
+                          <li>introImage : 인사말 이미지
+                              <ul>
+                                  <li>id : 이미지 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>                                
+                  </li>
+                </ul>
+            </li>
+          </ul>        
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "intro": {
+      "id": 3,
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+      "slogan": "하나님은 모두가 행복한 세상을 소망합니다.",
+      "intro": "&lt;ul style=&quot;font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; &quot;&gt;&lt;li style=&quot;font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; &quot;&gt;&lt;sup&gt;&lt;font size=&quot;3&quot; face=&quot;Verdana&quot;&gt;&lt;font color=&quot;#33cc00&quot;&gt;혜광교회&lt;/font&gt;는 대한예수교장로회(통합)소속 교회로서 장로교회의 전통과 개혁정신에 따라 흔들림없는 신앙적 바탕 위에 있으면서도 언제나 새로워지려고 애쓰는 교회입니다.&lt;/font&gt;&lt;/sup&gt;&lt;/li&gt;&lt;/ul&gt;&lt;font face=&quot;Verdana&quot;&gt;&lt;sup&gt;&lt;br&gt;&lt;/sup&gt;&lt;/font&gt;&lt;ul style=&quot;font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; &quot;&gt;&lt;li&gt;&lt;sup&gt;&lt;font size=&quot;3&quot; face=&quot;Verdana&quot;&gt;&lt;font color=&quot;#33cc00&quot;&gt;혜광교회&lt;/font&gt;는 사람을 살리고 사람을 세우는 일을 교회의 가장 중요한 과제로 삼고 하나님과 인간의 참된 만남과 교제를 중시하는 교회입니다.&lt;/font&gt;&lt;/sup&gt;&lt;/li&gt;&lt;/ul&gt;&lt;font face=&quot;Verdana&quot;&gt;&lt;sup&gt;&lt;br&gt;&lt;/sup&gt;&lt;/font&gt;&lt;ul style=&quot;font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; &quot;&gt;&lt;li&gt;&lt;sup&gt;&lt;font size=&quot;3&quot; face=&quot;Verdana&quot;&gt;&lt;font color=&quot;#33cc00&quot;&gt;혜광교회&lt;/font&gt;는 언제나 여러분을 위하여 열려 있는 여러분을 위한 여러분의 교회입니다.&lt;/font&gt;&lt;/sup&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div style=&quot;font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; &quot;&gt;&lt;sup&gt;&lt;font size=&quot;3&quot; face=&quot;Verdana&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/sup&gt;&lt;/div&gt;&lt;div style=&quot;font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; text-align: right; &quot;&gt;&lt;sup&gt;&lt;font size=&quot;3&quot; face=&quot;Verdana&quot;&gt;담임목사 &lt;b&gt;장원봉 &lt;/b&gt;목사&lt;/font&gt;&lt;/sup&gt;&lt;/div&gt;",
+      "introImage": {
+        "id": 216,
+        "fkId": 0,
+        "fileName": "main.jpg",
+        "realFileName": "eaf418d3257234a7/main.jpg",
+        "contentType": "image/jpeg",
+        "path": "http://resources.smartchurch.co.kr/eaf418d3257234a7/main.jpg",
+        "parentPath": "eaf418d3257234a7",
+        "fileSize": 23415
+      }
+    }
+  }
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="history">교회 연혁</h3>
+<div class="api">
+<p>교회 연혁을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/history<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                  <li>list : 교회 연혁
+                      <ul>
+                          <li>id : 교회 연혁 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>date : 날짜</li>
+                          <li>contents : 내용</li>
+                      </ul>                                
+                  </li>
+                </ul>
+              </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 71,
+        "churchId": 1,
+        ""date": "2012.09.01",
+        "contents": "김창수 교육전도사 부임",
+        "sort": 0
+      },
+      {
+        "id": 67,
+        "churchId": 1,
+        "date": "2012.09.01",
+        "contents": "장원봉 목사부임",
+        "sort": 1
+      },
+      {
+        "id": 65,
+        "churchId": 1,
+        "date": "2012.09.01",
+        "contents": "김성진 교육전도사 부임(2004. 3. 28 사임)",
+        "sort": 2
+      }
+  ]
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="worship">예배 안내</h3>
+<div class="api">
+<p>교회 예배 안내을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/worship<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 교회 예배안내
+                      <ul>
+                          <li>id : 교회 예배안내 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>title : 예배명</li>
+                          <li>time : 시간</li>
+                          <li>place : 장소</li>
+                          <li>sort : 정렬값</li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 9,
+        "churchId": 1,
+        "title": "주일낮 1부 예배",
+        "time": "09:00 오전",
+        "place": "본당",
+        "sort": 0
+      },
+      {
+        "id": 10,
+        "churchId": 1,
+        "title": "주일낮2부 예배",
+        "time": "11:00 오전",
+        "place": "본당",
+        "sort": 1
+      },
+      {
+        "id": 11,
+        "churchId": 1,
+        "title": "주일오후찬양예배",
+        "time": "02:00 오후",
+        "place": "본당",
+        "sort": 2
+      }
+    ]
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="server">섬기는 분들</h3>
+<div class="api">
+<p>교회 섬기는 분들을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/server<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+         <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>intro : 섬기는 분들 ( 목록 또는 null )
+                       <ul>
+                           <li>id : 섬기는 분들 ID</li>
+                           <li>churchId : 우리교회 ID</li>
+                           <li>path : 우리교회 root path</li>
+                           <li>name : 이름</li>
+                           <li>position : 직책</li>
+                           <li>intro : 소개글</li>
+                           <li>sort : 정렬값</li>
+                           <li>photo : 프로필 사진
+                              <ul>
+                                  <li>id : 이미지 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                           </li>
+                       </ul>
+                    </li>
+                </ul>
+            </li>
+         </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 72,
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+        "name": "장원봉",
+        "position": "목사",
+        "intro": "담임목사\r\n053-628-0890\r\n010-4053-0191",
+        "sort": 0,
+        "photo": {
+          "id": 169,
+          "fkId": 0,
+          "fileName": "staff1.gif",
+          "realFileName": "eaf418d3257234a7/staff1.gif",
+          "contentType": "image/gif",
+          "path": "http://resources.smartchurch.co.kr/eaf418d3257234a7/staff1.gif",
+          "parentPath": "eaf418d3257234a7",
+          "fileSize": 8901
+        }
+      },
+      {
+        "id": 73,
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+        "name": "김창수",
+        "position": "전도사",
+        "intro": "교육전도사\r\n010-2981-9101",
+        "sort": 1,
+        "photo": {
+          "id": 170,
+          "fkId": 0,
+          "fileName": "staff2.gif",
+          "realFileName": "eaf418d3257234a7/staff2.gif",
+          "contentType": "image/gif",
+          "path": "http://resources.smartchurch.co.kr/eaf418d3257234a7/staff2.gif",
+          "parentPath": "eaf418d3257234a7",
+          "fileSize": 8398
+        }
+      }
+    ]
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listNews">교회 새소식 목록</h3>
+<div class="api">
+<p>교회 새소식 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/news?page=${page}&amp;criteria=subject&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 : subject(제목), conents(제목+내용)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                      <li>list : 새소식 목록
+                          <ul>
+                              <li>id : 새소식 ID</li>
+                              <li>churchId : 우리교회 ID</li>
+                              <li>path : 우리교회 root path</li>
+                              <li>subject : 제목</li>
+                              <li>contents : 내용</li>
+                              <li>writerId : 작성자 ID</li>
+                              <li>writerName : 작성자 이름</li>
+                              <li>createdDate : 작성 날짜</li>
+                              <li>modifiedDate : 수정 날짜</li>
+                              <li>hits : 조회수</li>
+                              <li>attach : 첨부파일
+                                  <ul>
+                                      <li>id : 이미지 id</li>
+                                      <li>realFileName : 파일명</li>
+                                      <li>parentPath : 경로</li>
+                                      <li>fileSize : 파일 사이즈</li>
+                                  </ul>
+                              </li>
+                          </ul>                                
+                      </li>
+                      <li>paginate : 페이징 정보
+                          <ul>
+                              <li>totalItem : 전체 아템 수</li>
+                              <li>totalPage : 전체 페이지 수</li>
+                              <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                              <li>page : 현재 페이지</li>
+                          </ul>
+                      </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 5,
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+        "createdDate": "2012/08/17",
+        "subject": "스마트폰 서비스 개시",
+        "contents": "혜광교회 홈페이지도 스마트폰 서비스가 시작되었습니다.<div>Smart Church와 스마트한 신앙생활 하세요.</div>",
+        "writerId": 0,
+        "hits": 18,
+        "commentsCount": 0,
+        "attach":
+           {
+               "id": 667,
+               "fkId": 37,
+               "fileName": "Chrysanthemum.jpg",
+               "realFileName": "eaf418d3257234a7/6a99b823-8b3f-4d70-8171-150fedae2cfe.jpg",
+               "contentType": "image/jpeg",
+               "path": "http://resources.smartchurch.co.kr/eaf418d3257234a7/6a99b823-8b3f-4d70-8171-150fedae2cfe.jpg",
+               "parentPath": "eaf418d3257234a7",
+               "fileSize": 879394
+           }
+      }
+    ],
+    "paginate": {
+      "url": "kkkk",
+      "totalItem": 1,
+      "totalPage": 1,
+      "itemPerPage": 10,
+      "pagePerPageBlock": 10,
+      "startPage": 1,
+      "endPage": 1,
+      "page": 1,
+      "pageBlock": 1,
+      "itemStart": 0
+    }
+  }
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="viewNews">교회 새소식 보기</h3>
+<div class="api">
+<p>교회 새소식을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/news/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 새소식 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>news : 새소식
+                      <ul>
+                          <li>id : 새소식 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>writerId : 작성자 ID</li>
+                          <li>writerName : 작성자 이름</li>
+                          <li>createdDate : 작성 날짜</li>
+                          <li>modifiedDate : 수정 날짜</li>
+                          <li>hits : 조회수</li>
+                          <li>attach : 첨부파일
+                              <ul>
+                                  <li>id : 이미지 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "news": {
+      "id": 5,
+      "createdDate": "2012/08/17",
+      "subject": "스마트폰 서비스 개시",
+      "contents": "혜광교회 홈페이지도 스마트폰 서비스가 시작되었습니다.<div>Smart Church와 스마트한 신앙생활 하세요.</div>",
+      "writerId": 0,
+      "hits": 18,
+      "commentsCount": 0,
+      "churchId": 1,
+      "path": "eaf418d3257234a7",
+      "attach": {
+        "id": 184,
+        "fkId": 0,
+        "fileName": "logo.gif",
+        "realFileName": "eaf418d3257234a7/logo.gif",
+        "contentType": "image/gif",
+        "path": "http://resources.smartchurch.co.kr/eaf418d3257234a7/logo.gif",
+        "parentPath": "eaf418d3257234a7",
+        "fileSize": 3394
+      }
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listWeekly">교회 주보 목록</h3>
+<div class="api">
+<p>교회 주보 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/weekly?page=${page}&amp;criteria=subject&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 : subject(제목), conents(제목+내용)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 주보 목록
+                      <ul>
+                          <li>id : 주보 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>writerId : 작성자 ID</li>
+                          <li>writerName : 작성자 이름</li>
+                          <li>createdDate : 작성 날짜</li>
+                          <li>modifiedDate : 수정 날짜</li>
+                          <li>hits : 조회수</li>
+                          <li>attach : 첨부파일
+                              <ul>
+                                  <li>id : 이미지 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>                                
+                    </li>
+                    <li>paginate : 페이징 정보
+                      <ul>
+                          <li>totalItem : 전체 아템 수</li>
+                          <li>totalPage : 전체 페이지 수</li>
+                          <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                          <li>page : 현재 페이지</li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 8,
+        "createdDate": "2012/09/12",
+        "subject": "test",
+        "contents": "test",
+        "writerId": 0,
+        "hits": 4,
+        "commentsCount": 0,
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+        "attach":
+        {
+           "id": 583,
+           "fkId": 9,
+           "fileName": "우리교회.docx",
+           "realFileName": "kkkk/우리교회.docx",
+           "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+           "path": "http://resources.smartchurch.co.kr/kkkk/우리교회.docx",
+           "parentPath": "kkkk",
+           "fileSize": 16084
+       }
+      },
+      {
+        "id": 5,
+        "createdDate": "2012/08/17",
+        "subject": "유치부주보",
+        "contents": "주보",
+        "writerId": 0,
+        "hits": 11,
+        "commentsCount": 0,
+        "churchUrl": "kkkk",
+        "attach": {
+          "id": 183,
+          "fkId": 0,
+          "fileSize": 0
+        }
+      }
+    ],
+    "paginate": {
+      "url": "kkkk",
+      "totalItem": 2,
+      "totalPage": 1,
+      "itemPerPage": 10,
+      "pagePerPageBlock": 10,
+      "startPage": 1,
+      "endPage": 1,
+      "page": 1,
+      "pageBlock": 1,
+      "itemStart": 0
+    }
+  }
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="viewWeekly">교회 주보 보기</h3>
+<div class="api">
+<p>교회 주보를 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/weekly/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 주보 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>weekly : 주보
+                      <ul>
+                          <li>id : 주보 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>writerId : 작성자 ID</li>
+                          <li>writerName : 작성자 이름</li>
+                          <li>createdDate : 작성 날짜</li>
+                          <li>modifiedDate : 수정 날짜</li>
+                          <li>hits : 조회수</li>
+                          <li>attach : 첨부파일
+                              <ul>
+                                  <li>id : 이미지 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>
+                    </li>
+                
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "weekly": {
+      "id": 5,
+      "createdDate": "2012/08/17",
+      "subject": "유치부주보",
+      "contents": "주보",
+      "writerId": 0,
+      "hits": 11,
+      "commentsCount": 0,
+      "churchId": 1,
+      "path": "eaf418d3257234a7",
+      "attach": {
+        "id": 183,
+        "fkId": 0,
+        "fileName": "유치부주보.hwp",
+        "realFileName": "eaf418d3257234a7/814cc378-3bdd-4a14-baa3-ca6de410fa51.hwp",
+        "contentType": "application/haansofthwp",
+        "path": "http://resources.smartchurch.co.kr/eaf418d3257234a7/814cc378-3bdd-4a14-baa3-ca6de410fa51.hwp",
+        "parentPath": "eaf418d3257234a7",
+        "fileSize": 527360
+      }
+    }
+  }
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<h3 id="listEvent">교회 일정</h3>
+<div class="api">
+<p>교회 일정 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/schedule?start=${start}&amp;end=${end}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>start : </strong> 가져올 일정의 시작 시간 (초단위)</span><br/>
+<span class="pathParam"><strong>end : </strong> 가져올 일정의 끝 시간 (초단위)</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 일정 목록
+                      <ul>
+                          <li>id : 일정 ID</li>
+                          <li>title : 일정 내용</li>
+                          <li>allDay : 하루종일 유무</li>
+                          <li>start : 일정 시작일</li>
+                          <li>end : 종료일</li>
+                      </ul>                                
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 20,
+        "title": "금요기도회",
+        "allDay": true,
+        "start": "2012.11.19",
+        "end": "2012.08.10"
+      },
+      {
+        "id": 36,
+        "title": "어디까지",
+        "allDay": true,
+        "start": "2012.11.19",
+        "end": "2012.10.30"
+      },
+      {
+        "id": 37,
+        "title": "ㅇ오",
+        "allDay": true,
+        "start": "2012.11.19",
+        "end": "2012.10.30"
+      },
+      {
+        "id": 38,
+        "title": "????\r\n",
+        "allDay": true,
+        "start": "2012.11.19",
+        "end": "2012.10.30"
+      },
+      {
+        "id": 39,
+        "title": "반복반복반복",
+        "allDay": true,
+        "start": "2012.11.19",
+        "end": "2013.04.17"
+      }
+    ]
+  }
+}
+</pre>        
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listFamily">새가족 목록</h3>
+<div class="api">
+<p>새가족 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/family?page=${page}&amp;criteria=subject&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 : subject(제목), conents(제목+내용)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 새가족 목록
+                      <ul>
+                          <li>id : 새가족 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>
+                          <li>name : 이름</li>
+                          <li>intro : 소개글</li>
+                          <li>createdDate : 작성 날짜</li>
+                          <li>attachment : 새가족 사진
+                              <ul>
+                                  <li>id : 이미지 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>                                
+                    </li>
+                    <li>paginate : 페이징 정보
+                      <ul>
+                          <li>totalItem : 전체 아템 수</li>
+                          <li>totalPage : 전체 페이지 수</li>
+                          <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                          <li>page : 현재 페이지</li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 24,
+        "createdDate": "2012/08/10",
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+        "name": "이정희",
+        "intro": "이정희 성도님을 소개합니다. (김창수, 2009.2.7)",
+        "attachment": {
+          "id": 175,
+          "fkId": 0,
+          "fileName": "DSCF3026.jpg",
+          "realFileName": "kkkk/DSCF3026.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/DSCF3026.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 145107
+        }
+      },
+      {
+        "id": 23,
+        "createdDate": "2012/08/10",
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+        "name": "새가족",
+        "intro": "새가족을 소개합니다. (김창수, 2009.2.25)",
+        "attachment": {
+          "id": 174,
+          "fkId": 0,
+          "fileName": "IMGP3013.jpg",
+          "realFileName": "kkkk/IMGP3013.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/IMGP3013.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 219290
+        }
+      }
+    ],
+    "paginate": {
+      "url": "kkkk",
+      "totalItem": 4,
+      "totalPage": 1,
+      "itemPerPage": 10,
+      "pagePerPageBlock": 10,
+      "startPage": 1,
+      "endPage": 1,
+      "page": 1,
+      "pageBlock": 1,
+      "itemStart": 0
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listFamily">새가족 보기</h3>
+<!-- <div class="api">
+<p>새가족 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/family/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 새가족 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+              <li>result : 요청 성공여부</li>
+              <li>list : 새가족 목록
+                  <ul>
+                      <li>id : 새가족 ID</li>
+                      <li>churchUrl : 교회 url</li>
+                      <li>name : 이름</li>
+                      <li>intro : 소개글</li>
+                      <li>createdDate : 작성 날짜</li>
+                      <li>attachment : 새가족 사진
+                          <ul>
+                              <li>id : 이미지 id</li>
+                              <li>realFileName : 파일명</li>
+                              <li>parentPath : 경로</li>
+                              <li>fileSize : 파일 사이즈</li>
+                          </ul>
+                      </li>
+                  </ul>                                
+              </li>
+              <li>message : 요청 실패시 에러 메세지</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "result": true,
+  "family": {
+    "id": 24,
+    "createdDate": "2012/08/10",
+    "modifiedDate": null,
+    "churchUrl": "kkkk",
+    "name": "이정희",
+    "intro": "이정희 성도님을 소개합니다. (김창수, 2009.2.7)",
+    "attachment": {
+      "id": 175,
+      "fkId": 0,
+      "fileName": "DSCF3026.jpg",
+      "realFileName": "DSCF3026.jpg",
+      "contentType": "image/jpeg",
+      "path": "/var/tomcat/test/webapps/ROOT/upload/kkkk/DSCF3026.jpg",
+      "parentPath": "/upload/kkkk",
+      "fileSize": 145107
+    },
+    "upload": null
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div> -->
+
+<h3 id="listPray">중보기도 목록</h3>
+<div class="api">
+<p>중보기도 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/pray?page=${page}&amp;criteria=subject&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 : subject(제목), conents(제목+내용)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 중보기도 목록
+                      <ul>
+                          <li>id : 새소식 ID</li>
+                          <li>churchId : 우리교회 ID</li>                          
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>writedDate : 작성 날짜</li>
+                          <li>hits : 조회수</li>
+                          <li>commentsCount : 댓글수</li>
+                          <li>writerId : 작성자 ID</li>
+                          <li>writerName : 작성자 이름</li>
+                      </ul>                                
+                    </li>
+                    <li>paginate : 페이징 정보
+                      <ul>
+                          <li>totalItem : 전체 아템 수</li>
+                          <li>totalPage : 전체 페이지 수</li>
+                          <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                          <li>page : 현재 페이지</li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 10,
+        "churchId": 1,
+        "subject": "기도의 힘으로",
+        "contents": "세상을 이깁니다.",
+        "writedDate": "2012/08/23",
+        "hits": 7,
+        "commentsCount": 1,
+        "writerId": 27,
+        "writerName": "김동욱"
+      },
+      {
+        "id": 9,
+        "churchId": 1,
+        "subject": "언제나 사랑이 넘치는 교회가 되게 하소서.",
+        "contents": "<blockquote>항상 밝고 건강한 교회가 되게하시고 <br><br>목사님 가운데 능력주시고 건강 주시옵소서. <br><br>마음에서 우러 \r\n나오는 따뜻한 사랑이 넘쳐나게 하소서.<br><br>서로를 위해서 진심으로 걱정과 위로를 하게 하소서.<br><br>항상 감사와 기쁨이 넘쳐나는 \r\n교회 되게 하소서.<br><br>나 하나만의 감정과 생각보다는 교회의 공동체를 위하여 생각하고 기도하며 <br>모든 사람이 책임을 가지고 건강한 \r\n리더자가 되게 하소서.&nbsp;</blockquote>",
+        "writedDate": "2012/08/17",
+        "hits": 24,
+        "commentsCount": 1,
+        "writerId": 3,
+        "writerName": "칼도사"
+      }
+    ],
+    "paginate": {
+      "url": "kkkk",
+      "totalItem": 2,
+      "totalPage": 1,
+      "itemPerPage": 10,
+      "pagePerPageBlock": 10,
+      "startPage": 1,
+      "endPage": 1,
+      "page": 1,
+      "pageBlock": 1,
+      "itemStart": 0
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="viewPray">중보기도 보기</h3>
+<div class="api">
+<p>해당 중보기도를 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/pray/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 중보기도 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+         <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>pray : 중보기도
+                      <ul>
+                          <li>id : 중보기도 ID</li>
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>writerId : 작성자 ID</li>
+                          <li>writerName : 작성자 이름</li>
+                          <li>writedDate : 작성 날짜</li>
+                          <li>hits : 조회수</li>
+                          <li>comments : 댓글
+                              <ul>
+                                  <li>id : 댓글 ID</li>
+                                  <li>comments : 댓글</li>
+                                  <li>writedDate : 작성 날짜</li>
+                                  <li>writerId : 작성자 ID</li>
+                                  <li>writerName : 작성자 이름</li>
+                                  <li>photo : 작성자 프로필 사진 정보
+                                    <ul>
+                                        <li>id : 첨부파일 ID</li>
+                                        <li>fileName : display용 첨부파일명</li>
+                                        <li>realFileName : 실제 첨부파일명</li>
+                                        <li>contentType : content type</li>
+                                        <li>path : 첨부파일 path</li>
+                                        <li>parentPath : 폴더명(?)</li>
+                                        <li>fileSize : 파일 사이즈 (byte)</li>
+                                    </ul>
+                                  </li>
+                              </ul>
+                          </li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "pray": {
+      "id": 10,
+      "churchId": 1,
+      "subject": "기도의 힘으로",
+      "contents": "세상을 이깁니다.",
+      "writedDate": "2012/08/23",
+      "hits": 7,
+      "commentsCount": 0,
+      "writerId": 27,
+      "writerName": "김동욱",
+      "comments": [
+        {
+          "id": 61,
+          "comment": "아멘",
+          "writedDate": "2012/08/28",
+          "writerId": 27,
+          "writerName": "김동욱",
+          "photo": {
+            "id": 240,
+            "fkId": 0,
+            "fileName": "김동욱2.JPG",
+            "realFileName": "user/f290efe9-5acc-4a4d-9ac9-12a1f385313b.jpg",
+            "contentType": "image/jpeg",
+            "path": "http://resources.smartchurch.co.kr/user/f290efe9-5acc-4a4d-9ac9-12a1f385313b.jpg",
+            "parentPath": "user",
+            "fileSize": 62590
+          }
+        }
+      ]
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="createPray">중보기도 작성</h3>
+<div class="api">
+<p>중보기도를 작성한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/pray<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+          <ul>
+             <li>churchId : 우리교회 ID</li>
+             <li>subject : 제목</li>
+             <li>contents: 내용</li>
+          </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 100,
+  "description": "입력 정보가 잘못되었습니다."
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="editPray">중보기도 수정</h3>
+<div class="api">
+<p>중보기도를 수정한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/pray/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 수정할 중보기도 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>PUT</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+          <ul>
+             <li>churchId : 우리교회 ID</li>
+             <li>id : 수정할 중보기도 id</li>
+             <li>subject : 제목</li>
+             <li>contents: 내용</li>
+          </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 100,
+  "description": "입력 정보가 잘못되었습니다."
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deletePray">중보기도 삭제</h3>
+<div class="api">
+<p>중보기도를 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/pray/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 삭제할 중보기도 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>DELETE</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="createPrayComment">중보기도 댓글 작성</h3>
+<div class="api">
+<p>중보기도 게시물에 댓글을 작성한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/pray/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 댓글을 작성할 중보기도 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+          <ul>
+              <li>churchId : 우리교회 ID</li>
+              <li>id : 중보기도 id</li>
+              <li>postingsId : 중보기도 id</li>
+              <li>comments: 내용</li>
+          </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deletePrayComment">중보기도 댓글 삭제</h3>
+<div class="api">
+<p>중보기도 게시물에 댓글을 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/pray/${id}/${commentId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 중보기도 id</span><br />
+<span class="pathParam"><strong>commentId : </strong> 댓글 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>DELETE</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listSermon">설교 목록</h3>
+<div class="api">
+<p>설교 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/sermon?page=${page}&amp;criteria=subject&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 : subject(제목), preacher(설교자)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 설교 목록
+                      <ul>
+                          <li>id : 설교 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>
+                          <li>subject : 제목</li>
+                          <li>preacher : 설교자</li>
+                          <li>bible : 성경말씀</li>
+                          <li>sermonDate : 설교 날짜</li>
+                          <li>thumbnail : 동영상 thumbnail
+                              <ul>
+                                  <li>id : 첨부파일 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>contentType : 첨부파일 타입(mime type)</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                          <li>mp4 : mp4 동영상 정보
+                              <ul>
+                                  <li>id : 첨부파일 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>contentType : 첨부파일 타입(mime type)</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                          <li>flv : flv 동영상 정보
+                              <ul>
+                                  <li>id : 첨부파일 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>contentType : 첨부파일 타입(mime type)</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>                                
+                    </li>
+                    <li>paginate : 페이징 정보
+                      <ul>
+                          <li>totalItem : 전체 아템 수</li>
+                          <li>totalPage : 전체 페이지 수</li>
+                          <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                          <li>page : 현재 페이지</li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 123,
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+        "subject": "awaer",
+        "preacher": "awaer",
+        "bible": "awaer",
+        "sermonDate": "2013.01.14",
+        "thumbnail": {
+          "id": 966,
+          "fkId": 123,
+          "fileName": "thumbnail.png",
+          "realFileName": "eaf418d3257234a7/d4416674-1838-4138-9578-1da1e5e9824c.png",
+          "contentType": "image/png",
+          "path": "http://gz01-hl1652.ktics.co.kr/eaf418d3257234a7/d4416674-1838-4138-9578-1da1e5e9824c.png",
+          "parentPath": "eaf418d3257234a7",
+          "fileSize": 120976
+        },
+        "mp4": {
+          "id": 964,
+          "fkId": 123,
+          "fileName": "awaker123456lllll.mp4",
+          "realFileName": "eaf418d3257234a7/awaker123456lllll.mp4",
+          "contentType": "video/mp4",
+          "path": "rtmp://op1653vol00-op1653.ktics.co.kr/op1653vol00/_definst_/eaf418d3257234a7/awaker123456lllll.mp4",
+          "parentPath": "eaf418d3257234a7",
+          "fileSize": 1585373
+        },
+        "flv": {
+          "id": 965,
+          "fkId": 123,
+          "fileName": "awaker123456lllll.flv",
+          "realFileName": "eaf418d3257234a7/awaker123456lllll.flv",
+          "contentType": "video/x-flv",
+          "path": "rtmp://op1653vol00-op1653.ktics.co.kr/op1653vol00/_definst_/eaf418d3257234a7/awaker123456lllll.flv",
+          "parentPath": "eaf418d3257234a7",
+          "fileSize": 1158428
+        }
+      },
+      {
+        "id": 122,
+        "churchId": 1,
+        "path": "eaf418d3257234a7",
+        "subject": "ㅅ",
+        "preacher": "ㅅㅅㅅ",
+        "bible": "ㅅㅅ",
+        "sermonDate": "2013.01.14",
+        "thumbnail": {
+          "id": 963,
+          "fkId": 122,
+          "fileName": "thumbnail.png",
+          "realFileName": "eaf418d3257234a7/9d90b0a5-acab-4b12-bacb-f146c393c553.png",
+          "contentType": "image/png",
+          "path": "http://gz01-hl1652.ktics.co.kr/eaf418d3257234a7/9d90b0a5-acab-4b12-bacb-f146c393c553.png",
+          "parentPath": "eaf418d3257234a7",
+          "fileSize": 95183
+        },
+        "mp4": {
+          "id": 961,
+          "fkId": 122,
+          "fileName": "박완규_수호_MV.mp4",
+          "realFileName": "eaf418d3257234a7/f49566d2-1b64-42c2-a406-522b983d69c0.mp4",
+          "contentType": "video/mp4",
+          "path": "rtmp://op1653vol00-op1653.ktics.co.kr/op1653vol00/_definst_/eaf418d3257234a7/f49566d2-1b64-42c2-a406-522b983d69c0.mp4",
+          "parentPath": "eaf418d3257234a7",
+          "fileSize": 15684837
+        },
+        "flv": {
+          "id": 962,
+          "fkId": 122,
+          "fileName": "박완규_수호_MV.flv",
+          "realFileName": "eaf418d3257234a7/d2b66c9b-cef0-427a-a385-248f29c3a1f9.flv",
+          "contentType": "video/x-flv",
+          "path": "rtmp://op1653vol00-op1653.ktics.co.kr/op1653vol00/_definst_/eaf418d3257234a7/d2b66c9b-cef0-427a-a385-248f29c3a1f9.flv",
+          "parentPath": "eaf418d3257234a7",
+          "fileSize": 9632795
+        }
+      }
+    ],
+    "paginate": {
+      "itemPerPage": 10,
+      "pagePerBlock": 10,
+      "totalItem": 8,
+      "totalPage": 1,
+      "page": 1,
+      "startPage": 1,
+      "endPage": 1,
+      "startItem": 0
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="viewSermon">설교 보기</h3>
+<div class="api">
+<p>해당 설교를 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/sermon/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 설교 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>sermon : 설교
+                      <ul>
+                          <li>id : 설교 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>                          
+                          <li>subject : 제목</li>
+                          <li>preacher : 설교자</li>
+                          <li>bible : 성경말씀</li>
+                          <li>sermonDate : 설교날짜</li>
+                          <li>thumbnail : 동영상 thumbnail
+                              <ul>
+                                  <li>id : 첨부파일 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>contentType : 첨부파일 타입(mime type)</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                          <li>mov : mp4 동영상 정보
+                              <ul>
+                                  <li>id : 첨부파일 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>contentType : 첨부파일 타입(mime type)</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>                                
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+   "code": 0,
+   "description": "OK",
+   "data":
+   {
+       "sermon":
+       {
+           "id": 35,
+           "churchId": 1,
+           "path": "eaf418d3257234a7",
+           "subject": "test",
+           "preacher": "test",
+           "bible": "test",
+           "sermonDate": "2012/09/14",
+           "thumbnail":
+           {
+               "id": 889,
+               "fkId": 107,
+               "fileName": "thumbnail.png",
+               "realFileName": "eaf418d3257234a7/thumbnail.png",
+               "contentType": "image/png",
+               "path": "http://gz01-hl1652.ktics.co.kr/eaf418d3257234a7/thumbnail.png",
+               "parentPath": "eaf418d3257234a7",
+               "fileSize": 537966
+           },
+           "mov":
+           {
+               "id": 257,
+               "fkId": 35,
+               "fileName": "Star Size Comparison HD.mp4",
+               "realFileName": "kkkk/Star Size Comparison HD.mp4",
+               "contentType": "video/mp4",
+               "path": "http://streaming.smartchurch.co.kr/td1526vol00/_definst_/kkkk/Star Size Comparison HD.mp4",
+               "parentPath": "kkkk",
+               "fileSize": 40882845
+           }
+       }
+   }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listMessage">1분 메세지 목록</h3>
+<div class="api">
+<p>1분 메세지 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/message?page=?page=${page}&amp;criteria=subject&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 : subject(제목), contents(제목+내용)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 1분메세지 목록
+                      <ul>
+                          <li>id : 설교 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>subject : 제목</li>
+                          <li>subTitle : 소제목</li>
+                          <li>contents : 1분메세지 내용</li>
+                          <li>writtenDate : 작성 날짜</li>
+                      </ul>                                
+                    </li>
+                    <li>paginate : 페이징 정보
+                      <ul>
+                          <li>totalItem : 전체 아템 수</li>
+                          <li>totalPage : 전체 페이지 수</li>
+                          <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                          <li>page : 현재 페이지</li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 9,
+        "churchId": 1,
+        "subject": "놀라운 하나님의 사랑",
+        "subTitle": "-구원의 확신-",
+        "contents": "어떤 날 밤에 「니고데모」라는 청년이 예수님께 찾아 왔습니다. 그는 유대인의 높은 관원이요 선생이었습니다. 예수님을 하나님께서 보내신 선생님으로 인정 했습니다. 예수님은 「니고데모」를 향하여 “사람이 거듭나지 아니하면 하나님 나라를 볼 수 없느니라”고 하셨습니다. 이때에 「니고데모」는 깜짝 놀라면서 사람이 어떻게 늙어서 어머니 배속에 들어   갔다가 다시 태어날 수 있느냐? 고 물었습니다. 예수님은 점점 어려움 말씀을 하셨습니다. “사람이 물과 성령으로 나지 아니하면 하나님 나라에 들어 갈 수 없느니라”고 하시니 「니고데모」는 “어찌 이러한 일이 있을 수 있습니까?” 하고 질문했습니다.  그때에 예수님께서는 “모세가 광야에서 뱀을 든 것 같이 인자도 (예수님) 들려야 하리니 이는 저를 믿는 자 마다 영생을 얻게 하려 하심이니라”고 대답 하셨습니다. 이스라엘 백성들이 애굽에서 탈출하여 가나안땅으로 나올 때입니다. 그들은 하나님께서 애굽에서 구원하여 주셨고 광야 생활 중에서 먹을 것(만나)을 주셨고 마실 물을 주셨는데도 하나님을 원망했습니다. 하나님께서는 그들에게 뱀을 보내어 물게 했습니다. 그때에 이스라엘의 지도자 모세는 하나님께 그들의 구원을 위하여 구했고 하나님께서는 장대에 구리 뱀을 만들어 달고 그를 쳐다보는 자는 삶을 얻으리라고 하셨습니다. 이 소식을 들은 백성들은 하나님의 말씀을 믿고 업혀서 혹은 들려서 아니면 자신이 엉금엉금 기어 와서 구리 뱀을 펴다보았습니다. 구리 뱀을 펴다본 자들은 모두가 살았습니다. 이것은 하나님의 사랑이요 하나님의 은혜입니다. 이와 같이 예수님께서도 갈보리 십자가위에서 만백성을 위하여 죽으셨습니다. 그 예수님을 믿음으로 쳐다보는 자는 구원을 받습니다. 이는 전적으로 하나님의 사랑입니다. 예수님을 믿기만 하면 영생을 얻습니다. ",
+        "writtenDate": "2012/08/20"
+      },
+      {
+        "id": 8,
+        "churchId": 1,
+        "subject": "완벽 주의로 부터 해방되는법 ",
+        "subTitle": "폴 롬은 이렇게 말했습니다. \"사람들에게는 본성적으로 하나님처럼 되고픈 열망이 있다. '불완전한 존재로 살 수 있는 용기'가 없기 때문이다.\" ",
+        "contents": "우리는 또한 완벽한 자녀를 양육하는 완벽한 부모가 되고 싶어 합니다. 또 그 자녀들은 우리에게 더 이상 아무 것도 요구하지 않을 뿐 아니라 매사를 올바르게 처리하기를 원합니다. 그래서 이러한 우리의 꿈을 이루는데 도움이 될 만한 것이면 무엇이든 우리의 것으로 만들고자 애씁니다. 그러다 보니 삶 속에서 만족이라고는 전혀 느껴보지 못하게 되고, 정말 어디에도 쉴 곳이 없다는 푸념을 하게 됩니다.",
+        "writtenDate": "2012/08/17"
+      },
+      {
+        "id": 7,
+        "churchId": 1,
+        "subject": "제 10 과  교회는 어떤 곳입니까?",
+        "subTitle": "* 본문말씀 : 사도행전 2장 37~47절, 마태복음 16:16~20절",
+        "contents": "제 10 과  교회는 어떤 곳입니까?\r\n1. 들어가는 말 \r\n1620년 12월 26일 미국 동 북부 메사추세츠 해안에 도착한 필그림 청교도들은 첫째로 180톤 밖에 안되는 배라도 그것을 주신 하나님께 감사했고, 둘째로 평균시속 2마일의 느린 항해였지만 117일 동안 쉼 없이 전진 할 수 있었음을 감사했고, 셋째로 항해 중에 두 사람이 죽었지만, 한 아이가 태어났음을 감사했고",
+        "writtenDate": "2012/08/17"
+      }
+    ],
+    "paginate": {
+      "url": "kkkk",
+      "totalItem": 3,
+      "totalPage": 1,
+      "itemPerPage": 10,
+      "pagePerPageBlock": 10,
+      "startPage": 1,
+      "endPage": 1,
+      "page": 1,
+      "pageBlock": 1,
+      "itemStart": 0
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="viewMessage">1분 메세지 보기</h3>
+<div class="api">
+<p>해당 1분 메세지를 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/message/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 1분 메세지 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>message : 1분메세지
+                      <ul>
+                          <li>id : 설교 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>subject : 제목</li>
+                          <li>subTitle : 소제목</li>
+                          <li>contents : 1분메세지 내용</li>
+                          <li>writtenDate : 작성 날짜</li>
+                      </ul>                                
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "message": {
+        "id": 9,
+        "churchId": 1,
+        "subject": "놀라운 하나님의 사랑",
+        "subTitle": "-구원의 확신-",
+        "contents": "어떤 날 밤에 「니고데모」라는 청년이 예수님께 찾아 왔습니다. 그는 유대인의 높은 관원이요 선생이었습니다. 예수님을 하나님께서 보내신 선생님으로 인정 했습니다. 예수님은 「니고데모」를 향하여 “사람이 거듭나지 아니하면 하나님 나라를 볼 수 없느니라”고 하셨습니다. 이때에 「니고데모」는 깜짝 놀라면서 사람이 어떻게 늙어서 어머니 배속에 들어   갔다가 다시 태어날 수 있느냐? 고 물었습니다. 예수님은 점점 어려움 말씀을 하셨습니다. “사람이 물과 성령으로 나지 아니하면 하나님 나라에 들어 갈 수 없느니라”고 하시니 「니고데모」는 “어찌 이러한 일이 있을 수 있습니까?” 하고 질문했습니다.  그때에 예수님께서는 “모세가 광야에서 뱀을 든 것 같이 인자도 (예수님) 들려야 하리니 이는 저를 믿는 자 마다 영생을 얻게 하려 하심이니라”고 대답 하셨습니다. 이스라엘 백성들이 애굽에서 탈출하여 가나안땅으로 나올 때입니다. 그들은 하나님께서 애굽에서 구원하여 주셨고 광야 생활 중에서 먹을 것(만나)을 주셨고 마실 물을 주셨는데도 하나님을 원망했습니다. 하나님께서는 그들에게 뱀을 보내어 물게 했습니다. 그때에 이스라엘의 지도자 모세는 하나님께 그들의 구원을 위하여 구했고 하나님께서는 장대에 구리 뱀을 만들어 달고 그를 쳐다보는 자는 삶을 얻으리라고 하셨습니다. 이 소식을 들은 백성들은 하나님의 말씀을 믿고 업혀서 혹은 들려서 아니면 자신이 엉금엉금 기어 와서 구리 뱀을 펴다보았습니다. 구리 뱀을 펴다본 자들은 모두가 살았습니다. 이것은 하나님의 사랑이요 하나님의 은혜입니다. 이와 같이 예수님께서도 갈보리 십자가위에서 만백성을 위하여 죽으셨습니다. 그 예수님을 믿음으로 쳐다보는 자는 구원을 받습니다. 이는 전적으로 하나님의 사랑입니다. 예수님을 믿기만 하면 영생을 얻습니다. ",
+        "writtenDate": "2012/08/20"
+      }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listAlbum">교회앨범 목록</h3>
+<div class="api">
+<p>교회앨범 목록을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/album?page=${page}&amp;criteria=subject&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 : subject(제목), contents(제목+내용)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 앨범 목록
+                      <ul>
+                          <li>id : 설교 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>commentsCount : 댓글 수</li>
+                          <li>writtenDate : 작성 날짜</li>
+                          <li>thumbnail : 대표 이미지
+                               <ul>
+                                  <li>id : 첨부파일 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>contentType : 첨부파일 타입(mime type)</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>                                
+                    </li>
+                    <li>paginate : 페이징 정보
+                      <ul>
+                          <li>totalItem : 전체 아템 수</li>
+                          <li>totalPage : 전체 페이지 수</li>
+                          <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                          <li>page : 현재 페이지</li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 10,
+        "createdDate": "2012/08/10",
+        "churchId": 1,
+        "path": "kkkk",
+        "subject": "중고등부 봄소풍 사진",
+        "contents": "2012년 4월 16일 봄소풍 너무 좋았어요.",
+        "hits": 0,
+        "commentsCount": 3,
+        "thumbnail": {
+          "id": 180,
+          "fkId": 10,
+          "fileName": "2012_04_14_15_35_59.jpg",
+          "realFileName": "kkkk/2012_04_14_15_35_59.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/2012_04_14_15_35_59.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 364457
+        }
+      },
+      {
+        "id": 9,
+        "createdDate": "2012/08/10",
+        "churchId": 1,
+        "path": "kkkk",
+        "subject": "중고등부 수련회",
+        "contents": "은혜로운 중고등부 수련회!!!!",
+        "hits": 0,
+        "commentsCount": 1,
+        "thumbnail": {
+          "id": 177,
+          "fkId": 9,
+          "fileName": "20120726_185303.jpg",
+          "realFileName": "kkkk/20120726_185303.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/20120726_185303.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 133193
+        }
+      }
+    ],
+    "paginate": {
+      "url": "kkkk",
+      "totalItem": 2,
+      "totalPage": 1,
+      "itemPerPage": 10,
+      "pagePerPageBlock": 10,
+      "startPage": 1,
+      "endPage": 1,
+      "page": 1,
+      "pageBlock": 1,
+      "itemStart": 0
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="viewAlbum">교회앨범 보기</h3>
+<div class="api">
+<p>해당 교회앨범을 가져온다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/album/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 교회앨범 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+         <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>album : 교회앨범
+                      <ul>
+                          <li>id : 교회앨범 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>path : 우리교회 root path</li>
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>createdDate : 작성 날짜</li>
+                          <li>modifiedDate : 수정 날짜</li>
+                          <li>hits : 조회수</li>
+                          <li>attachments : 앨범 사진 목록
+                              <ul>
+                                  <li>id : 첨부파일 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                          <li>comments : 댓글 목록
+                              <ul>
+                                  <li>id : 댓글 ID</li>
+                                  <li>comments : 댓글</li>
+                                  <li>writtenDate : 작성 날짜</li>
+                                  <li>writtenId : 사용자 ID</li>
+                                  <li>writtenName : 사용자 이름</li>
+                                  <li>photo : 사용자 프로필 사진
+                                      <ul>
+                                          <li>id : 첨부파일 id</li>
+                                          <li>realFileName : 파일명</li>
+                                          <li>parentPath : 경로</li>
+                                          <li>fileSize : 파일 사이즈</li>
+                                      </ul>
+                                  </li>
+                              </ul>
+                          </li>
+                      </ul>                                
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "album": {
+      "id": 10,
+      "createdDate": "2012/08/10",
+        "churchId": 1,
+        "path": "kkkk",
+      "subject": "중고등부 봄소풍 사진",
+      "contents": "2012년 4월 16일 봄소풍 너무 좋았어요.",
+      "hits": 0,
+      "commentsCount": 0,
+      "thumbnail": {
+        "id": 178,
+        "fkId": 0,
+        "fileSize": 0
+      },
+      "attachments": [
+        {
+          "id": 178,
+          "fkId": 10,
+          "fileName": "2012_04_14_11_49_07.jpg",
+          "realFileName": "kkkk/2012_04_14_11_49_07.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/2012_04_14_11_49_07.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 358317
+        },
+        {
+          "id": 179,
+          "fkId": 10,
+          "fileName": "2012_04_14_15_20_37.jpg",
+          "realFileName": "kkkk/2012_04_14_15_20_37.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/2012_04_14_15_20_37.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 382111
+        },
+        {
+          "id": 180,
+          "fkId": 10,
+          "fileName": "2012_04_14_15_35_59.jpg",
+          "realFileName": "kkkk/2012_04_14_15_35_59.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/2012_04_14_15_35_59.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 364457
+        }
+      ],
+      "comments": [
+        {
+          "id": 58,
+          "comment": "어딘가요?",
+          "writedDate": "2012/08/23",
+          "writerId": 27,
+          "writerName": "김동욱",
+          "photo": {
+            "id": 240,
+            "fkId": 10,
+            "fileName": "김동욱2.JPG",
+            "realFileName": "user/f290efe9-5acc-4a4d-9ac9-12a1f385313b.jpg",
+            "contentType": "image/jpeg",
+            "path": "http://resources.smartchurch.co.kr/user/f290efe9-5acc-4a4d-9ac9-12a1f385313b.jpg",
+            "parentPath": "user",
+            "fileSize": 62590
+          }
+        },
+        {
+          "id": 48,
+          "comment": "멋지네",
+          "writedDate": "2012/08/21",
+          "writerId": 3,
+          "writerName": "칼도사",
+          "photo": {
+            "id": 237,
+            "fkId": 10,
+            "fileName": "1092476-1920x1080-Imagen25.jpg",
+            "realFileName": "user/1092476-1920x1080-Imagen25.jpg",
+            "contentType": "image/jpeg",
+            "path": "http://resources.smartchurch.co.kr/user/1092476-1920x1080-Imagen25.jpg",
+            "parentPath": "user",
+            "fileSize": 988840
+          }
+        }
+      ]
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<h3 id="createAlbumComment">교회앨범 댓글 작성</h3>
+<div class="api">
+<p>교회앨범에 댓글을 작성한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/album/${id}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 댓글을 작성할 교회앨범 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+          <ul>
+              <li>churchId: 우리교회 id</li>
+              <li>postingsId : 교회앨범 id</li>
+              <li>comments: 내용</li>
+          </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deleteAlbumComment">교회앨범 댓글 삭제</h3>
+<div class="api">
+<p>교회앨범에 댓글을 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${url}/album/${serviceId}/${commentId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br />
+<span class="pathParam"><strong>id : </strong> 교회앨범 id</span><br />
+<span class="pathParam"><strong>commentId : </strong> 댓글 id</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>DELETE</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="listOrg">교회기관 목록</h3>
+<div class="api">
+<p>교회기관 목록을 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/org<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 교회기관 목록
+                      <ul>
+                          <li>id : 교회기관 ID</li>
+                          <li>churchId : 우리교회 ID</li>
+                          <li>orgName : 교회기관명</li>
+                          <li>manager : 기관담당자</li>
+                          <li>intro : 기관 소개글</li>
+                          <li>orgImage : 기관 소개 이미지
+                               <ul>
+                                  <li>id : 첨부파일 id</li>
+                                  <li>realFileName : 파일명</li>
+                                  <li>contentType : 첨부파일 타입(mime type)</li>
+                                  <li>parentPath : 경로</li>
+                                  <li>fileSize : 파일 사이즈</li>
+                              </ul>
+                          </li>
+                      </ul>                                
+                    </li>                
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 20,
+        "churchId": 1,
+        "path": "kkkk",        
+        "orgName": "1 남선교회",
+        "manager": "이부장",
+        "intro": "test
+
+testsetestsetsetsets ets es se tsetsts tse tests 
+
+ts setstsets 
+ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ",        
+        "orgImage": {
+          "id": 186,
+          "fkId": 0,
+          "fileName": "1남선교회.jpg",
+          "realFileName": "kkkk/59466ed0-85a0-4921-add7-d6b5d27db494.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/59466ed0-85a0-4921-add7-d6b5d27db494.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 252277
+        }
+      },
+      {
+        "id": 18,
+        "churchId": 1,
+        "path": "kkkk",        
+        "orgName": "2 남선교회",
+        "manager": "이부장",
+        "intro": "test
+
+testsetestsetsetsets ets es se tsetsts tse tests 
+
+ts setstsets 
+ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ",
+        "orgImage": {
+          "id": 213,
+          "fkId": 0,
+          "fileName": "untitled.JPG",
+          "realFileName": "kkkk/untitled.jpg",
+          "contentType": "image/jpeg",
+          "path": "http://resources.smartchurch.co.kr/kkkk/untitled.jpg",
+          "parentPath": "kkkk",
+          "fileSize": 845685
+        }
+      }
+    ]
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<h3 id="listOrgPosts">교회기관 게시물 목록</h3>
+<div class="api">
+<p>교회기관 게시물 목록을 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/org/${orgId}?page=${page}&amp;criteria=subject&amp;keyword=${keyword}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>orgId : </strong> 교회기관 ID</span><br/>
+<span class="pathParam"><strong>page : </strong> 페이지 (default : 1)</span><br/>
+<span class="pathParam"><strong>criteria : </strong> 검색기준 : subject(제목), conents(제목+내용)</span><br/>
+<span class="pathParam"><strong>keyword : </strong> 검색어</span>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>list : 교회기관 게시물 목록
+                      <ul>
+                          <li>id : 게시물 ID</li>
+                          <li>orgId : 교회기관 ID</li>
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>hits : 조회수</li>
+                          <li>commentsCount : 댓글수</li>
+                          <li>writerId : 작성자 ID</li>
+                          <li>writerName : 작성자 이름</li>
+                      </ul>
+                    </li>
+                    <li>paginate : 페이징 정보
+                      <ul>
+                          <li>totalItem : 전체 아템 수</li>
+                          <li>totalPage : 전체 페이지 수</li>
+                          <li>itemPerPage : 페이지당 아이템 출력 개수</li>
+                          <li>page : 현재 페이지</li>
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+{
+  "code": 0,
+  "description": "OK",
+  "data": {
+    "list": [
+      {
+        "id": 17,
+        "orgId": 20,
+        "subject": "테스트",
+        "contents": "테스트",
+        "writtenDate": "2012/09/24",
+        "hits": 0,
+        "commentsCount": 0,
+        "writerId": 26,
+        "writerName": "장원봉"
+      }
+    ],
+    "paginate": {
+      "url": "kkkk",
+      "orgId": 20,
+      "totalItem": 1,
+      "totalPage": 1,
+      "itemPerPage": 10,
+      "pagePerPageBlock": 10,
+      "startPage": 1,
+      "endPage": 1,
+      "page": 1,
+      "pageBlock": 1,
+      "itemStart": 0
+    }
+  }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="viewOrgPosts">교회기관 게시물 보기</h3>
+<div class="api">
+<p>해당 교회기관 게시물을 요청한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/org/${orgId}/${orgPostsId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>orgId : </strong> 교회기관 ID</span><br/>
+<span class="pathParam"><strong>orgPostsId : </strong> 교회기관 게시물 ID</span><br/>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>GET</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+            <li>data : 요청 관련 데이터
+                <ul>
+                    <li>OrgPosts : 교회기관 게시물
+                      <ul>
+                          <li>id : 게시물 ID</li>
+                          <li>orgId : 교회기관 ID</li>
+                          <li>subject : 제목</li>
+                          <li>contents : 내용</li>
+                          <li>hits : 조회수</li>
+                          <li>commentsCount : 댓글수</li>
+                          <li>writerId : 작성자 ID</li>
+                          <li>writerName : 작성자 이름</li>
+                          <li>comments : 댓글
+                              <ul>
+                                  <li>id : 댓글 ID</li>
+                                  <li>comments : 댓글</li>
+                                  <li>writedDate : 작성 날짜</li>
+                                  <li>writerId : 작성자 ID</li>
+                                  <li>writerName : 작성자 이름</li>
+                                  <li>photo : 작성자 프로필 사진 정보
+                                    <ul>
+                                        <li>id : 첨부파일 ID</li>
+                                        <li>fileName : display용 첨부파일명</li>
+                                        <li>realFileName : 실제 첨부파일명</li>
+                                        <li>contentType : content type</li>
+                                        <li>path : 첨부파일 path</li>
+                                        <li>parentPath : 폴더명(?)</li>
+                                        <li>fileSize : 파일 사이즈 (byte)</li>
+                                    </ul>
+                                  </li>
+                              </ul>
+                          </li>                          
+                      </ul>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td>
+<pre>
+    "code": 0,
+   "description": "OK",
+   "data":
+   {
+       "OrgPosts":
+       {
+           "id": 230,
+           "orgId": 24,
+           "subject": "11111111111111111111111111111111111111111111111111",
+           "contents": "1",
+           "writtenDate": "2012.10.30",
+           "hits": 21,
+           "commentsCount": 0,
+           "writerId": 47,
+           "writerName": "문창호",
+           "comments":
+           [
+               {
+                   "id": 169,
+                   "comment": "asdfasfa",
+                   "writedDate": "2012.11.19",
+                   "writerId": 3,
+                   "writerName": "칼도사",
+                   "photo":
+                   {
+                       "id": 991,
+                       "fkId": 3,
+                       "fileName": "2000px.png",
+                       "realFileName": "user/2000px.png",
+                       "contentType": "image/x-png",
+                       "path": "http://gz01-hl1652.ktics.co.kr/user/2000px.png",
+                       "parentPath": "user",
+                       "fileSize": 211024
+                   }
+               }
+           ]
+       }
+   }
+}
+</pre>
+        </td>
+    </tr>
+</table>
+</div>
+
+<h3 id="createOrgPosts">교회기관 게시물 작성</h3>
+<div class="api">
+<p>교회기관 게시물을 작성한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/org/${orgId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>orgId : </strong> 교회기관 ID</span><br/>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+          <ul>
+             <li>subject : 제목</li>
+             <li>contents: 내용</li>
+          </ul>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="editOrgPosts">교회기관 게시물 수정</h3>
+<div class="api">
+<p>교회기관 게시물을 수정한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/org/${orgId}/${orgPostsId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>orgId : </strong> 교회기관 ID</span><br/>
+<span class="pathParam"><strong>orgPostsId : </strong> 수정할 게시물 ID</span><br/>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>PUT</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+          <ul>
+             <li>subject : 제목</li>
+             <li>contents: 내용</li>
+          </ul>        
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deleteOrgPosts">교회기관 게시물 삭제</h3>
+<div class="api">
+<p>교회기관 게시물을 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/org/${orgId}/${orgPostsId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>orgId : </strong> 교회기관 ID</span><br/>
+<span class="pathParam"><strong>orgPostsId : </strong> 삭제할 게시물 ID</span><br/>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>DELETE</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="createOrgPostsComment">교회기관 게시물 댓글 작성</h3>
+<div class="api">
+<p>교회기관 게시물에 댓글을 작성한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/org/${orgId}/${orgPostsId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>orgId : </strong> 교회기관 ID</span><br/>
+<span class="pathParam"><strong>orgPostsId : </strong> 게시물 ID</span><br/>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>POST</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td>
+          <ul>
+              <li>comments: 내용</li>
+          </ul>
+        </td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+<h3 id="deleteOrgPostsComment">교회기관 게시물 댓글 삭제</h3>
+<div class="api">
+<p>교회기관 게시물에 댓글을 삭제한다.</p>
+
+<h4>요청 주소(Request URL)</h4>
+<p class="apiurl">https://www.smartchurch.co.kr/apis/church/service/${serviceId}/org/${orgId}/${orgPostsId/${commentId}<br />
+<span class="pathParam"><strong>serviceId : </strong>우리교회 서비스 ID</span><br/>
+<span class="pathParam"><strong>orgId : </strong> 교회기관 ID</span><br/>
+<span class="pathParam"><strong>orgPostsId : </strong> 게시물 ID</span><br/>
+<span class="pathParam"><strong>commentId : </strong> 삭제할 comment ID</span><br/>
+</p>
+
+<h4>요청 메소드(Request Method)</h4>
+<p>DELETE</p>
+<h4>요청 변수(Request Parameter)</h4>
+
+<table>
+    <tr>
+        <th>요청 변수</th>
+        <td></td>
+    </tr>
+</table>
+
+<h4>출력 변수(Response Element)</h4>
+<table>
+    <tr>
+        <th>출력 변수</th>
+        <td>
+          <ul>
+            <li>code : 응답코드</li>
+            <li>description : 응답코드에 대한 설명</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>응답 예제</th>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+</div>
+</body>
+</html>

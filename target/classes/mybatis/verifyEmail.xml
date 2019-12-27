@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.VerifyEmailMapper">
+
+    <resultMap id="verifyEmail" type="VerifyEmail">
+        <id property="id" column="id"/>
+        <result property="code" column="code" />
+        <result property="email" column="email"/>
+        <result property="sentDate" column="sent_date"/>
+    </resultMap>
+    
+    <select id="select" parameterType="string" resultMap="verifyEmail">
+        SELECT
+            *
+        FROM
+            verify_email
+        WHERE
+            code = #{code}
+    </select>
+    
+    <select id="selectByEmail" parameterType="string" resultMap="verifyEmail">
+        SELECT
+            *
+        FROM
+            verify_email
+        WHERE
+            email = #{email}
+    </select>
+    
+    <insert id="insert" parameterType="VerifyEmail" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO verify_email (
+            code,
+            email,
+            sent_date
+        )
+        VALUES (
+            #{code},
+            #{email},
+            now()
+        )
+    </insert>
+    
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            verify_email
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+/*------- sub right menu ------*/
+.con_right {float:right; width:175px;}
+.con_right .profile {background: url(../images/church/common/right_profileBg.gif) no-repeat; width:150px; height:161px; margin:22px 0 50px 12px;}
+.con_right .profile .name {padding:13px 0; text-align: center;}
+.con_right .profile .name img {vertical-align: middle;}
+.con_right .profile p {text-align: center; padding-top:3px;}
+.con_right .profile .logout {text-align: center; padding-top:10px;}
+.con_right .profile .logout li {display:inline;}
+.con_right .profile .logout li a {color:#525252;}
+.con_right .profile .logout li .btn {padding:5px 0 10px 10px; vertical-align: middle;}
+.con_right .rnb {margin:0 12px 0 12px;}
+.con_right .rnb li {display:block; border-bottom: 1px solid #dcdcdc; padding:7px 0 6px 20px; background: url(../images/church/common/icon_arrow2.gif) no-repeat 7px 10px;}
+.con_right .rnb li a {color:#737373; }
+.con_right .rnb .bold {background: url(../images/church/common/icon_arrow1.gif) no-repeat 7px 10px; font-weight:bold;}
+.con_right .rnb .bold a {color:#444;}
+.con_right .btn_admin {width:100%; text-align:center; padding:50px 0;}

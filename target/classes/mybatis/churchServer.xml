@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchServerMapper">
+
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+
+    <resultMap id="server" type="Server">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id"/>
+        <result property="path" column="path"/>
+        <result property="name" column="name"/>
+        <result property="position" column="position"/>
+        <result property="intro" column="intro"/>
+        <result property="sort" column="sort"/>
+        <association property="photo" column="attach_id" resultMap="attachment" />
+    </resultMap>
+    
+    <!-- 섬기는 분들 -->
+    
+    <select id="count" parameterType="int" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_server
+        WHERE
+            church_id = #{ourChurchId}
+    </select>
+
+    <select id="selectOne" parameterType="int" resultMap="server">
+        SELECT
+            S.id,
+            S.church_id,
+            S.path,
+            S.name,
+            S.position,
+            S.intro,
+            S.sort,
+            A.id as "attach_id",
+            SR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_server S
+        LEFT JOIN church_server_attach SR ON S.id = SR.ref_id
+        LEFT JOIN attachment A ON A.id = SR.id
+        WHERE
+            S.id = #{id}
+    </select>
+                
+    <select id="selectList" parameterType="int" resultMap="server">
+        SELECT
+            S.id,
+            S.church_id,
+            S.path,
+            S.name,
+            S.position,
+            S.intro,
+            S.sort,
+            A.id as "attach_id",
+            SR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_server S
+        LEFT JOIN church_server_attach SR ON S.id = SR.ref_id
+        LEFT JOIN attachment A ON A.id = SR.id
+        WHERE
+            S.church_id = #{ourChurchId}
+        ORDER BY S.sort ASC
+    </select>
+    
+    <insert id="insert" parameterType="server" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO church_server (
+            church_id,
+            path,
+            name,
+            position,
+            intro,
+            sort
+        )
+        VALUES (
+            #{churchId},
+            #{path},
+            #{name},
+            #{position},
+            #{intro},
+            #{sort}
+        )
+    </insert>
+
+    <update id="update" parameterType="server">
+        UPDATE
+            church_server
+        SET
+            sort = #{sort}
+        WHERE
+            id = #{id}
+    </update>
+        
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_server
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.PostsMapper">
+	
+	<resultMap id="posts" type="Posts">
+		<id property="id" column="id"/>
+		<result property="subject" column="subject" />
+		<result property="contents" column="contents" />
+		<result property="writerId" column="writer_id" />
+		<result property="writtenDate" column="written_date" />
+		<result property="viewCount" column="view_count" />
+	</resultMap>
+	
+	<resultMap id="comments" type="Comments">
+		<id property="id" column="id"/>
+		<result property="postsId" column="posts_id" />		
+		<result property="parentId" column="parent_id" />
+		<result property="level" column="level" />
+		<result property="sortKey" column="sort_key" />
+		<result property="comments" column="comments" />
+		<result property="writerId" column="writer_id" />
+		<result property="writtenDate" column="written_date" />
+	</resultMap>
+	
+	<select id="totalRow" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			posts
+	</select>
+	
+	<select id="maxValueForSortKey" parameterType="map" resultType="string">
+		SELECT
+			max( CAST(sort_key as Decimal) )
+		FROM
+			posts_comments
+		<where>
+			posts_id = #{postsId} AND parent_id = #{parentId} AND level = #{level}
+		</where>
+	</select>
+	
+	<select id="selectAll" parameterType="map" resultMap="posts">
+		SELECT
+			*
+		FROM
+			posts
+		ORDER BY id DESC
+		LIMIT 
+			#{index}, #{offset}			
+	</select>
+
+	<select id="selectAllCommentsByPostsId" parameterType="int" resultMap="comments">
+		SELECT
+			*
+		FROM
+			posts_comments
+		<where>
+			posts_id = #{postsId}
+		</where>
+		ORDER BY CAST(sort_key as Decimal) ASC
+	</select>
+	
+	<select id="selectPostsById" parameterType="int" resultMap="posts">
+		SELECT
+			*
+		FROM
+			posts
+		<where>
+			id = #{id}
+		</where>
+	</select>
+
+	<select id="selectCommentsById" parameterType="int" resultMap="comments">
+		SELECT
+			*
+		FROM
+			posts_comments
+		<where>
+			id = #{id}
+		</where>
+	</select>
+	
+	<select id="selectPostsWriterById" parameterType="int" resultType="int">
+		SELECT
+			writer_id
+		FROM
+			posts
+		<where>
+			id = #{id}
+		</where>
+	</select>
+	
+	<select id="previousPostsById" parameterType="int" resultMap="posts">
+		SELECT 
+			*
+		FROM 
+			posts	
+		<where>
+			#{id} > id
+		</where>
+		ORDER BY
+			id
+		DESC LIMIT 1
+	</select>
+
+	<select id="nextPostsById" parameterType="int" resultMap="posts">
+		SELECT 
+			*
+		FROM 
+			posts	
+		<where>
+			id > #{id}
+		</where>
+		ORDER BY
+			id
+		ASC LIMIT 1
+	</select>
+	
+	<insert id="savePosts" parameterType="Posts" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+			posts (
+			subject,
+			contents,
+			writer_id,
+			written_date			
+		)
+		values (
+			#{subject} , #{contents}, #{writerId}, #{writtenDate}
+		)	
+	</insert>
+
+	<update id="updatePosts" parameterType="Posts">
+		UPDATE
+			posts
+		SET
+			subject = #{subject},
+			contents = #{contents}
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	<insert id="saveComments" parameterType="Comments" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+			posts_comments (
+			posts_id,
+			parent_id,
+			level,
+			sort_key,
+			comments,
+			writer_id,
+			written_date			
+		)
+		values (
+			#{postsId} , #{parentId}, #{level}, #{sortKey}, #{comments}, #{writerId}, #{writtenDate}
+		)
+	</insert>
+		
+	<delete id="deletePostsById" parameterType="int">
+		DELETE FROM
+			posts
+		<where>
+			id = #{id}
+		</where>
+	</delete>
+	
+	<delete id="deleteCommentsById" parameterType="int">
+		DELETE FROM
+			posts_comments
+		<where>
+			id = #{id}
+		</where>
+	</delete>	
+		
+	<delete id="deleteCommentsByParentId" parameterType="int">
+		DELETE FROM
+			posts_comments
+		<where>
+			parent_id = #{parentId}
+		</where>
+	</delete>
+
+	<delete id="deleteCommentsByPostsId" parameterType="int">
+		DELETE FROM
+			posts_comments
+		<where>
+			posts_id = #{postsId}
+		</where>
+	</delete>
+</mapper>

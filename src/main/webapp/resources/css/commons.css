@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+
+button {cursor: pointer; border: 0 none;}
+select {height: 21px; line-height: 19px;}
+img,button,input,select { vertical-align: middle;}
+
+/* input */
+.input_text {
+    height: 14px;
+    padding: 2px;
+    border: 1px solid #dcdde3;
+    background-color: #fbfbfb;
+    color: #798dd8;
+    letter-spacing: 0;
+    font-size: 11px;
+}
+.input_textarea {background-color:#fbfbfb; border:1px solid #dbdbdb; padding:5px; resize:none;}
+.input_select {
+    height: 20px;
+    border: 1px solid #dcdde3;
+    background-color: #fbfbfb;
+    color: #666;
+    letter-spacing: 0;
+}
+
+.input_file {
+    border: 1px solid #D7D7D8;
+    vertical-align: middle;
+    letter-spacing: 0;
+}
+
+/* file input 박스 커스터마이징 */
+.file_input_textbox {float: left}
+.file_input_div {position: relative; float:left; width: 62px; height: 20px; overflow: hidden; *margin: 3px 0;}
+.file_input_hidden {font-size: 23px; position: absolute; right: 0px; top: 0px; opacity: 0; filter: alpha(opacity=0); -ms-filter: "alpha(opacity=0)"; -khtml-opacity: 0; -moz-opacity: 0; }
+.file_input_button {position: absolute; top: 0px; width: 62px; height: 20px; vertical-align: baseline;}
+
+.input_w15 {width: 15px;}
+.input_w35 {width: 35px;}
+.input_w55 {width: 55px;}
+.input_w60 {width: 60px;}
+.input_w65 {width: 65px;}
+.input_w85 {width: 85px;}
+.input_w100 {width: 100px;}
+.input_w150 {width: 150px;}
+.input_w175 {width: 175px;}
+.input_w200 {width: 200px;}
+.input_w300 {width: 300px;}
+.input_w350 {width: 350px;}
+.input_w400 {width: 400px;}
+.input_w450 {width: 450px;}
+.input_w500 {width: 500px;}
+.input_w650 {width: 650px;}
+.input_h80 {height: 80px;}
+
+input.input_focus {
+    border: 2px solid #8b9dfd;
+    padding: 1px;
+}
+
+/* ERROR */
+/* div.validate-container {background: url("../images/commons/error.png") no-repeat scroll 15px center #FBE3E4; border: 1px solid #FBC2C4;  border-radius: 5px 5px 5px 5px; color: #8A1F11; *margin: 15px; padding: 10px 10px 10px 50px;} */
+div.validate-container ul, div.error-container {padding: 5px 15px;}
+div.validate-container li, div.error-container {list-style-type: none;}
+div.validate-container .error, div.error-container .error {font-size: .9em; color: #a33;}
+form input.error {border-color: #FBC2C4;}
+form textarea.error {border-color: #FBC2C4;}
+p.error {font-size: .9em; color: #a33;}

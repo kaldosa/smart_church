@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Smart church RESTful APIs</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript">/*<![CDATA[*/
+    $(document).ready(function() {
+        $('acronym').each(function() {
+            $(this).replaceWith($('<a />').attr({
+                    target: '_blank',
+                    href: 'http://ko.wikipedia.org/w/index.php?search=' + encodeURIComponent($(this).text())
+                })
+            .text($(this).text()));
+        });
+        
+        $('#top-btn').mouseover(function() {
+        	$(this).css("color", "#333");
+        });
+        
+        $('#top-btn').mouseout(function() {
+            $(this).css("color", "gray");
+        });
+    });
+/*]]>*/</script>
+</head>
+<body>
+<h1>Smart Church RESTful APIs (Ver. 1.0.11)</h1>
+
+<h2 class="page_title">목차</h2>
+<a style="display:scroll;position:fixed;bottom:20px;right:30px;" href="#" title=Top>
+<!-- <img src="btn_top_w.png" alt="" onmouseover="this.src='btn_top_r.png'" onmouseout="this.src='btn_top_w.png'" border="0"/> -->
+<span id="top-btn">Top</span>
+</a>
+<ul>
+<li><a href="usage_apis.html">API 사용법</a></li>
+<li><a href="user_apis.html">사용자 관련 APIs</a></li>
+<li><a href="bible_apis.html">상품 관련 APIs</a></li>
+<li><a href="church_apis.html">우리교회 관련 APIs</a></li>
+<li><a href="status_code.html">응답코드</a></li>
+</ul>
+
+<h2 id="churchAPIs">History</h2>
+
+<div class="history">
+<table class="history-table">
+<thead>
+<tr>
+<th class="version">version</th>
+<th class="date">date</th>
+<th class="comment">comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>0.5.0</td>
+    <td>2012.08.14</td>
+    <td>
+        <ul>
+            <li>성경 API
+                <ul>
+                    <li>언어 목록</li>
+                    <li>버전 목록</li>
+                    <li>다운로드</li>
+                </ul>
+            </li>
+            <li>우리교회 API
+                <ul>
+                    <li>교회 목록</li>
+                    <li>교회 인사말</li>
+                </ul>
+            </li>
+        </ul>
+    </td>
+</tr>
+<tr>
+<td>0.6.0</td>
+<td>2012.08.17</td>
+<td>
+    <ul>
+        <li>우리교회 API 추가
+            <ul>
+                <li>교회 새소식 관련 api 추가</li>
+                <li>교회 가족 소개 관련 api 추가</li>
+                <li>교회 중보기도 관련 api 추가</li>
+                <li>교회 생명의말씀 관련 api 추가</li>
+                <li>교회 앨범 관련 api 추가</li>
+                <li>교회 기관 관련 api 추가</li>
+            </ul>
+        </li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>0.7.0</td>
+<td>2012.09.18</td>
+<td>
+    <ul>
+        <li>사용자 API 추가
+            <ul>
+                <li>사용자 가입</li>
+                <li>인증코드 인증</li>
+                <li>인증코드 재발송</li>
+                <li>비밀번호 찾기</li>
+            </ul>
+        </li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>0.8.0</td>
+<td>2012.09.24</td>
+<td>
+    <ul>
+        <li>응답에 대한 포맷 적용</li>
+        <li>검색 및 페이징 처리 적용</li>
+        <li>API 문서 업데이트</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>0.9.0</td>
+<td>2012.09.26</td>
+<td>
+    <ul>
+        <li>성경 관련 API 삭제</li>
+        <li>앱인 결제에 대한 API 추가 (상품목록, 상품리소스 다운로드)</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.0</td>
+<td>2012.09.27</td>
+<td>
+    <ul>
+        <li>묵상,기도노트 API 추가</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.1</td>
+<td>2012.10.10</td>
+<td>
+    <ul>
+        <li>사용자 uid API 추가</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.2</td>
+<td>2012.10.19</td>
+<td>
+    <ul>
+        <li>사용자 uid API 사용자 detail 정보 주도록 수정</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.3</td>
+<td>2012.10.23</td>
+<td>
+    <ul>
+        <li>성경읽기에서 묵상,기도노트 목록 API 추가</li>
+        <li>묵상,기도노트 뷰 API 추가</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.4</td>
+<td>2012.11.07</td>
+<td>
+    <ul>
+        <li>묵상(기도)노트 작성일 포맷 변경 (yyyy.MM.dd hh:mm --------&gt; yyyy.MM.dd)</li>
+        <li>묵상(기도)노트 목록요청시 paginate 정보 추가</li>
+        <li>사용자 전화번호 변경시 session 갱신</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.5</td>
+<td>2012.11.22</td>
+<td>
+    <ul>
+        <li>회원가입 절차 변경</li>
+        <li>인증코드 발송 (/apis/usersupport/checkMail) --&gt; 인증코드 검증 (/apis/usersupport/verifyCode) --&gt; 회원가입 (/apis/usersupport/join)</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.6</td>
+<td>2012.11.26</td>
+<td>
+    <ul>
+        <li>교회 검색 API 추가</li>
+        <li>사용자 교회 검색 (https:www.smartchurch.co.kr/apis/church/?)</li>
+        <li>우리교회 서비스 검색 (https:www.smartchurch.co.kr/apis/church/service)</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.7</td>
+<td>2012.11.30</td>
+<td>
+    <ul>
+        <li>설교 API thumbnail 정보 추가</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.8</td>
+<td>2012.11.30</td>
+<td>
+    <ul>
+        <li>교회 일정 API 추가</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.9</td>
+<td>2013.01.14</td>
+<td>
+    <ul>
+        <li>설교 동영상 flv 파일정보 추가</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.10</td>
+<td>2013.01.24</td>
+<td>
+    <ul>
+        <li>교회기관 필드 변경 (교회기관명, 기관 담당자, 기관 소개글, 기관 사진)</li>
+        <li>교회기관 게시물 보기 api 누락된 부분 추가</li>
+    </ul>
+</td>
+</tr>
+
+<tr>
+<td>1.0.11</td>
+<td>2013.01.24</td>
+<td>
+    <ul>
+        <li>설교동영상 날짜 필드 수정 (writtenDate --&gt; sermonDate)</li>
+    </ul>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+
+</body>
+</html>

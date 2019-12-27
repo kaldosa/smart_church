@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+/* footerWrap */
+.footer {clear: both; width: 100%; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; background-color: #fcfbf9;}
+#footerWrap {position: relative; height: 80px; width: 950px; margin: 0 auto;}
+.footerWrap h2 {position: relative; float: left; width: 146px; margin: 20px 0 0 9px;}
+.footerWrap .companyInfo {float: left; display: inline; width: 580px; margin: 24px 0 0; font-size: 11px; color: #898989;}
+.footerWrap .companyInfo .first {padding-left: 0; background: none;}
+.footerWrap .companyInfo  li {line-height: 18px; float: left; padding: 0 15px 0 15px; background: url(../images/church/common/deco_line.gif) no-repeat;}
+.copyright {float:left; width: 280px;}
+.main-link {position: absolute; bottom: 24px; right: 70px;}
+.main-link span {padding-left: 5px;}
+.main-link img {display: block;*vertical-align: text-bottom;}

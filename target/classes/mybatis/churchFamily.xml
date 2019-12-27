@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laonsys.smartchurch.mapper.ChurchFamilyMapper">
+    <resultMap id="family" type="Family">
+        <id property="id" column="id"/>
+        <result property="churchId" column="church_id" />
+        <result property="path" column="path" />
+        <result property="name" column="name" />
+        <result property="intro" column="intro" />
+        <result property="createdDate" column="created_date" />
+        <association property="attachment" column="attach_id" resultMap="attachment" />
+    </resultMap>
+
+    <resultMap id="attachment" type="Attachment">
+        <id property="id" column="attach_id"/>
+        <result property="fkId" column="ref_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="realFileName" column="real_name"/>
+        <result property="contentType" column="content_type"/>
+        <result property="path" column="full_path"/>
+        <result property="parentPath" column="parent_path"/>
+        <result property="fileSize" column="size"/>
+    </resultMap>
+        
+    <select id="count" parameterType="QueryParam" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            church_family
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND name REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (name REGEXP #{keyword} OR intro REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+    </select>
+    
+    <select id="selectList" parameterType="QueryParam" resultMap="family">
+        SELECT
+            N.id,
+            N.church_id,
+            N.path,
+            N.name,
+            N.intro,
+            N.created_date,
+            A.id as "attach_id",
+            FR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_family N
+        LEFT JOIN church_family_attach FR ON N.id = FR.ref_id
+        LEFT JOIN attachment A ON A.id = FR.id
+        <where>
+            church_id = #{params.id}
+            <choose>
+                <when test="criteria == 'subject'">
+                    AND name REGEXP #{keyword}
+                </when>
+                <when test="criteria == 'contents'">
+                    AND (name REGEXP #{keyword} OR intro REGEXP #{keyword})
+                </when>
+            </choose>
+        </where>
+        ORDER BY N.id DESC
+        LIMIT 
+            #{paginate.startItem}, #{paginate.itemPerPage}
+    </select>
+    
+    <select id="selectOne" parameterType="int" resultMap="family">
+        SELECT
+            N.id,
+            N.church_id,
+            N.path,
+            N.name,
+            N.intro,
+            N.created_date,
+            A.id as "attach_id",
+            FR.ref_id as "ref_id",
+            A.file_name,
+            A.real_name,
+            A.content_type,
+            A.full_path,
+            A.parent_path,
+            A.size
+        FROM
+            church_family N
+        LEFT JOIN church_family_attach FR ON N.id = FR.ref_id
+        LEFT JOIN attachment A ON A.id = FR.id
+        WHERE
+            N.id = #{id}
+    </select>
+            
+    <insert id="create" parameterType="Family" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO 
+            church_family (
+            church_id,
+            path,
+            name,
+            intro,
+            created_date
+        )
+        values (
+            #{churchId}, #{path}, #{name} , #{intro}, #{createdDate}
+        )
+    </insert>
+
+    <update id="update" parameterType="Family">
+        UPDATE
+            church_family
+        SET
+            name = #{name},
+            intro = #{intro}
+        <where>
+            id = #{id}
+        </where>
+    </update>
+                
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+            church_family
+        <where>
+            id = #{id}
+        </where>
+    </delete> 
+</mapper>

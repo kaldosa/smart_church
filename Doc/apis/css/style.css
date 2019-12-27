@@ -1,0 +1,160 @@
+@CHARSET "UTF-8";
+
+body {
+    color: #333366;
+    font-size: small;
+}
+
+h1 {
+    border: 3px solid #333366;
+    padding: .5em;
+    text-align: center;
+    color: #333366;
+}
+
+h2 {
+    border-bottom-color: #DBDBDB;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    color: #0F3F9D;
+    font-size: 16px;
+    font-weight: bold;
+    height: 25px;
+    letter-spacing: -1px;
+    line-height: 26px;
+    margin-top: 20px;
+    padding-left: 4px;
+}
+
+h3 {
+    border-bottom-color: #666666;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: 14px;
+    padding-bottom: 0;
+    padding-left: 2px;
+    padding-right: 0;
+    padding-top: 16px;
+}
+
+h4 {
+    border-bottom-color: #666666;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    font-size: 12px;
+    padding-bottom: 0;
+    padding-left: 2px;
+    padding-right: 0;
+    padding-top: 16px;
+}
+
+ul {
+    margin-bottom: 0;
+    margin-left: 5px;
+    margin-right: 0;
+    margin-top: 5px;
+}
+
+a {
+    color: #596CF0;
+    text-decoration: none;
+}
+
+p {
+    padding-bottom: 0;
+    padding-left: 8px;
+    padding-right: 0;
+    padding-top: 10px;
+}
+
+table {
+    width: 100%;
+    margin: 0 0 1em 0;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 5px;
+}
+
+caption,tr,td {
+    border: 1px solid #DDDDDD;
+}
+
+th {
+    width: 100px;
+    background-color: #EAEBEE;
+    color: #666666;
+    font: bolder 12px Dotum, sans-serif;
+    padding: 5px 10px;
+}
+
+td {
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 5px 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.apiurl {
+    background-color: #EFEFEF;
+    border-bottom-color: #BBBBBB;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-top-color: #BBBBBB;
+    border-top-style: solid;
+    border-top-width: 1px;
+    color: #000000;
+    font-family: 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Monaco, Courier, monospace;
+    font-size: 110%;
+    font-weight: bold;
+    margin-bottom: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    white-space: pre;
+}
+
+.pathParam {
+    font-size: 11px;
+    color: #666;
+}
+
+.apidoc {
+    margin: 0 50px;
+    *background-color: #F6F9FB;
+}
+
+.api {
+    margin: 0 50px;
+    background-color: #F6F9FB;
+}
+
+#top-btn {
+    color: gray;
+}
+
+
+.status-code-table, .history-table {
+    border-collapse: collapse;
+    border: 1px solid #666;
+    text-align: left;
+}
+.status-code-table th, .history-table th {
+    border: 1px solid #ddd;
+}
+
+.status-code-table .code {width: 50px;}
+.status-code-table .code-name {width: 100px;}
+.status-code-table .reason {width: 500px;}
+.status-code-table .default-message {width: 500px;}
+
+.history .version {width: 50px;}
+.history .date {width:50px;}
+.history .comment {width: 700px;}
+
+.example {margin: 5px 0; padding: 5px 10px; border: 1px solid #ddd; background-color: #EFEFEF;}

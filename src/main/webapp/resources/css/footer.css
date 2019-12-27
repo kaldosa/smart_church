@@ -1,0 +1,9 @@
+#policy{clear:both;height:30px;}
+#footer .copyright, #policy a{color:#fff;font-family:tahoma,sans-serif;font-size:11px;}
+#policy a:hover{color:#fff; font-weight: bold;}
+#policy .list{display:inline; float:left; margin:10px 0 0 343px;}
+#policy .list li{line-height:15px;float:left;padding:0 5px 0 6px;background:url(http://i1.daumcdn.net/deco/top/2010v2/dec_v09.png) no-repeat 0 -397px;}
+#policy .list a{font-family:"돋움",dotum,sans-serif;font-size:11px;letter-spacing:-1px;}
+#policy .list .first{padding-left:0;background:none;}
+#policy .list .last{padding-right:0;}
+.copyright p {color: #fff;}

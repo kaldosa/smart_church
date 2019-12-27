@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- Appenders -->
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{HH:mm:ss,SSS}] %-5p %c{3}.%M (%F:%L) - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="SMARTCHURCH" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.base}/logs/smartchurch.out" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{HH:mm:ss,SSS}] %-5p %c{3}.%M (%F:%L) - %m%n" />
+        </layout>
+    </appender>
+    
+    <logger name="com.laonsys" additivity="false">
+        <level value="DEBUG" />
+         <appender-ref ref="SMARTCHURCH"/>
+    </logger>
+    
+    <logger name="org.springframework" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="SMARTCHURCH"/>
+    </logger>
+
+    <logger name="org.apache" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="SMARTCHURCH"/>
+    </logger>
+
+    <logger name="java.sql" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="SMARTCHURCH"/>
+    </logger>
+    
+    <logger name="javax.mail" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="SMARTCHURCH"/>
+    </logger>
+    
+    <logger name="org.mybatis" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="SMARTCHURCH"/>
+    </logger>
+    
+    <!-- Root Logger -->
+    <root>
+        <level value="WARN" />
+        <appender-ref ref="console" />
+    </root>
+</log4j:configuration>
+

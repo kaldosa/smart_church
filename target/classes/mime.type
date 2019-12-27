@@ -1,0 +1,31 @@
+text/html                   html htm HTML HTM
+text/plain                  txt text TXT TEXT bas
+text/css                    css
+image/gif                   gif GIF
+image/ief                   ief
+image/jpeg                  jpeg jpg jpe JPG
+image/pipeg                 jfif
+image/tiff                  tiff tif
+image/png                   png PNG
+image/bmp                   bmp BMP
+image/x-xwindowdump         xwd
+image/x-icon                ico
+application/postscript      ai eps ps
+application/rtf             rtf
+application/x-tex           tex
+application/x-texinfo       texinfo texi
+application/x-troff         t tr roff
+audio/basic                 au
+audio/midi                  midi mid
+audio/x-aifc                aifc
+audio/x-aiff                aif aiff
+audio/x-wav                 wav
+audio/mpeg                  mp3
+audio/x-pn-realaudio        ra ram
+video/mpeg                  mpeg mpg mpe mp2 mpa mpv2
+video/quicktime             qt mov
+video/x-msvideo             avi
+video/mp4                   mp4 MP4
+video/x-flv                 flv FLV
+video/x-ms-asf              asf asr asx
+application/msword          doc dot

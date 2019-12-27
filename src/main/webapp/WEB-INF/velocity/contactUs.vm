@@ -1,0 +1,18 @@
+#set($springXhtmlCompliant = true)
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+<p>${contactUs.user.name} (${contactUs.user.email}) 님의 문의 메일</P>
+<p>제목 : ${contactUs.subject} ($date.format("yyyy-MM-dd", ${contactUs.createdDate}))</P>
+<hr />
+<p>
+#set( $content = ${contactUs.contents} )
+#set( $replace = $content.replaceAll('\n', '<br/>') )
+${replace}
+</p>
+</body>
+</html>
