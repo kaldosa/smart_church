@@ -10,7 +10,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <struts2.version>2.3.1.2</struts2.version>
-    <junit.version>4.8.2</junit.version>
+    <junit.version>4.13.1</junit.version>
     <spring.version>3.1.0.RELEASE</spring.version>
     <spring.security.version>3.1.0.RELEASE</spring.security.version>
   </properties>
